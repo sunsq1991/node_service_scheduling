@@ -1,0 +1,32 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+<div class="container">
+  <table border="1" class="schedue-table">
+    <tr>
+      <th></th>
+      <th ng-repeat="worker in workers">{{ worker.name }}</th>
+    </tr>
+    <tr>
+      <th>Morning</th>
+      <td ng-repeat="worker in workers">
+        <div class="sortable-container" ui-sortable="sortableOptions">
+          <div ng-repeat="tsk in worker.morning" class="task-card" ng-include="'snippets/task-card.html'"></div>
+        </div>
+        <div class="add-task-icon">
+          <span class="glyphicon glyphicon-plus" ng-click="addTask(worker, 'morning')" aria-hidden="true" popover-placement="right" popover-template="addPopover.addTemplateUrl" popover-title="Add" popover-enable="!editingTask" popover-trigger="click"></span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <th>Afternoon</th>
+      <td ng-repeat="worker in workers">
+        <div class="sortable-container" ui-sortable="sortableOptions">
+          <div ng-repeat="tsk in worker.afternoon" class="task-card" ng-include="'snippets/task-card.html'"></div>
+        </div>
+        <div class="add-task-icon">
+          <span class="glyphicon glyphicon-plus" ng-click="addTask(worker, 'afternoon')" aria-hidden="true" popover-placement="right" popover-template="addPopover.addTemplateUrl" popover-title="Add" popover-enable="!editingTask" popover-trigger="click"></span>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+<div ng-include="'components/message/message.html'"></div>
