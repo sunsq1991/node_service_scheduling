@@ -1,0 +1,22 @@
+<table>
+  <tr>
+    <td></td>
+    <td class="glyphicon-edit-td">
+    <md-button class="md-icon-button small-icon" aria-label="Edit" ng-click="editJob(job)" popover-placement="right" popover-template="editPopover.editTemplateUrl" popover-title="Edit" popover-enable="!editingJob" popover-trigger="click">
+      <md-icon md-font-library="material-icons">edit</md-icon>
+    </md-button>
+    </td>
+  </tr>
+  <tr>
+    <td><span class="glyphicon glyphicon-user" aria-hidden="true"></span></td>
+    <td>{{ job.client }}</td>
+  </tr>
+  <tr>
+    <td><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></td>
+    <td>{{ job.location }}</td>
+  </tr>
+  <tr>
+    <td><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span></td>
+    <td>{{ job.description }}</td>
+  </tr>
+</table>

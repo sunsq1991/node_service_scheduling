@@ -1,12 +1,21 @@
 'use strict';
 
 angular.module('serviceSchedulingApp')
-  .controller('SchedulingCtrl', function ($scope, $http, socket) {
+  .controller('ScheduleCtrl', function ($scope, $http, socket) {
+    $scope.sortableOptions = {
+      cursor: "move",
+      connectWith: ".sortable-container",
+      placeholder: "sortable-placeholder"
+    };
+    $scope.workers = [{name:'Sun'},{name:'Zhu'},{name:'Song'}];
+    $scope.date = new Date((new Date()).setHours(0, 0, 0, 0));
     $scope.jobs = [];
 
-    $http.get('/api/jobs').success(function(jobs) {
-      $scope.jobs = jobs;
-      socket.syncUpdates('job', $scope.jobs);
+    $http.get('/api/schedule/' + $scope.date ).success(function(schedule) {
+      console.log(schedule);
+      $scope.date = schedule.date;
+      $scope.jobs = schedule.jobs;
+      //socket.syncUpdates('jobs', $scope.jobs);
     });
 
     $scope.addThing = function() {
@@ -22,6 +31,6 @@ angular.module('serviceSchedulingApp')
     };
 
     $scope.$on('$destroy', function () {
-      socket.unsyncUpdates('thing');
+      //socket.unsyncUpdates('jobs');
     });
   });

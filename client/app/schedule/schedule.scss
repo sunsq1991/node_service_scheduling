@@ -1,0 +1,81 @@
+.sortable-container {
+  width: 150px;
+  min-height: 100px;
+}
+
+.add-job-icon {
+  text-align: center;
+}
+
+.sortable-placeholder {
+  height: 104px;
+  margin: 5px;
+  border: 2px dashed grey;
+}
+
+/* chatbox layouts */
+.chatbox {
+  width: 300px;
+  min-width: 300px;
+  max-width: 100%;
+  min-height: 300px;
+  max-height: 60%;
+  position: fixed;
+  bottom: 0px;
+  right: 50px;
+}
+
+.chatbox .message-list {
+  min-height: 150px;
+  max-height: 100%;
+  overflow-y: scroll;
+}
+
+.chatbox .message-icon {
+  margin-left: 0px;
+  margin-right: 16px;
+}
+
+.chatbox .message-body {
+  margin: 0;
+}
+
+.chatbox .message-timestamp {
+  color: grey;
+  font-weight: 200;
+}
+
+.chatbox .message-input {
+  flex-shrink: 0;
+}
+/* job card layouts */
+.job-card {
+  margin: 5px;
+  background-color: #F7FE2E;
+  -webkit-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.75);
+  box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.75);
+}
+
+.job-card table {
+  display: block;
+  position: relative;
+  padding: 10px;
+  width: 100%;
+  font-size: 1.5rem;
+  font-weight: 300;
+}
+
+.job-card .glyphicon-edit-td {
+  width: 100%;
+  text-align: right;
+}
+
+.md-icon-button.small-icon {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  margin: 0;
+  line-height: 24px;
+  min-height: 24px;
+}

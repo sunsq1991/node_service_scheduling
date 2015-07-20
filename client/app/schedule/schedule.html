@@ -9,10 +9,10 @@
       <th>Morning</th>
       <td ng-repeat="worker in workers">
         <div class="sortable-container" ui-sortable="sortableOptions">
-          <div ng-repeat="tsk in worker.morning" class="task-card" ng-include="'snippets/task-card.html'"></div>
+          <div ng-repeat="job in jobs" class="job-card" ng-include="'components/snippets/job-card.html'"></div>
         </div>
-        <div class="add-task-icon">
-          <span class="glyphicon glyphicon-plus" ng-click="addTask(worker, 'morning')" aria-hidden="true" popover-placement="right" popover-template="addPopover.addTemplateUrl" popover-title="Add" popover-enable="!editingTask" popover-trigger="click"></span>
+        <div class="add-job-icon">
+          <span class="glyphicon glyphicon-plus" ng-click="addJob(worker, 'morning')" aria-hidden="true" popover-placement="right" popover-template="addPopover.addTemplateUrl" popover-title="Add" popover-enable="!editingJob" popover-trigger="click"></span>
         </div>
       </td>
     </tr>
@@ -20,10 +20,10 @@
       <th>Afternoon</th>
       <td ng-repeat="worker in workers">
         <div class="sortable-container" ui-sortable="sortableOptions">
-          <div ng-repeat="tsk in worker.afternoon" class="task-card" ng-include="'snippets/task-card.html'"></div>
+          <div ng-repeat="job in jobs" class="job-card" ng-include="'components/snippets/job-card.html'"></div>
         </div>
-        <div class="add-task-icon">
-          <span class="glyphicon glyphicon-plus" ng-click="addTask(worker, 'afternoon')" aria-hidden="true" popover-placement="right" popover-template="addPopover.addTemplateUrl" popover-title="Add" popover-enable="!editingTask" popover-trigger="click"></span>
+        <div class="add-job-icon">
+          <span class="glyphicon glyphicon-plus" ng-click="addJob(worker, 'afternoon')" aria-hidden="true" popover-placement="right" popover-template="addPopover.addTemplateUrl" popover-title="Add" popover-enable="!editingJob" popover-trigger="click"></span>
         </div>
       </td>
     </tr>

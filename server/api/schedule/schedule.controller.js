@@ -51,32 +51,36 @@ exports.create = function(req, res) {
     console.log(target_schedule);
     target_schedule.jobs.push(req.body);
     target_schedule.save(function (err) {
-      if (!err) console.log('Success!');
+      if (err) { return handleError(res, err); }
+      return res.json(200, target_schedule);
     });
-    return res.json(target_schedule);
   });
 };
 
 // Updates an existing job in the DB.
 exports.update = function(req, res) {
-  if(req.body._id) { delete req.body._id; }
-  Thing.findById(req.params.id, function (err, thing) {
+  Schedule.findOne(req.params.date, function (err, schedule) {
     if (err) { return handleError(res, err); }
-    if(!thing) { return res.send(404); }
-    var updated = _.merge(thing, req.body);
+    if(!schedule) { return res.send(404); }
+    var job = schedule.jobs.id(req.body._id);
+    if(!job) { return res.send(404); }
+    else { delete req.body._id; }
+    var updated = _.merge(job, req.body);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
-      return res.json(200, thing);
+      return res.json(200, job);
     });
   });
 };
 
-// Deletes a thing from the DB.
+// Deletes a job from the DB.
 exports.destroy = function(req, res) {
-  Thing.findById(req.params.id, function (err, thing) {
+  Schedule.findOne(req.params.date, function (err, schedule) {
     if(err) { return handleError(res, err); }
-    if(!thing) { return res.send(404); }
-    thing.remove(function(err) {
+    if(!schedule) { return res.send(404); }
+    var job = schedule.jobs.id(req.body._id);
+    if(!job) { return res.send(404); }
+    job.remove(function (err) {
       if(err) { return handleError(res, err); }
       return res.send(204);
     });
