@@ -15,6 +15,7 @@
       <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="thing in awesomeThings">
         <li><a href="#" tooltip="{{thing.info}}">{{thing.name}}<button type="button" class="close" ng-click="deleteThing(thing)">&times;</button></a></li>
       </ul>
+      
     </div>
   </div>
 
@@ -34,6 +35,18 @@
       <input type="text" class="form-control" placeholder="location" ng-model="newJobLocation">
       <span class="input-group-btn">
         <button type="submit" class="btn btn-primary" ng-click="addJob()">Add New</button>
+      </span>
+    </p>
+  </form>
+   <form class="add-job-form">
+    <label>Add a worker</label>
+    <p class="input-group">
+      <input type="text" class="form-control" placeholder="Worker Name" ng-model="workerName">
+      <input type="text" class="form-control" placeholder="Desciption" ng-model="discription">
+      <input type="text" class="form-control" placeholder="Email" ng-model="email">
+      <input type="text" class="form-control" placeholder="Not avaliable date" ng-model="date">
+      <span class="input-group-btn">
+        <button type="submit" class="btn btn-primary" ng-click="addWorker()">Add Worker</button>
       </span>
     </p>
   </form>

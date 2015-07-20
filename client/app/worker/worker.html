@@ -1,0 +1,26 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<header class="hero-unit" id="banner">
+  <div class="container">
+    <h1>Worker List</h1>
+
+  </div>
+</header>
+
+ <div>
+   	
+   <md-content>
+    <md-list>
+      <md-list-item class="md-3-line" ng-repeat="person in worker">
+        <div class="md-list-item-text">
+          <h2>{{person.workerName}}</h2>
+          <h3>{{person.email}}</h3>
+          <p>{{person.discription}}</p>
+           <a>Add | </a><a>Edit | </a><a ng-click="deleteWorker(person)">Delete</a>
+        </div>
+        <md-divider ng-if="!$last"></md-divider>
+      </md-list-item>
+    </md-list>
+  </md-content>
+	
+</div>
