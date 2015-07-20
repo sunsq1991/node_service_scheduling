@@ -3,13 +3,13 @@
   <table border="1" class="schedue-table">
     <tr>
       <th></th>
-      <th ng-repeat="worker in workers">{{ worker.name }}</th>
+      <th ng-repeat="worker in workers">{{ worker.workerName }}</th>
     </tr>
     <tr>
       <th>Morning</th>
       <td ng-repeat="worker in workers">
         <div class="sortable-container" ui-sortable="sortableOptions">
-          <div ng-repeat="job in jobs" class="job-card" ng-include="'components/snippets/job-card.html'"></div>
+          <div ng-repeat="job in jobs | filter:{worker: worker._id, isMorning:true}" class="job-card" ng-include="'components/snippets/job-card.html'"></div>
         </div>
         <div class="add-job-icon">
           <span class="glyphicon glyphicon-plus" ng-click="addJob(worker._id, true)" aria-hidden="true" popover-placement="right" popover-template="addPopover.addTemplateUrl" popover-title="Add" popover-enable="!editingJob" popover-trigger="click"></span>
@@ -20,7 +20,7 @@
       <th>Afternoon</th>
       <td ng-repeat="worker in workers">
         <div class="sortable-container" ui-sortable="sortableOptions">
-          <div ng-repeat="job in jobs" class="job-card" ng-include="'components/snippets/job-card.html'"></div>
+          <div ng-repeat="job in jobs | filter:{worker: worker._id, isMorning:false}" class="job-card" ng-include="'components/snippets/job-card.html'"></div>
         </div>
         <div class="add-job-icon">
           <span class="glyphicon glyphicon-plus" ng-click="addJob(worker._id, false)" aria-hidden="true" popover-placement="right" popover-template="addPopover.addTemplateUrl" popover-title="Add" popover-enable="!editingJob" popover-trigger="click"></span>
