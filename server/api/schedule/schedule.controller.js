@@ -68,7 +68,7 @@ exports.update = function(req, res) {
     var updated = _.merge(job, req.body);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
-      return res.json(200, job);
+      return res.json(200, schedule);
     });
   });
 };

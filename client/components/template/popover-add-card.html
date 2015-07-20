@@ -1,0 +1,30 @@
+<table>
+  <tr><td colspan="2">
+    <md-input-container class="md-icon-float">
+      <label>Client</label>
+      <md-icon md-font-library="material-icons">person</md-icon>
+      <input ng-model="addPopover.client" type="text">
+    </md-input-container>
+  </td></tr>
+  <tr><td colspan="2">
+    <md-input-container class="md-icon-float">
+      <label>Location</label>
+      <md-icon md-font-library="material-icons">place</md-icon>
+      <input ng-model="addPopover.location" type="text">
+    </md-input-container>
+  </td></tr>
+  <tr><td colspan="2">
+    <md-input-container>
+      <label>Dscription</label>
+      <textarea ng-model="addPopover.description"></textarea>
+    </md-input-container>
+  </td></tr>
+  <tr><td>
+    <md-button ng-click="cancelAdd()">
+    <md-icon md-font-library="material-icons">clear</md-icon>Cancel</md-button>
+    </td>
+    <td>
+    <md-button ng-click="saveAdd()" class="md-primary">
+    <md-icon md-font-library="material-icons">check</md-icon>Add</md-button>
+  </td></tr>
+</table>
