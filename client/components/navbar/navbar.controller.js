@@ -5,6 +5,15 @@ angular.module('serviceSchedulingApp')
     $scope.menu = [{
       'title': 'Home',
       'link': '/'
+    },{
+      'title': "Worker",
+      'link': '/worker'
+    },{
+      'title': "Schedule",
+      'link': '/schedule'
+    },{
+      'title': "Account",
+      'link': '/'
     }];
 
     $scope.isCollapsed = true;

@@ -25,6 +25,17 @@ angular.module('serviceSchedulingApp')
       $scope.newJobClient = '';
       $scope.newJobLocation = '';
     };
+    $scope.addWorker = function() {
+      if($scope.workerName === '' || $scope.email === '') {
+        return;
+      }
+      $http.post('/api/worker', { workerName: $scope.workerName, email: $scope.email, 
+       discription: $scope.discription, notAvaliableDate : $scope.date});
+      $scope.workerName = '';
+      $scope.email = '';
+      $scope.discription = '';
+      $scope.date = '';
+    };
 
     $scope.deleteThing = function(thing) {
       $http.delete('/api/things/' + thing._id);
