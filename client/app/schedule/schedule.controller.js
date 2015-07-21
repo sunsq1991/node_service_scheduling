@@ -7,9 +7,14 @@ angular.module('serviceSchedulingApp')
       connectWith: ".sortable-container",
       placeholder: "sortable-placeholder"
     };
-    $scope.workers = [{name:'Sun'},{name:'Zhu'},{name:'Song'}];
+    $scope.workers = [];
     $scope.date = new Date((new Date()).setHours(0, 0, 0, 0));
     $scope.jobs = [];
+
+    $http.get('/api/worker/').success(function(workers) {
+      console.log(workers);
+      $scope.workers = workers;
+    });
 
     $http.get('/api/schedule/' + $scope.date ).success(function(schedule) {
       console.log(schedule);

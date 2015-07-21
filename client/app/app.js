@@ -56,11 +56,3 @@ angular.module('serviceSchedulingApp', [
       });
     });
   });
-
-app.config(['$tooltipProvider', function($tooltipProvider){
-  $tooltipProvider.setTriggers({
-    'mouseenter': 'mouseleave',
-    'click': 'never',
-    'focus': 'blur'
-  });
-}]);
