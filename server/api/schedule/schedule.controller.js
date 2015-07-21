@@ -63,10 +63,11 @@ exports.update = function(req, res) {
     if (err) { return handleError(res, err); }
     if(!schedule) { return res.send(404); }
     var job = schedule.jobs.id(req.body._id);
+    console.log(typeof (job.worker));
     if(!job) { return res.send(404); }
     else { delete req.body._id; }
     var updated = _.merge(job, req.body);
-    updated.save(function (err) {
+    schedule.save(function (err) {
       if (err) { return handleError(res, err); }
       return res.json(200, schedule);
     });

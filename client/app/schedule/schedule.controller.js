@@ -88,7 +88,7 @@ angular.module('serviceSchedulingApp')
       var new_job = {
         client: $scope.addPopover.client,
         location: $scope.addPopover.location,
-        discription: $scope.addPopover.discription,
+        description: $scope.addPopover.description,
         isMorning: $scope.addPopover.isMorning,
         slot: slot,
         editing: false,
