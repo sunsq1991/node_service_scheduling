@@ -18,40 +18,52 @@
 		      <input type="text" class="form-control" placeholder="Worker Name" ng-model="workerName">
 		      <input type="text" class="form-control" placeholder="Desciption" ng-model="discription">
 		      <input type="text" class="form-control" placeholder="Email" ng-model="email">
-		       <input type="text" class="form-control" placeholder="Not avaliable date" ng-model="date">
-		      <select ng-model="currentStatus">
-				  <option value="working">Working</option>
-				  <option value="onvacation">On Vacation</option>
-				  <option value="sick">Sick</option>
-				  <option value="notavaliable">Not Avaliable</option>
-			  </select>
-			  <div class="input-daterange input-group" id="datepicker" >
-			    <input type="text" class="input-sm form-control" name="start" />
-			    <span class="input-group-addon">to</span>
-			    <input type="text" class="input-sm form-control" name="end" />
-			</div>
+			
 		    </p>
 
 		    <button type="submit" class="btn btn-primary" ng-click="addWorker()">Add Worker</button>
 		 </form>
     </div>
-   <md-content>
-    <md-list>
+
+   
       <md-list-item class="md-3-line" ng-repeat="person in worker">
         <div class="md-list-item-text">
           <h2>{{person.workerName}}</h2>
           <h3>{{person.email}}</h3>
           <p>{{person.discription}}</p>
-          <p>Status: {{person.currentStatus}}</p>
+          
+	        <p>Vacation: {{person.notAvaliableDates}}
+
+
+
+	         <a ng-click="addVacationDate(person)" class ="addDate">+</a> 
+	          
+			</p >
+
+			  <div class="input-daterange input-group" id ="{{person.workerName}}">
+				  <input type="text" class="input-sm form-control" name="start" ng-model="startDate" />
+				  <span class="input-group-addon">to</span>
+				  <input type="text" class="input-sm form-control" name="end"  ng-model="endDate"/>
+				   <span class="input-group-btn">
+			        <button class="btn btn-default" type="button" ng-click="addWorkerVacation(person)">Go!</button>
+			      </span>		  
+			 </div>
+
+		
           <a>Edit | </a><a ng-click="deleteWorker(person)">Delete</a>
         </div>
         <md-divider ng-if="!$last"></md-divider>
       </md-list-item>
-    </md-list>
-  </md-content>
+
 </div>
 
 <script>
-	$('.input-daterange').datepicker({
-	});
+
+$( document ).ready(function() {
+    
+	$(".input-daterange").css("display","none");
+	$(".input-daterange").css("width","400px");
+
+});
+	
 </script>

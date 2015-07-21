@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('serviceSchedulingApp')
-  .controller('workerCtrl', function ($scope, $http, socket,$mdDialog) {
+  .controller('workerCtrl', function ($scope, $http, socket) {
+    $scope.worker = null;
     $scope.sortableOptions = {
       cursor: "move",
       connectWith: ".sortable-container",
@@ -17,18 +18,34 @@ angular.module('serviceSchedulingApp')
         return;
       }
       $http.post('/api/worker', { workerName: $scope.workerName, email: $scope.email, 
-       discription: $scope.discription, currentStatus: $scope.currentStatus, notAvaliableDate : $scope.date});
+       discription: $scope.discription});
       $scope.workerName = '';
       $scope.email = '';
       $scope.discription = '';
-      $scope.date = '';
-      $scope.currentStatus ='';
 
       $http.get('/api/worker/').success(function(worker) {
         $scope.worker = worker;
       });
       $('.addWorkerArea').toggle();
     };
+
+    $scope.addVacationDate = function(person) {
+  
+     $("#"+person.workerName).toggle();
+     $('.input-daterange').datepicker({
+    });
+    };
+    $scope.addWorkerVacation = function(person) {
+      console.log($scope.startDate);
+      $http.put('/api/worker/vacation/' + person._id, { startDate: $scope.startDate, endDate: $scope.endDate})
+      //$scope.startDate = '';
+      //$scope.endDate = '';
+      $http.get('/api/worker/').success(function(worker) {
+      $scope.worker = worker;
+    });
+     
+    };
+
 
     $scope.deleteWorker = function(person) {
       $http.delete('/api/worker/' + person._id);

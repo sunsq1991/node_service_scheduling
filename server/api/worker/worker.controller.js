@@ -37,6 +37,21 @@ exports.create = function(req, res) {
   });
 };
 
+// Creates a new worker vacation in the DB.
+exports.createVacation = function(req, res) {
+  console.log(req.body);
+  if(req.body._id) { delete req.body._id; }
+  worker.findById(req.params.id, function (err, worker) {
+    if (err) { return handleError(res, err); }
+    if(!worker) { return res.send(404); }
+    worker.notAvaliableDates.push(req.body);
+    worker.save(function (err) {
+      if (err) { return handleError(res, err); }
+      return res.json(200, worker);
+    });
+  });
+};
+
 // Updates an existing worker in the DB.
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
