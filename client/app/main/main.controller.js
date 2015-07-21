@@ -44,4 +44,5 @@ angular.module('serviceSchedulingApp')
     $scope.$on('$destroy', function () {
       socket.unsyncUpdates('thing');
     });
+   
   });

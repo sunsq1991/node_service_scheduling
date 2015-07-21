@@ -5,8 +5,9 @@ var mongoose = require('mongoose'),
 
 var worker = new Schema({
   workerName: String,
-  email: [String],
+  email: String,
   discription: String,
+  currentStatus: String,
   notAvaliableDate: [String]
 });
 
