@@ -23,7 +23,7 @@ exports.show = function(req, res) {
   }
   Schedule.findOne({date:target_date}, function (err, schedule) {
     if(err) { return handleError(res, err); }
-    if(!schedule) { return res.send(404); }
+    if(!schedule) { schedule = {jobs:[]}; }
     return res.json(schedule);
   });
 };
@@ -49,6 +49,7 @@ exports.create = function(req, res) {
       console.log(schedule);
     }
     console.log(target_schedule);
+    req.body.slot = target_schedule.jobs.filter(function (el) {return el.worker == req.body.worker}).length;
     target_schedule.jobs.push(req.body);
     target_schedule.save(function (err) {
       if (err) { return handleError(res, err); }
@@ -74,6 +75,24 @@ exports.update = function(req, res) {
   });
 };
 
+// Updates multipul jobs in the DB.
+exports.updateJobs = function(req, res) {
+  Schedule.findOne(req.params.date, function (err, schedule) {
+    if (err) { return handleError(res, err); }
+    if(!schedule) { return res.send(404); }
+    for (var i = 0; i < req.body.jobs.length; i++) {
+      var job = schedule.jobs.id(req.body.jobs[i]._id);
+      if(!job) { return res.send(404); }
+      else { delete req.body.jobs[i]._id; }
+      var updated = _.merge(job, req.body.jobs[i]);
+    }
+    schedule.save(function (err) {
+      if (err) { return handleError(res, err); }
+      return res.json(200, schedule);
+    });
+  });
+};
+
 // Deletes a job from the DB.
 exports.destroy = function(req, res) {
   Schedule.findOne(req.params.date, function (err, schedule) {
@@ -83,7 +102,10 @@ exports.destroy = function(req, res) {
     if(!job) { return res.send(404); }
     job.remove(function (err) {
       if(err) { return handleError(res, err); }
-      return res.send(204);
+    });
+    schedule.save(function (err) {
+      if (err) { return handleError(res, err); }
+      return res.json(200, schedule);
     });
   });
 };
