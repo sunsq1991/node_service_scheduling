@@ -52,6 +52,26 @@ exports.createVacation = function(req, res) {
   });
 };
 
+exports.deleteVacation = function(req, res) {
+  worker.findById(req.params.id, function (err, worker) {
+    if (err) { return handleError(res, err); }
+    if(!worker) { return res.send(404); }
+     console.log(req.body._id);
+   worker.notAvaliableDates.id(req.body._id).remove(function (err){
+       if (err) { return handleError(res, err); }
+      
+   });
+      console.log(worker.notAvaliableDates);
+      worker.save(function (err) {
+      if (err) { return handleError(res, err); }
+      return res.json(200, worker);
+    });
+
+
+  });
+};
+
+
 // Updates an existing worker in the DB.
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }

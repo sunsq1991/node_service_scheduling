@@ -2,68 +2,73 @@
 
 <header class="hero-unit" id="banner">
   <div class="container">
-    <h1>Worker List</h1>
+    <h1>Technician List</h1>
 
   </div>
 </header>
 
  <div> 	
- 	<md-button class="md-primary md-raised" ng-click="showConfirm($event)" flex="" flex-md="100">
-      Add worker
-    </md-button>
+ 	
     <div class = "addWorkerArea">
-    	 <form class="add-job-form">
-		   <label>Add a worker</label>
+    	<label>Add a worker</label>
 		    <p class="input-group">
-		      <input type="text" class="form-control" placeholder="Worker Name" ng-model="workerName">
-		      <input type="text" class="form-control" placeholder="Desciption" ng-model="discription">
-		      <input type="text" class="form-control" placeholder="Email" ng-model="email">
-			
-		    </p>
+		    <input type="text" class="form-control" placeholder="Worker Name" ng-model="workerName">
+		    <input type="text" class="form-control" placeholder="Desciption" ng-model="discription">
+		    <input type="text" class="form-control" placeholder="Email" ng-model="email">
+			</p>
+		<button type="submit" class="btn btn-primary" ng-click="addWorker()">Add Worker</button>
+	</div>
 
-		    <button type="submit" class="btn btn-primary" ng-click="addWorker()">Add Worker</button>
-		 </form>
-    </div>
-
+	<button class="addWorkerlink btn btn-primary" ng-click="showConfirm($event)"><h4>Add Worker</h4></button>
    
-      <md-list-item class="md-3-line" ng-repeat="person in worker">
-        <div class="md-list-item-text">
-          <h2>{{person.workerName}}</h2>
-          <h3>{{person.email}}</h3>
-          <p>{{person.discription}}</p>
-          
-	        <p>Vacation: {{person.notAvaliableDates}}
+    <md-list-item class="md-3-line" ng-repeat="person in worker">
+        <div class="md-list-item-text" id ="{{person.workerName}}list">
+	        <h2>Technician name: {{person.workerName}}</h2>
+	        <h3> Email: {{person.email}}</h3>
+	        <p>Description: {{person.discription}}</p>
+        	<br/>
+	        <div class = "vacationArea">
+	        	<h4>Vacations:</h4>
+	        <div ng-repeat="date in person.notAvaliableDates">
 
-
-
-	         <a ng-click="addVacationDate(person)" class ="addDate">+</a> 
-	          
-			</p >
-
-			  <div class="input-daterange input-group" id ="{{person.workerName}}">
-				  <input type="text" class="input-sm form-control" name="start" ng-model="startDate" />
-				  <span class="input-group-addon">to</span>
-				  <input type="text" class="input-sm form-control" name="end"  ng-model="endDate"/>
-				   <span class="input-group-btn">
-			        <button class="btn btn-default" type="button" ng-click="addWorkerVacation(person)">Go!</button>
-			      </span>		  
+	        <p>{{date.startDate}} - {{date.endDate}}
+	        	<a ng-click="deleteVacationDate(person,date)" class ="deleteDate">Delete</a>
+	        </p>      	
+	   	</div>
+		<p><a ng-click="addVacationDate(person)" class ="addDate">+Vacation</a></p>
+		</div>
+			<div class="input-daterange input-group" id ="{{person.workerName}}">
+				<input type="text" class="input-sm form-control" ng-model="startDate" />
+				<span class="input-group-addon">to</span>
+				<input type="text" class="input-sm form-control" ng-model="endDate">
+				<span class="input-group-btn">
+			    <button class="btn btn-default" type="button" ng-click="addWorkerVacation(person,startDate,endDate)">Go!
+			    </button>
+			    </span>		  
 			 </div>
+		 <a ng-click="editWorkerBtn(person)">Edit </a><a ng-click="deleteWorker(person)">Delete</a>
+        </div>
 
-		
-          <a>Edit | </a><a ng-click="deleteWorker(person)">Delete</a>
+        <div class = "hiddenEditArea {{person.workerName}}">
+        	<label>Edit {{person.workerName}}</label>
+		    <p class="input-group">
+		    <input type="text" class="form-control" placeholder="{{person.workerName}}" ng-model="workerName">
+		    <input type="text" class="form-control" placeholder="{{person.email}}" ng-model="discription">
+		    <input type="text" class="form-control" placeholder="{{person.discription}}" ng-model="email">
+			</p>
+			<button type="submit" class="btn btn-primary" ng-click="editWorker(person,workerName,discription,email)">Edit Worker</button>
+			<button class="btn btn-primary" ng-click="cancelEdit(person)">Cancel</button>
         </div>
         <md-divider ng-if="!$last"></md-divider>
-      </md-list-item>
+    </md-list-item>
 
 </div>
 
 <script>
 
-$( document ).ready(function() {
-    
+$(document).ready(function() {
 	$(".input-daterange").css("display","none");
 	$(".input-daterange").css("width","400px");
-
 });
 	
 </script>

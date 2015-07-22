@@ -11,6 +11,7 @@ angular.module('serviceSchedulingApp')
    
     $http.get('/api/worker/').success(function(worker) {
       $scope.worker = worker;
+
     });
 
      $scope.addWorker = function() {
@@ -35,16 +36,22 @@ angular.module('serviceSchedulingApp')
      $('.input-daterange').datepicker({
     });
     };
-    $scope.addWorkerVacation = function(person) {
-      console.log($scope.startDate);
-      $http.put('/api/worker/vacation/' + person._id, { startDate: $scope.startDate, endDate: $scope.endDate})
-      //$scope.startDate = '';
-      //$scope.endDate = '';
+    $scope.addWorkerVacation = function(person,startDate,endDate) {
+      console.log(startDate,endDate);
+      $http.put('/api/worker/vacation/' + person._id, { startDate: startDate, endDate: endDate});
+      
       $http.get('/api/worker/').success(function(worker) {
       $scope.worker = worker;
     });
      
     };
+    $scope.deleteVacationDate = function(person,date){
+      console.log(date._id);
+       $http.put('/api/worker/vacation/delete/'+ person._id, {_id:date._id});
+      $http.get('/api/worker/').success(function(worker) {
+      $scope.worker = worker;
+    });
+    }
 
 
     $scope.deleteWorker = function(person) {
@@ -60,7 +67,41 @@ angular.module('serviceSchedulingApp')
     });
 
     $scope.showConfirm = function(ev) {
-      $('.addWorkerArea').toggle();
+      $('.addWorkerArea').slideToggle(500);
+      var $hiddenEditArea = $('.hiddenEditArea');
+      $hiddenEditArea.each(function(){
+        var $this = $(this);
+          if ($this.is(':visible')) {
+            $this.slideToggle();
+          };
+      });
   
     };
+
+    $scope.editWorkerBtn = function(person) {
+      
+      var $hiddenEditArea = $('.hiddenEditArea');
+      $hiddenEditArea.each(function(){
+        var $this = $(this);
+          if ($this.is(':visible')) {
+            $this.slideToggle();
+          };
+      });
+      if (!$('.'+person.workerName).is(':visible')) {
+            $('.'+person.workerName).slideToggle();
+          };
+    };
+
+    $scope.cancelEdit =function(person){
+      $('.'+person.workerName).slideToggle();
+    };
+
+    $scope.editWorker =function(person,workerName,discription,email){
+      $http.put('/api/worker/' + person._id, { workerName: workerName, email: email, 
+      discription: discription});
+      
+      $http.get('/api/worker/').success(function(worker) {
+      $scope.worker = worker;
+    });
+    }
   });

@@ -1,10 +1,56 @@
 
 .addWorkerArea{
-	width: 500px;
-	padding-left: 30px;
-	display: none;
+  padding-left: 30px;
+  display: none;
+  background-color: #EAF6F3;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  color: rgb(67, 147, 185);
+
 }
+
+.addWorkerArea input {
+  margin-top: 10px;
+} 
 .addWorkerArea button{
 	margin-top: 30px;
 
 }
+
+.vacationArea{
+	background-color: rgba(163, 216, 206, 0.22);
+    width: 280px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+a:hover{
+	cursor: pointer;
+}
+
+.md-list-item-text{
+	max-width: 500px;
+	padding-bottom:20px;
+	color: rgb(108, 63, 63);
+}
+
+.hiddenEditArea{
+  padding-top: 30px;
+  display: none;
+  background-color: rgb(67, 147, 185);
+  margin-top: 20px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: white;
+}
+
+.hiddenEditArea input{
+	margin-top:5px;
+}
+.addWorkerlink{
+	margin-top:10px;
+	margin-left:10px;
+}
+

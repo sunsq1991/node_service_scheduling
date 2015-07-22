@@ -6,7 +6,7 @@ var mongoose = require('mongoose'),
 var Jobs = new Schema({
   client: String,
   location: String,
-  description: String,
+  discription: String,
   isMorning: Boolean,
   slot: Number,
   editing: Boolean,

@@ -12,7 +12,6 @@ var worker = new Schema({
   workerName: String,
   email: String,
   discription: String,
-  currentStatus: String,
   notAvaliableDates: [notAvaliableDate]
 });
 
