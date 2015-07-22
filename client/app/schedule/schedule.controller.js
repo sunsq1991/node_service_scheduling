@@ -1,27 +1,65 @@
 'use strict';
 
 angular.module('serviceSchedulingApp')
-  .controller('ScheduleCtrl', function ($scope, $http, socket) {
-    $scope.sortableOptions = {
-      cursor: "move",
-      connectWith: ".sortable-container",
-      placeholder: "sortable-placeholder"
-    };
+  .controller('ScheduleCtrl', function ($scope, $http, $filter, socket) {
     $scope.workers = [];
     $scope.date = new Date((new Date()).setHours(0, 0, 0, 0));
-    $scope.jobs = [];
+    $scope.str_date = $filter('date')($scope.date, 'MM/dd/yyyy');
+    $scope.morningJobs = [];
+    $scope.afternoonJobs = [];
 
     $http.get('/api/worker/').success(function(workers) {
       console.log(workers);
       $scope.workers = workers;
     });
 
-    $http.get('/api/schedule/' + $scope.date ).success(function(schedule) {
-      console.log(schedule);
-      $scope.date = schedule.date;
-      $scope.jobs = schedule.jobs;
-      //socket.syncUpdates('jobs', $scope.jobs);
-    });
+    $scope.loadSchadule = function() {
+      $scope.date = new Date($scope.str_date);
+      $http.get('/api/schedule/' + $scope.date ).success(function(schedule) {
+        console.log(schedule);
+        for (var index in $scope.workers) {
+          $scope.morningJobs[index] = $filter('orderBy')($filter('filter')(schedule.jobs, {worker: $scope.workers[index]._id, isMorning:true}), 'slot');
+          $scope.afternoonJobs[index] = $filter('orderBy')($filter('filter')(schedule.jobs, {worker: $scope.workers[index]._id, isMorning:false}), 'slot');
+        }
+        //socket.syncUpdates('jobs', $scope.jobs);
+      });
+    };
+
+    $scope.loadSchadule();
+
+    $scope.sortableOptions = {
+      cursor: "move",
+      connectWith: ".sortable-container",
+      placeholder: "sortable-placeholder",
+      stop: function(e, ui) {
+        var jobs_to_update = [];
+        console.log(ui.item);
+        if (ui.item.sortable.sourceModel) {
+          for (var i = 0; i < ui.item.sortable.sourceModel.length; i++) {
+            ui.item.sortable.sourceModel[i].slot=i;
+            jobs_to_update.push(ui.item.sortable.sourceModel[i]);
+          }
+        console.log(ui.item.sortable.sourceModel);
+        }
+        if (ui.item.sortable.droptargetModel) {
+          var isMorning = (ui.item.sortable.droptarget[0].dataset.section == "morning");
+          var worker_id = ($scope.workers[ui.item.sortable.droptarget[0].dataset.workerindex]._id);
+          for (var i = 0; i < ui.item.sortable.droptargetModel.length; i++) {
+            ui.item.sortable.droptargetModel[i].slot = i;
+            ui.item.sortable.droptargetModel[i].isMorning = isMorning;
+            ui.item.sortable.droptargetModel[i].worker = worker_id;
+            jobs_to_update.push(ui.item.sortable.droptargetModel[i]);
+          };
+          console.log(ui.item.sortable.droptargetModel);
+        }
+        console.log(jobs_to_update);
+        $http.put('/api/schedule/jobs/' + $scope.date, {jobs: jobs_to_update} ).success(function(schedule) {
+          console.log(schedule);
+          //$scope.date = schedule.date;
+          //$scope.str_date = $filter('date')($scope.date, 'MM/dd/yyyy');
+        });
+      }
+    };
 
     var hidePopover = function() {
       $('.popover').each(function () {
@@ -59,8 +97,8 @@ angular.module('serviceSchedulingApp')
       job.editing = false;
       $http.put('/api/schedule/' + $scope.date, job ).success(function(schedule) {
       console.log(schedule);
-      $scope.date = schedule.date;
-      $scope.jobs = schedule.jobs;
+      //$scope.date = schedule.date;
+      //$scope.str_date = $filter('date')($scope.date, 'MM/dd/yyyy');
     });
       $scope.editingJob = null;
       hidePopover();
@@ -96,13 +134,15 @@ angular.module('serviceSchedulingApp')
       }
       $http.post('/api/schedule/' + $scope.date, new_job ).success(function(schedule) {
       console.log(schedule);
-      $scope.date = schedule.date;
-      $scope.jobs = schedule.jobs;
       $scope.editingJob = null;
       $scope.addPopover.client = '';
       $scope.addPopover.location = '';
       $scope.addPopover.description = '';
       hidePopover();
+      for (var index in $scope.workers) {
+        $scope.morningJobs[index] = $filter('orderBy')($filter('filter')(schedule.jobs, {worker: $scope.workers[index]._id, isMorning:true}), 'slot');
+        $scope.afternoonJobs[index] = $filter('orderBy')($filter('filter')(schedule.jobs, {worker: $scope.workers[index]._id, isMorning:false}), 'slot');
+      }
       });
     };
 
