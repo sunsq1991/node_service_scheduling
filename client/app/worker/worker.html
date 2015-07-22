@@ -8,30 +8,33 @@
 </header>
 
  <div> 	
- 	
+ 	<alert class = "alert-danger" ng-repeat="alert in alerts" type="{{alert.type}}" >{{alert.msg}}</alert>
     <div class = "addWorkerArea">
-    	<label>Add a worker</label>
+    	<label>Add a Technician</label>
+
 		    <p class="input-group">
+
 		    <input type="text" class="form-control" placeholder="Worker Name" ng-model="workerName">
 		    <input type="text" class="form-control" placeholder="Desciption" ng-model="discription">
 		    <input type="text" class="form-control" placeholder="Email" ng-model="email">
 			</p>
-		<button type="submit" class="btn btn-primary" ng-click="addWorker()">Add Worker</button>
+		<button type="submit" class=" btn btn-primary" ng-click="addWorker()">Submit</button>
 	</div>
 
-	<button class="addWorkerlink btn btn-primary" ng-click="showConfirm($event)"><h4>Add Worker</h4></button>
+	<button class="addWorkerlink btn btn-primary" ng-click="showConfirm($event)"><h4 class = 'addworkerBtn'>Add Technician</h4></button>
    
-    <md-list-item class="md-3-line" ng-repeat="person in worker">
+    <md-list-item id = "{{person.isAvaliable}}"class="md-3-line" ng-repeat="person in worker">
         <div class="md-list-item-text" id ="{{person.workerName}}list">
-	        <h2>Technician name: {{person.workerName}}</h2>
+	        <h2> Name: {{person.workerName}}</h2>
 	        <h3> Email: {{person.email}}</h3>
 	        <p>Description: {{person.discription}}</p>
+	        <p>IsTodayAvaliable: {{person.isAvaliable}}</p>
         	<br/>
 	        <div class = "vacationArea">
 	        	<h4>Vacations:</h4>
 	        <div ng-repeat="date in person.notAvaliableDates">
 
-	        <p>{{date.startDate}} - {{date.endDate}}
+	        <p>{{date.startDate | date : 'MM/dd/yyyy' }} - {{date.endDate | date : 'MM/dd/yyyy'}}
 	        	<a ng-click="deleteVacationDate(person,date)" class ="deleteDate">Delete</a>
 	        </p>      	
 	   	</div>
@@ -46,17 +49,22 @@
 			    </button>
 			    </span>		  
 			 </div>
-		 <a ng-click="editWorkerBtn(person)">Edit </a><a ng-click="deleteWorker(person)">Delete</a>
+		 <button class="btn btn-default" ng-click="editWorkerBtn(person)">Edit </button><button class="btn btn-default" ng-click="deleteWorker(person)">Delete</buttom>
+
         </div>
 
         <div class = "hiddenEditArea {{person.workerName}}">
-        	<label>Edit {{person.workerName}}</label>
+        	<label>Edit {{person.workerName}} 
+
+        	</label>
+
 		    <p class="input-group">
-		    <input type="text" class="form-control" placeholder="{{person.workerName}}" ng-model="workerName">
-		    <input type="text" class="form-control" placeholder="{{person.email}}" ng-model="discription">
-		    <input type="text" class="form-control" placeholder="{{person.discription}}" ng-model="email">
+		    <alert class = "alert-danger" ng-repeat="alert in editAlerts" type="{{alert.type}}" >{{alert.msg}}</alert>
+		    <input type="text" class="form-control" ng-model="workerName">
+		    <input type="text" class="form-control" ng-model="email">
+		    <input type="text" class="form-control" ng-model="discription">
 			</p>
-			<button type="submit" class="btn btn-primary" ng-click="editWorker(person,workerName,discription,email)">Edit Worker</button>
+			<button type="button" class="btn btn-primary" ng-click="editWorker(person,workerName,discription,email)">Edit Worker</button>
 			<button class="btn btn-primary" ng-click="cancelEdit(person)">Cancel</button>
         </div>
         <md-divider ng-if="!$last"></md-divider>

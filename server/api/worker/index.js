@@ -5,6 +5,7 @@ var controller = require('./worker.controller');
 
 var router = express.Router();
 
+router.get('/:date', controller.index);
 router.get('/', controller.index);
 router.get('/:id', controller.show);
 router.post('/', controller.create);

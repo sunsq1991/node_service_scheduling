@@ -2,10 +2,12 @@
 .addWorkerArea{
   padding-left: 30px;
   display: none;
-  background-color: #EAF6F3;
+  background-color: #69B09E;
   padding-top: 30px;
   padding-bottom: 30px;
-  color: rgb(67, 147, 185);
+  color: white;
+  margin-top: -19px;
+  border: 1px solid rgba(109, 109, 168, 0.6);
 
 }
 
@@ -23,6 +25,7 @@
     padding-left: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
+    margin-bottom:10px;
 }
 
 a:hover{
@@ -52,5 +55,18 @@ a:hover{
 .addWorkerlink{
 	margin-top:10px;
 	margin-left:10px;
+	margin-bottom: 10px;
+	position: absolute;
+	bottom: 10px;
+	right: 20px;
+	z-index:2000;
+}
+
+#false{
+	background-color: rgba(229, 173, 173, 0.15);
+}
+
+#true{
+	background-color: rgba(177, 229, 173, 0.14);
 }
 

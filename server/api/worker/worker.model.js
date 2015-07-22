@@ -4,15 +4,16 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var notAvaliableDate = new Schema({
-  startDate: String,
-  endDate: String
+  startDate: Date,
+  endDate: Date
 });
 
 var worker = new Schema({
   workerName: String,
   email: String,
   discription: String,
-  notAvaliableDates: [notAvaliableDate]
+  notAvaliableDates: [notAvaliableDate],
+  isAvaliable: Boolean
 });
 
 
