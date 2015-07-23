@@ -11,8 +11,17 @@ angular.module('serviceSchedulingApp')
    
     $http.get('/api/worker/').success(function(worker) {
       $scope.worker = worker;
-      console.log(worker);
-
+      socket.syncUpdates('worker', $scope.worker,function(){
+        for (var i = $scope.worker.length - 1; i >= 0; i--) {
+          if ($scope.worker[i].isAvaliable) {
+            $('#'+ $scope.worker[i]._id).css('background-color','rgba(198, 218, 203, 0.28)')
+          }
+          else
+          {
+            $('#'+ $scope.worker[i]._id).css('background-color','rgba(218, 198, 198, 0.56)')
+          }
+        };
+      });
     }); 
 
     $scope.addWorker = function() {
@@ -29,14 +38,10 @@ angular.module('serviceSchedulingApp')
       }
      
       $http.post('/api/worker', { workerName: $scope.workerName, email: $scope.email, 
-       discription: $scope.discription});
+       discription: $scope.discription, isAvaliable: true} );
       $scope.workerName = '';
       $scope.email = '';
       $scope.discription = '';
-
-      $http.get('/api/worker/').success(function(worker) {
-        $scope.worker = worker;
-      });
 
       $('.addWorkerArea').toggle(500,function(){
       $('.addworkerBtn').text('Add Technician'); 
@@ -58,25 +63,17 @@ angular.module('serviceSchedulingApp')
       var startDateDate = new Date(startDate);
       var endDateDate  = new Date(endDate);
       $http.put('/api/worker/vacation/' + person._id, { startDate: startDateDate, endDate: endDateDate});
-      
-      $http.get('/api/worker/').success(function(worker) {
-      $scope.worker = worker;
-    });
+    
      
     };
     $scope.deleteVacationDate = function(person,date){
       $http.put('/api/worker/vacation/delete/'+ person._id, {_id:date._id});
-      $http.get('/api/worker/').success(function(worker) {
-      $scope.worker = worker;
-    });
-    }
+         }
 
 
     $scope.deleteWorker = function(person) {
       $http.delete('/api/worker/' + person._id);
-      $http.get('/api/worker/').success(function(worker) {
-      $scope.worker = worker;
-    });
+     
 
     };
 
@@ -157,9 +154,7 @@ angular.module('serviceSchedulingApp')
       $http.put('/api/worker/' + person._id, { workerName: workerName, email: email, 
       discription: discription});
 
-      $http.get('/api/worker/').success(function(worker) {
-      $scope.worker = worker;
-    });
+      
     }
 
     $scope.showConfirmDelete = function(ev,person) {

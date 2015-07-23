@@ -23,7 +23,7 @@
 
 	<button class="addWorkerlink btn btn-primary" ng-click="showConfirm($event)"><h4 class = 'addworkerBtn'>Add Technician</h4></button>
    
-    <md-list-item id = "{{person.isAvaliable}}"class="md-3-line" ng-repeat="person in worker">
+    <md-list-item id = "{{person._id}}"class="md-3-line" ng-repeat="person in worker">
         <div class="md-list-item-text" id ="{{person.workerName}}list">
 	        <h2> Name: {{person.workerName}}</h2>
 	        <h3> Email: {{person.email}}</h3>
