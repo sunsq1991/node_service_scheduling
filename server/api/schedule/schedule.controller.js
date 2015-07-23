@@ -17,11 +17,7 @@ exports.index = function(req, res) {
 
 // Get one schedule
 exports.show = function(req, res) {
-  var target_date = new Date((new Date()).setHours(0, 0, 0, 0));
-  if (req.params.date) {
-    target_date = req.params.date;
-  }
-  Schedule.findOne({date:target_date}, function (err, schedule) {
+  Schedule.findOne({date: new Date(req.params.date)}, function (err, schedule) {
     if(err) { return handleError(res, err); }
     if(!schedule) { schedule = {jobs:[]}; }
     return res.json(schedule);
@@ -30,25 +26,15 @@ exports.show = function(req, res) {
 
 // Creates a new job in the DB.
 exports.create = function(req, res) {
-  var target_date = new Date((new Date()).setHours(0, 0, 0, 0));
-  if (req.params.date) {
-    target_date = req.params.date;
-  }
   var target_schedule;
-  Schedule.findOne({ date: target_date }, function (err, schedule) {
+  Schedule.findOne({ date: new Date(req.params.date) }, function (err, schedule) {
     if(err) { return handleError(res, err); }
     if(!schedule) {
-      console.log('schedule not found');
-      console.log(target_date);
-      target_schedule = new Schedule({ date: target_date });
-      console.log('after create');
+      target_schedule = new Schedule({ date: new Date(req.params.date) });
     }
     else{
       target_schedule = schedule;
-      console.log('create schedule');
-      console.log(schedule);
     }
-    console.log(target_schedule);
     req.body.slot = target_schedule.jobs.filter(function (el) {return el.worker == req.body.worker}).length;
     target_schedule.jobs.push(req.body);
     target_schedule.save(function (err) {
@@ -60,11 +46,10 @@ exports.create = function(req, res) {
 
 // Updates an existing job in the DB.
 exports.update = function(req, res) {
-  Schedule.findOne(req.params.date, function (err, schedule) {
+  Schedule.findOne({date: new Date(req.params.date)}, function (err, schedule) {
     if (err) { return handleError(res, err); }
     if(!schedule) { return res.send(404); }
     var job = schedule.jobs.id(req.body._id);
-    console.log(typeof (job.worker));
     if(!job) { return res.send(404); }
     else { delete req.body._id; }
     var updated = _.merge(job, req.body);
@@ -77,14 +62,19 @@ exports.update = function(req, res) {
 
 // Updates multipul jobs in the DB.
 exports.updateJobs = function(req, res) {
-  Schedule.findOne(req.params.date, function (err, schedule) {
+  Schedule.findOne({date: new Date(req.params.date) }, function (err, schedule) {
     if (err) { return handleError(res, err); }
     if(!schedule) { return res.send(404); }
     for (var i = 0; i < req.body.jobs.length; i++) {
       var job = schedule.jobs.id(req.body.jobs[i]._id);
       if(!job) { return res.send(404); }
-      else { delete req.body.jobs[i]._id; }
-      var updated = _.merge(job, req.body.jobs[i]);
+      console.log(job);
+      console.log(req.body.jobs[i]);
+      var updated = _.merge(job, {
+        worker: req.body.jobs[i].worker,
+        isMorning: req.body.jobs[i].isMorning,
+        slot: req.body.jobs[i].slot
+      });
     }
     schedule.save(function (err) {
       if (err) { return handleError(res, err); }
@@ -95,7 +85,7 @@ exports.updateJobs = function(req, res) {
 
 // Deletes a job from the DB.
 exports.destroy = function(req, res) {
-  Schedule.findOne(req.params.date, function (err, schedule) {
+  Schedule.findOne({date: new Date(req.params.date)}, function (err, schedule) {
     if(err) { return handleError(res, err); }
     if(!schedule) { return res.send(404); }
     var job = schedule.jobs.id(req.body._id);
