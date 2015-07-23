@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('serviceSchedulingApp')
-  .controller('workerCtrl', function ($scope, $http, socket) {
+  .controller('workerCtrl', function ($scope, $http, socket,$mdDialog) {
     $scope.worker = null;
     $scope.sortableOptions = {
       cursor: "move",
@@ -162,5 +162,21 @@ angular.module('serviceSchedulingApp')
     });
     }
 
-   
+    $scope.showConfirmDelete = function(ev,person) {
+    // Appending dialog to document.body to cover sidenav in docs app
+      var confirm = $mdDialog.confirm()
+        .parent(angular.element(document.body))
+        .title('Delete Comfirmation')
+        .content('Would you like to delete your Technician: '+ person.workerName +' ?')
+        .ariaLabel('delete')
+        .ok('Delete')
+        .cancel('Cancel')
+        .targetEvent(ev);
+
+      $mdDialog.show(confirm).then(function() {
+        $scope.deleteWorker(person);
+      }, function() {
+        
+      });
+    };
   });

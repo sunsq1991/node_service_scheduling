@@ -49,15 +49,13 @@
 			    </button>
 			    </span>		  
 			 </div>
-		 <button class="btn btn-default" ng-click="editWorkerBtn(person)">Edit </button><button class="btn btn-default" ng-click="deleteWorker(person)">Delete</buttom>
+		 <button class="btn btn-default" ng-click="editWorkerBtn(person)">Edit </button><button class="btn btn-default" ng-click="showConfirmDelete($event,person)">Delete</buttom>
 
         </div>
 
         <div class = "hiddenEditArea {{person.workerName}}">
         	<label>Edit {{person.workerName}} 
-
         	</label>
-
 		    <p class="input-group">
 		    <alert class = "alert-danger" ng-repeat="alert in editAlerts" type="{{alert.type}}" >{{alert.msg}}</alert>
 		    <input type="text" class="form-control" ng-model="workerName">
