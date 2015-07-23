@@ -12,15 +12,9 @@ angular.module('serviceSchedulingApp')
     $http.get('/api/worker/').success(function(worker) {
       $scope.worker = worker;
       socket.syncUpdates('worker', $scope.worker,function(){
-        for (var i = $scope.worker.length - 1; i >= 0; i--) {
-          if ($scope.worker[i].isAvaliable) {
-            $('#'+ $scope.worker[i]._id).css('background-color','rgba(198, 218, 203, 0.28)')
-          }
-          else
-          {
-            $('#'+ $scope.worker[i]._id).css('background-color','rgba(218, 198, 198, 0.56)')
-          }
-        };
+         $http.get('/api/worker/').success(function(worker) {
+          $scope.worker = worker;
+        });
       });
     }); 
 
