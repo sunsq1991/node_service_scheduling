@@ -14,8 +14,25 @@ var worker = require('./worker.model');
 
 // Get list of workers
 exports.index = function(req, res) {
+  var target_date = new Date((new Date()).setHours(0, 0, 0, 0));
+  if (req.params.date) {
+    target_date = req.params.date;
+  }
+  console.log(target_date);
   worker.find(function (err, workers) {
+    console.log(workers);
     if(err) { return handleError(res, err); }
+    for (var i = workers.length - 1; i >= 0; i--) {
+      workers[i].isAvaliable = true;
+      for (var j = workers[i].notAvaliableDates.length - 1; j >= 0; j--) {
+        console.log(workers[i].notAvaliableDates[j]);
+        if(target_date >= workers[i].notAvaliableDates[j].startDate && target_date <= workers[i].notAvaliableDates[j].endDate)
+        {
+           workers[i].isAvaliable = false;
+           console.log(workers[i].isAvaliable);
+        } 
+      };
+    };
     return res.json(200, workers);
   });
 };
@@ -36,6 +53,41 @@ exports.create = function(req, res) {
     return res.json(201, worker);
   });
 };
+
+// Creates a new worker vacation in the DB.
+exports.createVacation = function(req, res) {
+  console.log(req.body);
+  if(req.body._id) { delete req.body._id; }
+  worker.findById(req.params.id, function (err, worker) {
+    if (err) { return handleError(res, err); }
+    if(!worker) { return res.send(404); }
+    worker.notAvaliableDates.push(req.body);
+    worker.save(function (err) {
+      if (err) { return handleError(res, err); }
+      return res.json(200, worker);
+    });
+  });
+};
+
+exports.deleteVacation = function(req, res) {
+  worker.findById(req.params.id, function (err, worker) {
+    if (err) { return handleError(res, err); }
+    if(!worker) { return res.send(404); }
+     console.log(req.body._id);
+   worker.notAvaliableDates.id(req.body._id).remove(function (err){
+       if (err) { return handleError(res, err); }
+      
+   });
+      console.log(worker.notAvaliableDates);
+      worker.save(function (err) {
+      if (err) { return handleError(res, err); }
+      return res.json(200, worker);
+    });
+
+
+  });
+};
+
 
 // Updates an existing worker in the DB.
 exports.update = function(req, res) {

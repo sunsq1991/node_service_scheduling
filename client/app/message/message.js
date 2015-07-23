@@ -3,9 +3,8 @@
 angular.module('serviceSchedulingApp')
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/worker', {
-        templateUrl: 'app/worker/worker.html',
-        controller: 'workerCtrl'
+      .when('/message', {
+        templateUrl: 'app/message/message.html',
+        controller: 'MessageCtrl'
       });
   });
-;
