@@ -1,9 +1,8 @@
 'use strict';
 
 angular.module('serviceSchedulingApp')
-  .controller('ScheduleCtrl', function ($scope, $http, Auth, $filter, socket) {
+  .controller('ScheduleCtrl', function ($scope, $http, Auth, $filter, socket, $mdDialog) {
     $scope.user = Auth.getCurrentUser();
-    console.log(Auth);
     $scope.workers = [];
     $scope.jobs = [];
     $scope.socketSchedule = [];
@@ -159,6 +158,26 @@ angular.module('serviceSchedulingApp')
       $scope.addPopover.location = '';
       $scope.addPopover.description = '';
       hidePopover();
+      });
+    };
+
+    $scope.showDeleteConfirm = function(ev) {
+    // Appending dialog to document.body to cover sidenav in docs app
+      var confirm = $mdDialog.confirm()
+        .parent(angular.element(document.body))
+        .title('Delete Comfirmation')
+        .content('Would you like to delete this job ?')
+        .ariaLabel('delete')
+        .ok('Delete')
+        .cancel('Cancel')
+        .targetEvent(ev);
+
+      $mdDialog.show(confirm).then(function() {
+        $http.put('/api/schedule/delete/' + $scope.str_date, $scope.editingJob ).success(function(schedule) {
+          $scope.editingJob = null;
+          updateJobs();
+        });
+      }, function() {
       });
     };
 

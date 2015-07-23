@@ -5,7 +5,8 @@ var mongoose = require('mongoose'),
 
 var message = new Schema({
   text: String,
-  date: Date
+  time: { type : Date, default: Date.now },
+  sender: String
 });
 
 module.exports = mongoose.model('message', message);

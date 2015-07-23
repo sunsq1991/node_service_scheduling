@@ -93,6 +93,16 @@ exports.destroy = function(req, res) {
     job.remove(function (err) {
       if(err) { return handleError(res, err); }
     });
+    var jobsToSort = schedule.jobs.filter(function (jb) {
+      return jb.worker == req.body.worker &&
+             jb.isMorning === req.body.isMorning
+    }).sort(function(a, b) {
+      return a.sort - b.sort;
+    });
+    for (var i = 0; i < jobsToSort.length; i++) {
+      var updated = _.merge(jobsToSort[i], {slot: i});
+    };
+    console.log(jobsToSort);
     schedule.save(function (err) {
       if (err) { return handleError(res, err); }
       return res.json(200, schedule);

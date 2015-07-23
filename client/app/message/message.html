@@ -1,5 +1,4 @@
-
-<div class="chatbox" layout="column">
+<div class="chatbox" ng-controller="MessageCtrl" layout="column">
   <md-toolbar>
     <h2 class="md-toolbar-tools">
       <span>Message</span>
@@ -10,16 +9,15 @@
       <md-list-item ng-repeat="message in messages">
         <md-icon md-font-library="material-icons" class="message-icon">person</md-icon>
         <div class="md-list-item-text">
-          <!-- <h5 class="message-sender">{{ message.sender }}</h5> -->
+          <h5 class="message-sender">{{ message.sender }}</h5>
           <p class="message-body">{{ message.text }}</p>
-          <p class="message-timestamp">{{ message.date | date:'HH:mm:ss MM-dd' }}</p>
+          <p class="message-timestamp">{{ message.time | date:'HH:mm:ss MM-dd' }}</p>
         </div>
       </md-list-item>
     </md-list>
     <md-input-container class="message-input">
       <label>type a message...</label>
-      <input ng-model = "text"  type="text">
-      <button ng-click = "sendMessage($event,text)"> submit </button>
+      <input ng-model="messageInput" ng-keydown="sendMessage($event)" type="text">
     </md-input-container>
   </md-content>
 </div>
