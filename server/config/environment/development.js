@@ -8,5 +8,5 @@ module.exports = {
     uri: 'mongodb://localhost/servicescheduling-dev'
   },
 
-  seedDB: true
+  seedDB: false
 };

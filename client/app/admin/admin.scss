@@ -1,1 +1,20 @@
 .trash { color:rgb(209, 91, 71); }
+
+.signup{
+	background-color: #364DDC;
+    width: 100px;
+    height: 50px;
+    color: white;
+    display: block;
+    padding-left: 17px;
+    padding-top: 13px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+.signup:hover{
+
+	background-color: #364396;
+	color: white;
+	text-decoration: none;
+}

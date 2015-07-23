@@ -15,7 +15,7 @@ angular.module('serviceSchedulingApp')
         })
         .then( function() {
           // Logged in, redirect to home
-          $location.path('/');
+          $location.path('/schedule');
         })
         .catch( function(err) {
           $scope.errors.other = err.message;

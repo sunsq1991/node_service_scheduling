@@ -3,17 +3,11 @@
 angular.module('serviceSchedulingApp')
   .controller('NavbarCtrl', function ($scope, $location, Auth) {
     $scope.menu = [{
-      'title': 'Home',
-      'link': '/'
-    },{
       'title': "Worker",
       'link': '/worker'
     },{
       'title': "Schedule",
       'link': '/schedule'
-    },{
-      'title': "Account",
-      'link': '/'
     }];
 
     $scope.isCollapsed = true;
@@ -23,7 +17,7 @@ angular.module('serviceSchedulingApp')
 
     $scope.logout = function() {
       Auth.logout();
-      $location.path('/login');
+       $location.path('/login')
     };
 
     $scope.isActive = function(route) {

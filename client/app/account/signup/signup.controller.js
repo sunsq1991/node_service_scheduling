@@ -16,7 +16,7 @@ angular.module('serviceSchedulingApp')
         })
         .then( function() {
           // Account created, redirect to home
-          $location.path('/');
+          $location.path('/admin');
         })
         .catch( function(err) {
           err = err.data;

@@ -13,7 +13,7 @@ angular.module('serviceSchedulingApp', [
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/schedule'
       });
 
     $locationProvider.html5Mode(true);
