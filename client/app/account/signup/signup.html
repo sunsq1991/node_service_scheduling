@@ -3,7 +3,7 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
-      <h1>Sign up</h1>
+      <h1>Add User</h1>
     </div>
     <div class="col-sm-12">
       <form class="form" name="form" ng-submit="register(form)" novalidate>
@@ -21,7 +21,7 @@
 
         <div class="form-group" ng-class="{ 'has-success': form.email.$valid && submitted,
                                             'has-error': form.email.$invalid && submitted }">
-          <label>Email</label>
+          <label>Email/username</label>
 
           <input type="email" name="email" class="form-control" ng-model="user.email"
                  required
@@ -56,7 +56,7 @@
 
         <div>
           <button class="btn btn-inverse btn-lg btn-login" type="submit">
-            Sign up
+            Submit
           </button>
           <a class="btn btn-default btn-lg btn-register" href="/login">
             Login
@@ -64,17 +64,7 @@
         </div>
 
         <hr>
-        <div>
-          <a class="btn btn-facebook" href="" ng-click="loginOauth('facebook')">
-            <i class="fa fa-facebook"></i> Connect with Facebook
-          </a>
-          <a class="btn btn-google-plus" href="" ng-click="loginOauth('google')">
-            <i class="fa fa-google-plus"></i> Connect with Google+
-          </a>
-          <a class="btn btn-twitter" href="" ng-click="loginOauth('twitter')">
-            <i class="fa fa-twitter"></i> Connect with Twitter
-          </a>
-        </div>
+      
       </form>
     </div>
   </div>

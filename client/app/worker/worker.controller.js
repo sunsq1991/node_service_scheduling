@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('serviceSchedulingApp')
-  .controller('workerCtrl', function ($scope, $http, socket,$mdDialog) {
+  .controller('workerCtrl', function ($scope, $http, socket,$mdDialog,Auth) {
     $scope.worker = null;
     $scope.sortableOptions = {
       cursor: "move",
@@ -17,7 +17,7 @@ angular.module('serviceSchedulingApp')
         });
       });
     }); 
-
+    $scope.isAdmin = Auth.isAdmin;
     $scope.addWorker = function() {
       $scope.alerts = [];
       if(!$scope.workerName ) {
