@@ -1,12 +1,22 @@
 'use strict';
 
 angular.module('serviceSchedulingApp')
-  .controller('ScheduleCtrl', function ($scope, $http, $filter, socket) {
+  .controller('ScheduleCtrl', function ($scope, $http, Auth, $filter, socket) {
+    $scope.user = Auth.getCurrentUser();
+    console.log(Auth);
     $scope.workers = [];
-    $scope.date = new Date((new Date()).setHours(0, 0, 0, 0));
-    $scope.str_date = $filter('date')($scope.date, 'MM/dd/yyyy');
+    $scope.jobs = [];
+    $scope.socketSchedule = [];
+    $scope.str_date = $filter('date')(new Date(), 'MM-dd-yyyy');
     $scope.morningJobs = [];
     $scope.afternoonJobs = [];
+
+    var updateJobs = function() {
+      for (var index in $scope.workers) {
+        $scope.morningJobs[index] = $filter('orderBy')($filter('filter')($scope.jobs, {worker: $scope.workers[index]._id, isMorning:true}), 'slot');
+        $scope.afternoonJobs[index] = $filter('orderBy')($filter('filter')($scope.jobs, {worker: $scope.workers[index]._id, isMorning:false}), 'slot');
+      }
+    };
 
     $http.get('/api/worker/').success(function(workers) {
       console.log(workers);
@@ -14,14 +24,21 @@ angular.module('serviceSchedulingApp')
     });
 
     $scope.loadSchadule = function() {
-      $scope.date = new Date($scope.str_date);
-      $http.get('/api/schedule/' + $scope.date ).success(function(schedule) {
+      $http.get('/api/schedule/' + $scope.str_date ).success(function(schedule) {
         console.log(schedule);
-        for (var index in $scope.workers) {
-          $scope.morningJobs[index] = $filter('orderBy')($filter('filter')(schedule.jobs, {worker: $scope.workers[index]._id, isMorning:true}), 'slot');
-          $scope.afternoonJobs[index] = $filter('orderBy')($filter('filter')(schedule.jobs, {worker: $scope.workers[index]._id, isMorning:false}), 'slot');
-        }
-        //socket.syncUpdates('jobs', $scope.jobs);
+        $scope.jobs = schedule.jobs;
+        updateJobs();
+        socket.syncUpdates('schedule', $scope.socketSchedule, function(event, socketSchedule, object) {
+          console.log(socketSchedule.date);
+          console.log($scope.str_date);
+          if ($filter('date')(socketSchedule.date, 'MM-dd-yyyy') === $scope.str_date ) {
+            $scope.jobs = socketSchedule.jobs;
+            if (!$scope.editingJob) {
+              updateJobs();
+            }
+          }
+          
+        });
       });
     };
 
@@ -31,6 +48,7 @@ angular.module('serviceSchedulingApp')
       cursor: "move",
       connectWith: ".sortable-container",
       placeholder: "sortable-placeholder",
+      items: "div:not(.not-sortable)",
       stop: function(e, ui) {
         var jobs_to_update = [];
         console.log(ui.item);
@@ -53,7 +71,7 @@ angular.module('serviceSchedulingApp')
           console.log(ui.item.sortable.droptargetModel);
         }
         console.log(jobs_to_update);
-        $http.put('/api/schedule/jobs/' + $scope.date, {jobs: jobs_to_update} ).success(function(schedule) {
+        $http.put('/api/schedule/jobs/' + $scope.str_date, {jobs: jobs_to_update} ).success(function(schedule) {
           console.log(schedule);
           //$scope.date = schedule.date;
           //$scope.str_date = $filter('date')($scope.date, 'MM/dd/yyyy');
@@ -75,11 +93,11 @@ angular.module('serviceSchedulingApp')
       if (!$scope.editingJob) {
         $scope.editingJob = job;
         job.editing = true;
-        
         $scope.editPopover.client = job.client;
         $scope.editPopover.location = job.location;
         $scope.editPopover.description = job.description;
-      };
+        $http.put('/api/schedule/' + $scope.str_date, job);
+      }
     };
 
     $scope.cancelEdit = function() {
@@ -87,6 +105,7 @@ angular.module('serviceSchedulingApp')
       job.editing = false;
       $scope.editingJob = null;
       hidePopover();
+      $http.put('/api/schedule/' + $scope.str_date, {_id: job._id, editing: job.editing});
     };
 
     $scope.saveEdit = function() {
@@ -95,12 +114,13 @@ angular.module('serviceSchedulingApp')
       job.location = $scope.editPopover.location;
       job.description = $scope.editPopover.description;
       job.editing = false;
-      $http.put('/api/schedule/' + $scope.date, job ).success(function(schedule) {
+      delete job.slot;
+      $scope.editingJob = null;
+      $http.put('/api/schedule/' + $scope.str_date, job ).success(function(schedule) {
       console.log(schedule);
       //$scope.date = schedule.date;
       //$scope.str_date = $filter('date')($scope.date, 'MM/dd/yyyy');
     });
-      $scope.editingJob = null;
       hidePopover();
     };
 
@@ -119,6 +139,7 @@ angular.module('serviceSchedulingApp')
       $scope.addPopover.location = '';
       $scope.addPopover.description = '';
       hidePopover();
+      updateJobs();
     };
 
     $scope.saveAdd = function() {
@@ -132,17 +153,12 @@ angular.module('serviceSchedulingApp')
         editing: false,
         worker: $scope.addPopover.worker
       }
-      $http.post('/api/schedule/' + $scope.date, new_job ).success(function(schedule) {
-      console.log(schedule);
       $scope.editingJob = null;
+      $http.post('/api/schedule/' + $scope.str_date, new_job ).success(function(schedule) {
       $scope.addPopover.client = '';
       $scope.addPopover.location = '';
       $scope.addPopover.description = '';
       hidePopover();
-      for (var index in $scope.workers) {
-        $scope.morningJobs[index] = $filter('orderBy')($filter('filter')(schedule.jobs, {worker: $scope.workers[index]._id, isMorning:true}), 'slot');
-        $scope.afternoonJobs[index] = $filter('orderBy')($filter('filter')(schedule.jobs, {worker: $scope.workers[index]._id, isMorning:false}), 'slot');
-      }
       });
     };
 
@@ -163,6 +179,6 @@ angular.module('serviceSchedulingApp')
     };
 
     $scope.$on('$destroy', function () {
-      //socket.unsyncUpdates('jobs');
+      socket.unsyncUpdates('schedule');
     });
   });

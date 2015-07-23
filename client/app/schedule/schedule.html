@@ -13,7 +13,7 @@
       <th>Morning</th>
       <td ng-repeat="jobs in morningJobs">
         <div class="sortable-container" ui-sortable="sortableOptions" ng-model="jobs" data-section="morning" data-workerindex="{{$index}}">
-          <div ng-repeat="job in jobs" class="job-card" ng-include="'components/snippets/job-card.html'"></div>
+          <div ng-repeat="job in jobs" ng-class="{'not-sortable': job.editing}" class="job-card" ng-include="'components/snippets/job-card.html'"></div>
         </div>
         <div class="add-job-icon">
           <span class="glyphicon glyphicon-plus" ng-click="addJob(workers[$index]._id, true)" aria-hidden="true" popover-placement="right" popover-template="addPopover.addTemplateUrl" popover-title="Add" popover-enable="!editingJob" popover-trigger="click"></span>
@@ -24,7 +24,7 @@
       <th>Afternoon</th>
       <td ng-repeat="jobs in afternoonJobs">
         <div class="sortable-container" ui-sortable="sortableOptions" ng-model="jobs" data-section="afternoon" data-workerindex="{{$index}}">
-          <div ng-repeat="job in jobs" class="job-card" ng-include="'components/snippets/job-card.html'"></div>
+          <div ng-repeat="job in jobs" ng-class="{'not-sortable': job.editing}" class="job-card" ng-include="'components/snippets/job-card.html'"></div>
         </div>
         <div class="add-job-icon">
           <span class="glyphicon glyphicon-plus" ng-click="addJob(workers[$index]._id, false)" aria-hidden="true" popover-placement="right" popover-template="addPopover.addTemplateUrl" popover-title="Add" popover-enable="!editingJob" popover-trigger="click"></span>
@@ -34,9 +34,21 @@
   </table>
 </div>
 <div ng-include="'components/message/message.html'"></div>
+<script type="text/ng-template" id="deleteModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Alert</h3>
+        </div>
+        <div class="modal-body">
+        <h4 >Are you sure?</h4>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-default" ng-click="cancel()">OK</button>
+            <button class="btn btn-warning" ng-click="delete()">Delete</button>
+        </div>
+    </script>
 <script>
 $('.input-group.date').datepicker({
-  format: 'mm/dd/yyyy',
+  format: 'mm-dd-yyyy',
   autoclose: true,
   todayHighlight: true
 });
