@@ -33,7 +33,9 @@
     </tr>
   </table>
 </div>
-<div ng-include="'components/message/message.html'"></div>
+<div ng-controller="MessageCtrl">
+<div ng-include="'app/message/message.html'"></div>
+</div>
 <script>
 $('.input-group.date').datepicker({
   format: 'mm/dd/yyyy',

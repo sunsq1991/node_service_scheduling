@@ -1,0 +1,25 @@
+
+<div class="chatbox" layout="column">
+  <md-toolbar>
+    <h2 class="md-toolbar-tools">
+      <span>Message</span>
+    </h2>
+  </md-toolbar>
+  <md-content layout="column">
+    <md-list class="message-list">
+      <md-list-item ng-repeat="message in messages">
+        <md-icon md-font-library="material-icons" class="message-icon">person</md-icon>
+        <div class="md-list-item-text">
+          <!-- <h5 class="message-sender">{{ message.sender }}</h5> -->
+          <p class="message-body">{{ message.text }}</p>
+          <p class="message-timestamp">{{ message.date | date:'HH:mm:ss MM-dd' }}</p>
+        </div>
+      </md-list-item>
+    </md-list>
+    <md-input-container class="message-input">
+      <label>type a message...</label>
+      <input ng-model = "text"  type="text">
+      <button ng-click = "sendMessage($event,text)"> submit </button>
+    </md-input-container>
+  </md-content>
+</div>
