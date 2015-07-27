@@ -47,6 +47,7 @@ angular.module('serviceSchedulingApp')
   
      $("#"+person.workerName).toggle();
      $('.input-daterange').datepicker({
+       format: 'mm-dd-yyyy',
        calendarWeeks: true,
        autoclose: true,
        todayHighlight: true

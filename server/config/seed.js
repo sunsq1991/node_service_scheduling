@@ -44,11 +44,11 @@ User.find({}).remove(function() {
     password: 'admin'
   },
   {
-    provider: 'local1',
-    role: 'admin1',
-    name: 'Admin1',
-    email: 'admin1@admin.com',
-    password: 'admin1'
+    provider: 'local',
+    role: 'admin',
+    name: 'Songqing Test',
+    email: 'sunsq1991@gmail.com',
+    password: 'asdfg'
   }, function() {
       console.log('finished populating users');
     }

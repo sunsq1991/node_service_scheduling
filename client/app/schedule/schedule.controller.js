@@ -11,18 +11,15 @@ angular.module('serviceSchedulingApp')
     $scope.afternoonJobs = [];
 
     var updateJobs = function() {
-      for (var index in $scope.workers) {
-        $scope.morningJobs[index] = $filter('orderBy')($filter('filter')($scope.jobs, {worker: $scope.workers[index]._id, isMorning:true}), 'slot');
-        $scope.afternoonJobs[index] = $filter('orderBy')($filter('filter')($scope.jobs, {worker: $scope.workers[index]._id, isMorning:false}), 'slot');
+      $scope.morningJobs = [];
+      $scope.afternoonJobs = [];
+      for (var i = 0; i < $scope.workers.length; i++) {
+        $scope.morningJobs[i] = $filter('orderBy')($filter('filter')($scope.jobs, {worker: $scope.workers[i]._id, isMorning:true}), 'slot');
+        $scope.afternoonJobs[i] = $filter('orderBy')($filter('filter')($scope.jobs, {worker: $scope.workers[i]._id, isMorning:false}), 'slot');
       }
     };
 
-    $http.get('/api/worker/').success(function(workers) {
-      console.log(workers);
-      $scope.workers = workers;
-    });
-
-    $scope.loadSchadule = function() {
+    var loadSchadule = function() {
       $http.get('/api/schedule/' + $scope.str_date ).success(function(schedule) {
         console.log(schedule);
         $scope.jobs = schedule.jobs;
@@ -35,28 +32,46 @@ angular.module('serviceSchedulingApp')
             if (!$scope.editingJob) {
               updateJobs();
             }
+            else {
+              var notChanged = $scope.jobs.filter( function(job){
+                if (job._id != $scope.editingJob._id) {return false};
+                if (job.client != $scope.editingJob.client) {return false};
+                if (job.location != $scope.editingJob.location) {return false};
+                if (job.description != $scope.editingJob.description) {return false};
+                if (job.isMorning != $scope.editingJob.isMorning) {return false};
+                if (job.worker != $scope.editingJob.worker) {return false};
+                return true;
+              });
+              if (notChanged.length < 1) {
+                $scope.showEditUpdatedMessage();
+              }
+            }
           }
           
         });
       });
     };
 
-    $scope.loadSchadule();
+    $scope.loadWorkers = function() {
+      $http.get('/api/worker/' + $scope.str_date ).success(function(workers) {
+        $scope.workers = $filter('filter')(workers, {isAvaliable: true})
+        loadSchadule();
+      });
+    };
+    $scope.loadWorkers();
 
     $scope.sortableOptions = {
       cursor: "move",
       connectWith: ".sortable-container",
       placeholder: "sortable-placeholder",
-      items: "div:not(.not-sortable)",
+      //items: "div:not(.not-sortable)",
       stop: function(e, ui) {
         var jobs_to_update = [];
-        console.log(ui.item);
         if (ui.item.sortable.sourceModel) {
           for (var i = 0; i < ui.item.sortable.sourceModel.length; i++) {
             ui.item.sortable.sourceModel[i].slot=i;
             jobs_to_update.push(ui.item.sortable.sourceModel[i]);
           }
-        console.log(ui.item.sortable.sourceModel);
         }
         if (ui.item.sortable.droptargetModel) {
           var isMorning = (ui.item.sortable.droptarget[0].dataset.section == "morning");
@@ -67,13 +82,8 @@ angular.module('serviceSchedulingApp')
             ui.item.sortable.droptargetModel[i].worker = worker_id;
             jobs_to_update.push(ui.item.sortable.droptargetModel[i]);
           };
-          console.log(ui.item.sortable.droptargetModel);
         }
-        console.log(jobs_to_update);
         $http.put('/api/schedule/jobs/' + $scope.str_date, {jobs: jobs_to_update} ).success(function(schedule) {
-          console.log(schedule);
-          //$scope.date = schedule.date;
-          //$scope.str_date = $filter('date')($scope.date, 'MM/dd/yyyy');
         });
       }
     };
@@ -179,6 +189,20 @@ angular.module('serviceSchedulingApp')
         });
       }, function() {
       });
+    };
+
+    $scope.showEditUpdatedMessage = function() {
+    // Appending dialog to document.body to cover sidenav in docs app
+      var alert = $mdDialog.alert()
+        .parent(angular.element(document.body))
+        .title('Alert')
+        .content('The Job you are editing has been updated by another user.')
+        .ok('Got it');
+
+      $mdDialog.show(alert).then(function() {
+        $scope.editingJob = null;
+        updateJobs();
+        });
     };
 
     $scope.editPopover = {

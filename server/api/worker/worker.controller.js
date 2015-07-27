@@ -14,13 +14,9 @@ var worker = require('./worker.model');
 
 // Get list of workers
 exports.index = function(req, res) {
-  var target_date = new Date((new Date()).setHours(0, 0, 0, 0));
-  if (req.params.date) {
-    target_date = req.params.date;
-  }
+  var target_date = new Date(req.params.date);
   console.log(target_date);
   worker.find(function (err, workers) {
-    console.log(workers);
     if(err) { return handleError(res, err); }
     for (var i = workers.length - 1; i >= 0; i--) {
       workers[i].isAvaliable = true;
