@@ -17,6 +17,7 @@ angular.module('serviceSchedulingApp')
         });
       });
     }); 
+    
     $scope.isAdmin = Auth.isAdmin;
     $scope.addWorker = function() {
       $scope.alerts = [];

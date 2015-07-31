@@ -9,8 +9,21 @@ angular.module('serviceSchedulingApp')
   }
   $http.get('/api/message/').success(function(messages) {
     $scope.messages = messages;
-    socket.syncUpdates('message', $scope.messages);
-  }); 
+    setTimeout($scope.scrollToBottom, 100);
+     
+    socket.syncUpdates('message', $scope.messages,function(){
+      $http.get('/api/message/').success(function(messages) {
+        var objDiv = $('.message-list')[0];
+        objDiv.scrollTop = objDiv.scrollHeight;
+      });
+    });
+ 
+  });
+
+  $scope.scrollToBottom = function(){
+    var objDiv = $('.message-list')[0];
+    objDiv.scrollTop = objDiv.scrollHeight;
+  };
 
   $scope.sendMessage = function($event,text){
     var target_date = new Date();
