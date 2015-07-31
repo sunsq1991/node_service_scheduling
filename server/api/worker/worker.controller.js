@@ -14,7 +14,10 @@ var worker = require('./worker.model');
 
 // Get list of workers
 exports.index = function(req, res) {
-  var target_date = new Date(req.params.date);
+  var target_date = new Date();
+  if (req.params.date) {
+    target_date = new Date(req.params.date);
+  }
   console.log(target_date);
   worker.find(function (err, workers) {
     if(err) { return handleError(res, err); }
@@ -57,7 +60,11 @@ exports.createVacation = function(req, res) {
   worker.findById(req.params.id, function (err, worker) {
     if (err) { return handleError(res, err); }
     if(!worker) { return res.send(404); }
-    worker.notAvaliableDates.push(req.body);
+    var notAvaliableDates = {
+      startDate: new Date(req.body.startDate),
+      endDate: new Date(req.body.endDate)
+    }
+    worker.notAvaliableDates.push(notAvaliableDates);
     worker.save(function (err) {
       if (err) { return handleError(res, err); }
       return res.json(200, worker);
