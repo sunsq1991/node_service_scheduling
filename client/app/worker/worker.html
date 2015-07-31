@@ -34,7 +34,7 @@
 	        	<h4>Vacations:</h4>
 	        <div ng-repeat="date in person.notAvaliableDates">
 
-	        <p>{{date.startDate | date : 'MM/dd/yyyy' }} - {{date.endDate | date : 'MM/dd/yyyy'}}
+	        <p>{{date.startDate | date : 'MM-dd-yyyy' : '+0000' }} - {{date.endDate | date : 'MM-dd-yyyy' : '+0000' }}
 	        	<a ng-show="isAdmin()" ng-click="deleteVacationDate(person,date)" class ="deleteDate">Delete</a>
 	        </p>      	
 	   	</div>

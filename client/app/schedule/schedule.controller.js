@@ -26,8 +26,10 @@ angular.module('serviceSchedulingApp')
         updateJobs();
         socket.syncUpdates('schedule', $scope.socketSchedule, function(event, socketSchedule, object) {
           console.log(socketSchedule.date);
+          console.log($filter('date')(socketSchedule.date, 'MM-dd-yyyy'));
+          console.log($filter('date')(socketSchedule.date, 'MM-dd-yyyy', '+0000'));
           console.log($scope.str_date);
-          if ($filter('date')(socketSchedule.date, 'MM-dd-yyyy') === $scope.str_date ) {
+          if (($filter('date')(socketSchedule.date, 'MM-dd-yyyy', '+0000')) === $scope.str_date ) {
             $scope.jobs = socketSchedule.jobs;
             if (!$scope.editingJob) {
               updateJobs();

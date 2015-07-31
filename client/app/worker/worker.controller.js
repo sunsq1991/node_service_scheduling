@@ -1,18 +1,13 @@
 'use strict';
 
 angular.module('serviceSchedulingApp')
-  .controller('workerCtrl', function ($scope, $http, socket,$mdDialog,Auth) {
-    $scope.worker = null;
-    $scope.sortableOptions = {
-      cursor: "move",
-      connectWith: ".sortable-container",
-      placeholder: "sortable-placeholder"
-    };
+  .controller('workerCtrl', function ($scope, $http, socket, $mdDialog, Auth, $filter) {
+    $scope.worker = [];
    
-    $http.get('/api/worker/').success(function(worker) {
+    $http.get('/api/worker/' + $filter('date')(new Date(), 'MM-dd-yyyy')).success(function(worker) {
       $scope.worker = worker;
       socket.syncUpdates('worker', $scope.worker,function(){
-         $http.get('/api/worker/').success(function(worker) {
+        $http.get('/api/worker/' + $filter('date')(new Date(), 'MM-dd-yyyy')).success(function(worker) {
           $scope.worker = worker;
         });
       });
@@ -56,11 +51,7 @@ angular.module('serviceSchedulingApp')
     };
     $scope.addWorkerVacation = function(person,startDate,endDate) {
       $scope.vacationAlerts = [];
-      var startDateDate = new Date(startDate);
-      var endDateDate  = new Date(endDate);
-      $http.put('/api/worker/vacation/' + person._id, { startDate: startDateDate, endDate: endDateDate});
-    
-     
+      $http.put('/api/worker/vacation/' + person._id, { startDate: startDate, endDate: endDate});
     };
     $scope.deleteVacationDate = function(person,date){
       $http.put('/api/worker/vacation/delete/'+ person._id, {_id:date._id});
