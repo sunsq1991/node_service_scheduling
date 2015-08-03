@@ -3,16 +3,19 @@
 angular.module('serviceSchedulingApp')
   .controller('MessageCtrl', function ($scope, $http, Auth, socket) {
   $scope.messages = [];
+  $scope.savedMessage = "";
   $scope.userName = "guest";
   $scope.scrollBar = true;
+  $scope.alerts = [];
   $http.get('/api/message/').success(function(messages) {
     $scope.messages = messages;
     setTimeout($scope.scrollToBottom, 100);
      
     socket.syncUpdates('message', $scope.messages,function(){
+      $scope.alerts = [];
        $http.get('/api/message/').success(function(messages) {
          var objDiv = $('.message-list')[0];
- 
+         $scope.alerts.push({msg:$scope.savedMessage}); 
           if ($scope.scrollBar) {
    
           objDiv.scrollTop = objDiv.scrollHeight;
@@ -53,6 +56,7 @@ $($('.message-list')[0]).on('scroll',function(){
         text: $scope.messageInput,
         sender: $scope.userName
       }).success(function(messages) {
+        $scope.savedMessage =  $scope.messageInput;
         $scope.messageInput = "";
         });
     };

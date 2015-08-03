@@ -6,11 +6,11 @@
   </div>
   <table border="1" class="schedue-table">
     <tr>
-      <th></th>
-      <th ng-repeat="worker in workers">{{worker.workerName}}</th>
+      <th class = 'nonespace'></th>
+      <th class = "workerName" ng-repeat="worker in workers">{{worker.workerName}}</th>
     </tr>
     <tr>
-      <th>Morning</th>
+      <th class = "timezone">Morning</th>
       <td ng-repeat="jobs in morningJobs" class = "jobs-container">
         <div class="sortable-container" ui-sortable="sortableOptions" ng-model="jobs" data-section="morning" data-workerindex="{{$index}}">
           <div ng-repeat="job in jobs" ng-class="{'not-sortable': job.editing}" class="job-card" ng-include="'components/snippets/job-card.html'"></div>
@@ -21,7 +21,7 @@
       </td>
     </tr>
     <tr>
-      <th>Afternoon</th>
+      <th class = "timezone">Afternoon</th>
       <td ng-repeat="jobs in afternoonJobs" class = "jobs-container">
         <div class="sortable-container" ui-sortable="sortableOptions" ng-model="jobs" data-section="afternoon" data-workerindex="{{$index}}">
           <div ng-repeat="job in jobs" ng-class="{'not-sortable': job.editing}" class="job-card" ng-include="'components/snippets/job-card.html'"></div>

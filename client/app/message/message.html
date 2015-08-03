@@ -1,7 +1,11 @@
+
 <div class="chatbox" ng-controller="MessageCtrl" layout="column">
   <md-toolbar>
     <h2 class="md-toolbar-tools">
+     
+
       <span>Message</span>
+       <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
     </h2>
   </md-toolbar>
   <md-content layout="column">
