@@ -6,7 +6,11 @@ angular.module('serviceSchedulingApp')
   $scope.savedMessage = "";
   $scope.userName = "guest";
   $scope.scrollBar = true;
+
   $scope.alerts = [];
+
+  var tempTop=0;
+
   $http.get('/api/message/').success(function(messages) {
     $scope.messages = messages;
     setTimeout($scope.scrollToBottom, 100);
@@ -31,21 +35,35 @@ angular.module('serviceSchedulingApp')
     var objDiv = $('.message-list')[0];
     objDiv.scrollTop = objDiv.scrollHeight;
     $scope.scrollBar = true;
-  };
+  }
 
 
 $($('.message-list')[0]).on('scroll',function(){
 
-    if ($('.message-list')[0].scrollHeight - $($('.message-list')[0]).scrollTop() <270) {
-      $scope.scrollBar = true;  
-    }
-    else{
-      $scope.scrollBar = false;
-     } 
 
+
+
+    tempTop= $($('.message-list')[0]).scrollTop();
+    $('.message-list')[0].scrollTop = $('.message-list')[0].scrollHeight;
+    if (tempTop==$('.message-list')[0].scrollTop) {
+            $scope.scrollBar = true;
+    }
+     } 
+    else {
+           $scope.scrollBar = false;
+     }
+    $('.message-list')[0].scrollTop= tempTop;
+
+
+
+    
   })
   $scope.sendMessage = function(e) {
       if (e.keyCode != 13) return;
+      if (!$scope.messageInput) {
+        $scope.messageInput = "";
+        return;
+      }
       if (Auth.isLoggedIn()) {
         $scope.userName = Auth.getCurrentUser().name;
       }

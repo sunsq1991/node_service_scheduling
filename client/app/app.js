@@ -8,7 +8,8 @@ angular.module('serviceSchedulingApp', [
   'btford.socket-io',
   'ui.bootstrap',
   'ui.sortable',
-  'ngMaterial'
+  'ngMaterial',
+  'truncate'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
@@ -55,4 +56,34 @@ angular.module('serviceSchedulingApp', [
         }
       });
     });
+  })
+  .directive('googleplace', function() {
+    return {
+        require: 'ngModel',
+        scope: {
+            ngModel: '=',
+            city: '=?'
+        },
+        link: function(scope, element, attrs, model) {
+            var options = {
+                types: [],
+                componentRestrictions: {}
+            };
+            scope.gPlace = new google.maps.places.Autocomplete(element[0], options);
+
+            google.maps.event.addListener(scope.gPlace, 'place_changed', function() {
+                scope.$apply(function() {
+                    scope.city = "";
+                    var details = scope.gPlace.getPlace();
+                      for (var i = 0; i < details.address_components.length; i++) {
+                        if (details.address_components[i].types.indexOf("locality") > -1) {
+                          scope.city = details.address_components[i].short_name
+                          break;
+                        }
+                      }
+                    model.$setViewValue(element.val());                
+                });
+            });
+        }
+    };
   });

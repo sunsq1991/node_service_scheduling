@@ -9,6 +9,7 @@ angular.module('serviceSchedulingApp')
     $scope.str_date = $filter('date')(new Date(), 'MM-dd-yyyy');
     $scope.morningJobs = [];
     $scope.afternoonJobs = [];
+    $scope.gPlace;
 
     var updateJobs = function() {
       $scope.morningJobs = [];
@@ -40,6 +41,11 @@ angular.module('serviceSchedulingApp')
                 if (job.client != $scope.editingJob.client) {return false};
                 if (job.location != $scope.editingJob.location) {return false};
                 if (job.description != $scope.editingJob.description) {return false};
+                if (job.phone != $scope.editingJob.phone) {return false};
+                if (job.appliance != $scope.editingJob.appliance) {return false};
+                if (job.power_type != $scope.editingJob.power_type) {return false};
+                if (job.hours != $scope.editingJob.hours) {return false};
+                if (job.city != $scope.editingJob.city) {return false};
                 if (job.isMorning != $scope.editingJob.isMorning) {return false};
                 if (job.worker != $scope.editingJob.worker) {return false};
                 return true;
@@ -107,6 +113,11 @@ angular.module('serviceSchedulingApp')
         $scope.editPopover.client = job.client;
         $scope.editPopover.location = job.location;
         $scope.editPopover.description = job.description;
+        $scope.editPopover.phone = job.phone;
+        $scope.editPopover.appliance = job.appliance;
+        $scope.editPopover.power_type = job.power_type;
+        $scope.editPopover.hours = job.hours;
+        $scope.editPopover.city = job.city;
         $http.put('/api/schedule/' + $scope.str_date, job);
       }
     };
@@ -124,6 +135,16 @@ angular.module('serviceSchedulingApp')
       job.client = $scope.editPopover.client;
       job.location = $scope.editPopover.location;
       job.description = $scope.editPopover.description;
+      job.phone = $scope.editPopover.phone;
+      job.appliance = $scope.editPopover.appliance;
+      job.power_type = $scope.editPopover.power_type;
+      job.hours = $scope.editPopover.hours;
+      if ($scope.editPopover.city && job.location.indexOf($scope.editPopover.city) > -1) {
+        job.city = $scope.editPopover.city;
+      }
+      else{
+        job.city = "";
+      }
       job.editing = false;
       delete job.slot;
       $scope.editingJob = null;
@@ -149,26 +170,45 @@ angular.module('serviceSchedulingApp')
       $scope.addPopover.client = '';
       $scope.addPopover.location = '';
       $scope.addPopover.description = '';
+      $scope.addPopover.phone = '';
+      $scope.addPopover.appliance = '';
+      $scope.addPopover.power_type = '';
+      $scope.addPopover.hours = 1;
+      $scope.addPopover.city = '';
       hidePopover();
       updateJobs();
     };
 
     $scope.saveAdd = function() {
       var slot = 0;
+
       var new_job = {
         client: $scope.addPopover.client,
         location: $scope.addPopover.location,
         description: $scope.addPopover.description,
+        phone: $scope.addPopover.phone,
+        appliance: $scope.addPopover.appliance,
+        power_type: $scope.addPopover.power_type,
+        hours: $scope.addPopover.hours,
+        city: '',
         isMorning: $scope.addPopover.isMorning,
         slot: slot,
         editing: false,
         worker: $scope.addPopover.worker
+      }
+      if ($scope.addPopover.city && new_job.location.indexOf($scope.addPopover.city) > -1) {
+        new_job.city = $scope.addPopover.city;
       }
       $scope.editingJob = null;
       $http.post('/api/schedule/' + $scope.str_date, new_job ).success(function(schedule) {
       $scope.addPopover.client = '';
       $scope.addPopover.location = '';
       $scope.addPopover.description = '';
+      $scope.addPopover.phone = '';
+      $scope.addPopover.appliance = '';
+      $scope.addPopover.power_type = '';
+      $scope.addPopover.hours = 1;
+      $scope.addPopover.city = '';
       hidePopover();
       });
     };
@@ -211,7 +251,12 @@ angular.module('serviceSchedulingApp')
       editTemplateUrl: 'components/template/popover-edit-card.html',
       client: '',
       location: '',
-      description: ''
+      description: '',
+      phone: '',
+      appliance: '',
+      power_type: '',
+      hours: 1,
+      city: ''
     };
 
     $scope.addPopover = {
@@ -220,8 +265,31 @@ angular.module('serviceSchedulingApp')
       isMorning: true,
       client: '',
       location: '',
-      description: ''
+      description: '',
+      phone: '',
+      appliance: '',
+      power_type: '',
+      hours: 1,
+      city: ''
     };
+
+    $scope.hours_items = [0.5,1.0,1.5,2.0];
+    $scope.appliance_option = [
+      "Washer",
+      "Dryer",
+      "Refrigerator/Freezer",
+      "Range/Cooktop/Wall Oven",
+      "Microwave",
+      "Dishwasher",
+      "Coin-Op Washer/Dryer",
+      "Air Conditioner",
+      "Other"
+      ];
+    $scope.power_type_option = [
+      "Regular",
+      "Gas",
+      "N/A"
+      ];
 
     $scope.$on('$destroy', function () {
       socket.unsyncUpdates('schedule');

@@ -19,10 +19,15 @@
         </div>
       </md-list-item>
     </md-list>
+    <form name="messageForm">
     <md-input-container class="message-input">
       <label>type a message...</label>
-      <input ng-model="messageInput" ng-keydown="sendMessage($event)" type="text">
+      <input name="msgInput" ng-model="messageInput" ng-keydown="sendMessage($event)" type="text" required>
+      <div ng-messages="messageForm.msgInput.$error">
+        <div ng-message="required">wtf</div>
+        </div>
     </md-input-container>
+    </form>
   </md-content>
 </div>
 
