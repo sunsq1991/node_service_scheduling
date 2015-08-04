@@ -1,3 +1,7 @@
+body{
+  background-image: url("http://i.imgur.com/wt4NRqA.jpg");
+  background-size:cover;
+}
 .sortable-container {
   width: 150px;
   min-height: 420px;
@@ -111,6 +115,36 @@
   margin: 0;
   line-height: 24px;
   min-height: 24px;
+}
+
+.schedue-table{
+  margin-top:20px;
+  background-color: rgba(255, 255, 255, 0.67);
+  border: 1px solid rgba(187, 190, 191, 0.37);
+}
+.workerName{
+  height: 50px;
+  text-align: center;
+  background-color: #18657B;
+  color: white;
+  border-left: 1px solid rgb(42, 94, 109);
+  border-right: 1px solid rgba(42, 94, 109, 0.8);
+}
+.timezone{
+  text-align:center;
+  background-color: rgb(81, 158, 188);
+  color: white;
+}
+.job-card{
+  background-color: #D7DD33;
+}
+.nonespace{
+  background-color: #DADC31;
+}
+
+md-toolbar {
+  background-color: rgb(29, 112, 136);
+  color: rgba(255,255,255,0.87);
 }
 
 .popover {

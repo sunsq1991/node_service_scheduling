@@ -7,7 +7,7 @@
   </div>
 </header>
 
- <div> 	
+ <div class = "workerPage"> 	
  	<alert class = "alert-danger" ng-repeat="alert in alerts" type="{{alert.type}}" >{{alert.msg}}</alert>
     <div class = "addWorkerArea">
     	<label>Add a Technician</label>
@@ -68,9 +68,15 @@
         </div>
         <md-divider ng-if="!$last"></md-divider>
     </md-list-item>
-
+    
 </div>
-
+  <footer class="footer">
+      <div class="container">
+          <p>Stein Appliance Service 2015 |
+            <a href="https://twitter.com/tyhenkel">@steinappliance.com</a> |
+             <a href="https://github.com/DaftMonk/generator-angular-fullstack/issues?state=open">contact us</a></p>
+      </div>
+    </footer>
 <script>
 
 $(document).ready(function() {
