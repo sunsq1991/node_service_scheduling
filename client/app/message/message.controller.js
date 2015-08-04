@@ -33,22 +33,16 @@ angular.module('serviceSchedulingApp')
 
 
 $($('.message-list')[0]).on('scroll',function(){
-
-
-
-
     tempTop= $($('.message-list')[0]).scrollTop();
     $('.message-list')[0].scrollTop = $('.message-list')[0].scrollHeight;
     if (tempTop==$('.message-list')[0].scrollTop) {
             $scope.scrollBar = true;
     }
     else {
-           $scope.scrollBar = false;
+          $scope.scrollBar = false;
+          $('.message-list')[0].scrollTop= tempTop;
      }
-    $('.message-list')[0].scrollTop= tempTop;
-
-
-
+   
     
   })
   $scope.sendMessage = function(e) {
