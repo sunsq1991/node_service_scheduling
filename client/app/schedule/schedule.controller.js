@@ -146,6 +146,16 @@ angular.module('serviceSchedulingApp')
       if (!$scope.editingJob) {
         $scope.editingJob = $scope.showingJob;
         $scope.editingJob.editing = true;
+        $('md-tabs').css('min-height', "448px");
+        if ($('.morning-popover')) {
+          var popover = $($('.morning-popover')[0]).closest('.popover');
+          $(popover).animate({
+            'marginTop' : "+=120px"
+          });
+          $('.arrow', popover).animate({
+            'marginTop' : "-=120px" //moves up
+          });
+        }
         $scope.popoverTabIndex = 1;
         $http.put('/api/schedule/' + $scope.str_date, $scope.editingJob);
       }
@@ -187,9 +197,19 @@ angular.module('serviceSchedulingApp')
 
     $scope.addJob = function(worker_id, is_morning) {
       if (!$scope.editingJob) {
+        if ($scope.showingJob) {
+          hidePopover(true);
+        }
+        $scope.showingJob = null;
         $scope.editingJob = true;
         $scope.addPopover.worker = worker_id;
         $scope.addPopover.isMorning = is_morning;
+        $('.popover').animate({
+            'marginTop' : "-=120px"
+          });
+          $('.popover .arrow').animate({
+            'marginTop' : "+=120px"
+          });
       };
     };
 
@@ -228,6 +248,7 @@ angular.module('serviceSchedulingApp')
         new_job.city = $scope.addPopover.city;
       }
       $scope.editingJob = null;
+      $scope.showingJob = null;
       $http.post('/api/schedule/' + $scope.str_date, new_job ).success(function(schedule) {
       $scope.addPopover.client = '';
       $scope.addPopover.location = '';

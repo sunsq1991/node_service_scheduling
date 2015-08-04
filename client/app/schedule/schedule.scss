@@ -31,41 +31,6 @@ body{
   border: 2px dashed grey;
 }
 
-/* chatbox layouts */
-.chatbox {
-  width: 300px;
-  min-width: 300px;
-  max-width: 100%;
-  min-height: 300px;
-  max-height: 60%;
-  position: fixed;
-  bottom: 0px;
-  right: 50px;
-}
-
-.chatbox .message-list {
-  min-height: 150px;
-  max-height: 100%;
-  overflow-y: scroll;
-}
-
-.chatbox .message-icon {
-  margin-left: 0px;
-  margin-right: 16px;
-}
-
-.chatbox .message-body {
-  margin: 0;
-}
-
-.chatbox .message-timestamp {
-  color: grey;
-  font-weight: 200;
-}
-
-.chatbox .message-input {
-  flex-shrink: 0;
-}
 /* job card layouts */
 .job-card {
   margin: 5px;
@@ -133,9 +98,6 @@ body{
   background-color: rgb(81, 158, 188);
   color: white;
 }
-.job-card{
-  background-color: #D7DD33;
-}
 .nonespace{
   background-color: #DADC31;
 }
@@ -151,6 +113,10 @@ md-toolbar {
 
 .popover-content {
   min-width: 288px;
+}
+
+.edit-job-tab {
+  min-height: 448px;
 }
 
 .popover-table {

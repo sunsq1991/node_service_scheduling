@@ -1,3 +1,39 @@
+/* chatbox layouts */
+.chatbox {
+  width: 300px;
+  min-width: 300px;
+  max-width: 100%;
+  min-height: 300px;
+  max-height: 70%;
+  position: fixed;
+  bottom: 0px;
+  right: 50px;
+}
+
+.chatbox .message-list {
+  min-height: 150px;
+  max-height: 100%;
+  overflow-y: scroll;
+}
+
+.chatbox .message-icon {
+  margin-left: 0px;
+  margin-right: 16px;
+}
+
+.chatbox .message-body {
+  margin: 0;
+}
+
+.chatbox .message-timestamp {
+  color: grey;
+  font-weight: 200;
+}
+
+.chatbox .message-input {
+  flex-shrink: 0;
+}
+
 .md-list-item-text {
 	overflow-x: overlay;
 }
