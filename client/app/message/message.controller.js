@@ -8,6 +8,7 @@ angular.module('serviceSchedulingApp')
   $scope.scrollBar = true;
 
   $scope.alerts = [];
+  $scope.clicked = false;
 
   var tempTop=0;
 
@@ -17,15 +18,32 @@ angular.module('serviceSchedulingApp')
      
     socket.syncUpdates('message', $scope.messages,function(){
       $scope.alerts = [];
+    
        $http.get('/api/message/').success(function(messages) {
+    
          var objDiv = $('.message-list')[0];
-         $scope.alerts.push({msg:$scope.savedMessage}); 
+         if (!$scope.scrollBar && (Auth.getCurrentUser().name != messages[messages.length-1].sender)) {
+
+          $('.alertMessage').text("New Msg!");
+          $('.alertMessage').show();
+
+         };
+         
           if ($scope.scrollBar) {
-   
+         
           objDiv.scrollTop = objDiv.scrollHeight;
 
-          }             
+          }  
+
+
+
+
        });
+       if($('.chatbox').hasClass('clicked')){
+          
+          $('.alertMessage').text("New Msg!");
+          $('.alertMessage').show();
+       } 
     }); 
   });
 
@@ -39,19 +57,28 @@ angular.module('serviceSchedulingApp')
 
 
 $($('.message-list')[0]).on('scroll',function(){
+
     tempTop= $($('.message-list')[0]).scrollTop();
+
     $('.message-list')[0].scrollTop = $('.message-list')[0].scrollHeight;
+
     if (tempTop==$('.message-list')[0].scrollTop) {
             $scope.scrollBar = true;
+            $scope.alerts = [];
+            $('.alertMessage').text("");
+            $('.alertMessage').hide();
+          if($('.chatbox').hasClass('clicked')){
+          
+          $('.alertMessage').text("New Msg!");
+          $('.alertMessage').show();
+          }  
     }
-     } 
-    else {
+    else{
           $scope.scrollBar = false;
-          $('.message-list')[0].scrollTop= tempTop;
-     }
-   
-    
+          $('.message-list')[0].scrollTop= tempTop; 
+    } 
   })
+
   $scope.sendMessage = function(e) {
       if (e.keyCode != 13) return;
       if (!$scope.messageInput) {
@@ -72,4 +99,21 @@ $($('.message-list')[0]).on('scroll',function(){
         $scope.messageInput = "";
         });
     };
+  $('.md-toolbar-tools').click(function(){
+    
+   
+    if (!$scope.clicked){
+      $('.chatbox').addClass('clicked');
+       $scope.clicked  = true;
+       return;
+    }
+    else if ($scope.clicked) {
+      $('.chatbox').removeClass('clicked');
+      $scope.clicked  = false;
+      return;
+    }
+    
+  });
+
+  
 });
