@@ -1,0 +1,103 @@
+<md-tabs md-selected="popoverTabIndex" md-dynamic-height>
+<md-tab label="details">
+<md-content>
+  <table class="popover-table">
+    <tr><td>Client Name</td>
+      <td>{{ editPopover.client}}</td>
+    </tr>
+    <tr><td>Phone Number</td>
+      <td>{{ editPopover.phone}}</td>
+    </tr>
+    <tr><td>Location</td>
+      <td>{{ editPopover.location}}</td>
+    </tr>
+    <tr><td>Appliance</td>
+      <td>{{ editPopover.appliance}} {{ editPopover.power_type}}</td>
+    </tr>
+    <tr><td>Estimated Hours</td>
+      <td>{{ editPopover.hours}}</td>
+    </tr>
+    <tr><td>Description</td>
+      <td>{{ editPopover.description}}</td>
+    </tr>
+    <tr><td>
+      <md-button ng-click="cancelShow()">
+      <md-icon md-font-library="material-icons">clear</md-icon>Close</md-button>
+      </td>
+      <td>
+      <md-button ng-click="editJob(job)" class="md-primary">
+      <md-icon md-font-library="material-icons">edit</md-icon>Edit</md-button>
+    </td></tr>
+  </table>
+</md-content>
+</md-tab>
+<md-tab label="edit">
+<md-content>
+  <table class="popover-table">
+    <tr>
+      <td></td>
+      <td>
+      <md-button class="delete-btn" ng-click="showDeleteConfirm()">
+      <md-icon md-font-library="material-icons">delete</md-icon></md-button>
+      </td>
+    </tr>
+    <tr><td colspan="2">
+      <md-input-container class="md-icon-float">
+        <label>Client</label>
+        <md-icon md-font-library="material-icons">person</md-icon>
+        <input ng-model="editPopover.client" type="text">
+      </md-input-container>
+    </td></tr>
+    <tr><td colspan="2">
+      <md-input-container class="md-icon-float" flex>
+        <label>Phone</label>
+        <md-icon md-font-library="material-icons">local_phone</md-icon>
+        <input ng-model="editPopover.phone" type="text">
+      </md-input-container>
+    </td></tr>
+    <tr><td colspan="2">
+      <md-input-container class="md-icon-float" flex>
+        <label>Location</label>
+        <md-icon md-font-library="material-icons">place</md-icon>
+        <input ng-model="editPopover.location" city="editPopover.city" googleplace>
+      </md-input-container>
+    </td></tr>
+    <tr><td colspan="2">
+      <div layout="row" style="width: 100%;">
+        <md-select class="appliance-select" ng-model="editPopover.appliance" placeholder="Appliance">
+          <md-option ng-repeat="appliance in appliance_option" value="{{appliance}}">{{appliance}}</md-option>
+        </md-select>
+        <md-select class="power-type-select" ng-model="editPopover.power_type" placeholder="Type">
+          <md-option ng-repeat="pt in power_type_option" value="{{pt}}">{{pt}}</md-option>
+        </md-select>
+      </div>
+    </td></tr>
+    <tr><td colspan="2">
+      <div layout="row">
+        <md-icon class="estimated-hours-icon" md-font-library="material-icons">access_time</md-icon>
+        <md-slider flex class="md-primary" md-discrete ng-model="editPopover.hours" step="0.5" min="0.5" max="4" aria-label="slide-bar">
+        </md-slider>
+        <md-input-container style="max-width: 30px;" flex>
+          <input ng-model="editPopover.hours" aria-label="estimated-hours" style="text-align: center;">
+        </md-input-container>
+        <label style="margin: auto; padding-right: 10px; font-size: 18px;">hr</label>
+      </div>
+    </td></tr>
+    <tr><td colspan="2">
+      <md-input-container>
+        <label>Dscription</label>
+        <textarea ng-model="editPopover.description"></textarea>
+      </md-input-container>
+    </td></tr>
+    <tr><td>
+      <md-button ng-click="cancelEdit()">
+      <md-icon md-font-library="material-icons">clear</md-icon>Cancel</md-button>
+      </td>
+      <td>
+      <md-button ng-click="saveEdit()" class="md-primary">
+      <md-icon md-font-library="material-icons">check</md-icon>Save</md-button>
+    </td></tr>
+  </table>
+</md-content>
+</md-tab>
+</md-tabs>

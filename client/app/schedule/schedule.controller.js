@@ -96,20 +96,35 @@ angular.module('serviceSchedulingApp')
       }
     };
 
-    var hidePopover = function() {
-      $('.popover').each(function () {
-        //Set the state of the popover in the scope to reflect this
-        var elementScope = angular.element(this).scope().$parent;
-        elementScope.isOpen = false;
-        //Remove the popover element from the DOM
-        $(this).remove();
-      });
+    var hidePopover = function(hideOthers) {
+      if (hideOthers) {
+        if ($('.popover').length > 1) {
+          var popover = $('.popover')[0];
+          //Set the state of the popover in the scope to reflect this
+          var elementScope = angular.element(popover).scope().$parent;
+          elementScope.isOpen = false;
+          //Remove the popover element from the DOM
+          $(popover).remove();
+        };
+      }
+      else {
+        $('.popover').each(function () {
+          //Set the state of the popover in the scope to reflect this
+          var elementScope = angular.element(this).scope().$parent;
+          elementScope.isOpen = false;
+          //Remove the popover element from the DOM
+          $(this).remove();
+        });
+      }
+      $scope.popoverTabIndex = 0;
     };
 
-    $scope.editJob = function(job) {
+    $scope.showJob = function(job) {
       if (!$scope.editingJob) {
-        $scope.editingJob = job;
-        job.editing = true;
+        if ($scope.showingJob) {
+          hidePopover(true);
+        }
+        $scope.showingJob = job;
         $scope.editPopover.client = job.client;
         $scope.editPopover.location = job.location;
         $scope.editPopover.description = job.description;
@@ -118,7 +133,20 @@ angular.module('serviceSchedulingApp')
         $scope.editPopover.power_type = job.power_type;
         $scope.editPopover.hours = job.hours;
         $scope.editPopover.city = job.city;
-        $http.put('/api/schedule/' + $scope.str_date, job);
+      }
+    };
+
+    $scope.cancelShow = function() {
+      $scope.showingJob = null;
+      hidePopover();
+    };
+
+    $scope.editJob = function() {
+      if (!$scope.editingJob) {
+        $scope.editingJob = $scope.showingJob;
+        $scope.editingJob.editing = true;
+        $scope.popoverTabIndex = 1;
+        $http.put('/api/schedule/' + $scope.str_date, $scope.editingJob);
       }
     };
 
@@ -158,7 +186,6 @@ angular.module('serviceSchedulingApp')
 
     $scope.addJob = function(worker_id, is_morning) {
       if (!$scope.editingJob) {
-        console.log('addJob');
         $scope.editingJob = true;
         $scope.addPopover.worker = worker_id;
         $scope.addPopover.isMorning = is_morning;
@@ -225,8 +252,9 @@ angular.module('serviceSchedulingApp')
         .targetEvent(ev);
 
       $mdDialog.show(confirm).then(function() {
-        $http.put('/api/schedule/delete/' + $scope.str_date, $scope.editingJob ).success(function(schedule) {
-          $scope.editingJob = null;
+        var delete_job = $scope.editingJob;
+        $scope.editingJob = null;
+        $http.put('/api/schedule/delete/' + $scope.str_date, delete_job ).success(function(schedule) {
           updateJobs();
         });
       }, function() {
@@ -246,6 +274,9 @@ angular.module('serviceSchedulingApp')
         updateJobs();
         });
     };
+
+    $scope.showTemplateUrl = 'components/template/popover-show-card.html';
+    $scope.popoverTabIndex = 0;
 
     $scope.editPopover = {
       editTemplateUrl: 'components/template/popover-edit-card.html',
@@ -287,8 +318,7 @@ angular.module('serviceSchedulingApp')
       ];
     $scope.power_type_option = [
       "Regular",
-      "Gas",
-      "N/A"
+      "Gas"
       ];
 
     $scope.$on('$destroy', function () {
