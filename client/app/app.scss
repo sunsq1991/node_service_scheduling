@@ -15,10 +15,13 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
     padding: 0.2em 0;
 }
 
-body {
-	height: 2000px;
+body{
+	height:1200px;
 }
-
+footer{
+	background-color:white;
+	height:20px;
+}
 // Component styles are injected through grunt
 // injector
 @import 'account/login/login.scss';
