@@ -58,7 +58,6 @@ angular.module('serviceSchedulingApp')
 
 $($('.message-list')[0]).on('scroll',function(){
 
-  
     tempTop= $($('.message-list')[0]).scrollTop();
 
     $('.message-list')[0].scrollTop = $('.message-list')[0].scrollHeight;

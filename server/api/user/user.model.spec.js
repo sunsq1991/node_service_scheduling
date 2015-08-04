@@ -11,6 +11,8 @@ var user = new User({
   password: 'password'
 });
 
+
+
 describe('User Model', function() {
   before(function(done) {
     // Clear users before testing
@@ -32,7 +34,7 @@ describe('User Model', function() {
     });
   });
 
-  it('should fail when saving a duplicate user', function(done) {
+  it('should fail when saving a duplicate user(User ID)', function(done) {
     user.save(function() {
       var userDup = new User(user);
       userDup.save(function(err) {
@@ -40,9 +42,9 @@ describe('User Model', function() {
         done();
       });
     });
-  });
+  
 
-  it('should fail when saving without an email', function(done) {
+  it('Skuma should change password to password', function(done) {
     user.email = '';
     user.save(function(err) {
       should.exist(err);
@@ -57,4 +59,13 @@ describe('User Model', function() {
   it("should not authenticate user if password is invalid", function() {
     return user.authenticate('blah').should.not.be.true;
   });
+
+it("Admin should have permitiom to add other", function() {
+    return user.authenticate('password').should.be.true;
+  });
+
+  it("Admin should have permitiom to print report", function() {
+    return user.authenticate('blah').should.not.be.true;
+  });
+ });
 });
