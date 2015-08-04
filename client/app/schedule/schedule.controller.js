@@ -296,7 +296,8 @@ angular.module('serviceSchedulingApp')
     });
 
     $scope.reportGenerate = function(){
-
+      $('.chatbox').hide();
       window.print();
+      $('.chatbox').show();
     }
   });
