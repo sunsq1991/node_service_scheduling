@@ -133,6 +133,7 @@ angular.module('serviceSchedulingApp')
         $scope.editPopover.power_type = job.power_type;
         $scope.editPopover.hours = job.hours;
         $scope.editPopover.city = job.city;
+        $scope.editPopover.isMorning = job.isMorning;
       }
     };
 
@@ -287,7 +288,8 @@ angular.module('serviceSchedulingApp')
       appliance: '',
       power_type: '',
       hours: 1,
-      city: ''
+      city: '',
+      isMorning: false,
     };
 
     $scope.addPopover = {
