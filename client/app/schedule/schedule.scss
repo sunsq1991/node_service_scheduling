@@ -1,3 +1,7 @@
+body{
+  background-image: url("http://i.imgur.com/wt4NRqA.jpg");
+  background-size:cover;
+}
 .sortable-container {
   width: 150px;
   min-height: 420px;
@@ -65,6 +69,7 @@
 /* job card layouts */
 .job-card {
   margin: 5px;
+  overflow: hidden;
   background-color: #F7FE2E;
   -webkit-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.75);
   -moz-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.75);
@@ -74,15 +79,26 @@
 .job-card table {
   display: block;
   position: relative;
-  padding: 10px;
+  padding: 5px;
   width: 100%;
   font-size: 1.5rem;
   font-weight: 300;
 }
 
+.job-card td {
+  vertical-align: top;
+}
+
 .job-card .glyphicon-edit-td {
   width: 100%;
   text-align: right;
+}
+
+.truncate {
+  max-width: 84px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .not-sortable {
@@ -98,4 +114,109 @@
   margin: 0;
   line-height: 24px;
   min-height: 24px;
+}
+
+.schedue-table{
+  margin-top:20px;
+  background-color: rgba(255, 255, 255, 0.67);
+  border: 1px solid rgba(187, 190, 191, 0.37);
+}
+.workerName{
+  height: 50px;
+  text-align: center;
+  background-color: #18657B;
+  color: white;
+  border-left: 1px solid rgb(42, 94, 109);
+  border-right: 1px solid rgba(42, 94, 109, 0.8);
+}
+.timezone{
+  text-align:center;
+  background-color: rgb(81, 158, 188);
+  color: white;
+}
+.job-card{
+  background-color: #D7DD33;
+}
+.nonespace{
+  background-color: #DADC31;
+}
+
+md-toolbar {
+  background-color: rgb(29, 112, 136);
+  color: rgba(255,255,255,0.87);
+}
+
+.popover {
+  min-width: 320px;
+}
+
+.popover-table {
+  width: 100%;
+}
+
+md-input-container {
+  padding-bottom: 12px;
+}
+
+.appliance-select{
+  padding: 0px 2px 6px;
+  -webkit-flex-grow: 1;
+  flex-grow: 1;
+}
+
+.appliance-select md-select-label {
+  min-width: 90%;
+}
+
+md-backdrop.md-select-backdrop {
+    z-index: 1079;
+}
+
+.power-type-select{
+  padding: 0px 2px 6px;
+  -webkit-flex-grow: 0;
+  flex-grow: 0;
+}
+
+.md-option {
+  height: 32px;
+}
+
+.estimated-hours-icon {
+  color: rgba(0,0,0,0.87);
+  margin-right: 12px;
+}
+
+.md-autocomplete-suggestions {
+  z-index: 1080;
+}
+
+.pac-container, .md-select-menu-container {
+  z-index: 1080;
+}
+
+.md-select-label.md-placeholder span {
+    color: rgba(0,0,0,0.26);
+    font-weight: bold;
+}
+
+/* get rid of placeholder of googleplace input */
+input[googleplace]::-webkit-input-placeholder {
+    opacity: 0;
+}
+
+input[googleplace]:-moz-placeholder {
+    /* Firefox 18- */
+
+    opacity: 0;
+}
+
+input[googleplace]::-moz-placeholder {
+    /* Firefox 19+ */
+
+    opacity: 0;
+}
+
+input[googleplace]:-ms-input-placeholder {
+    opacity: 0;
 }
