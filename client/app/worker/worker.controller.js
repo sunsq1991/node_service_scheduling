@@ -5,9 +5,19 @@ angular.module('serviceSchedulingApp')
     $scope.worker = [];
    
     $http.get('/api/worker/' + $filter('date')(new Date(), 'MM-dd-yyyy')).success(function(worker) {
+      for (var i = 0; i < worker.length; i++) {
+        if (worker[i].workerName =='Un-Assigned Job') {
+          worker.splice(i, 1);
+        };
+      };
       $scope.worker = worker;
       socket.syncUpdates('worker', $scope.worker,function(){
         $http.get('/api/worker/' + $filter('date')(new Date(), 'MM-dd-yyyy')).success(function(worker) {
+          for (var i = 0; i < worker.length; i++) {
+            if (worker[i].workerName =='Un-Assigned Job') {
+              worker.splice(i, 1);
+            };
+          };
           $scope.worker = worker;
         });
       });

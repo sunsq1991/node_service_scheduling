@@ -62,8 +62,16 @@ angular.module('serviceSchedulingApp')
 
     $scope.loadWorkers = function() {
       $http.get('/api/worker/' + $scope.str_date ).success(function(workers) {
+        for (var i = 0; i < workers.length; i++) {
+          if (workers[i].workerName =='Un-Assigned Job') {
+            var unAssignedJob = workers[i];
+            workers.splice(i, 1);
+            workers.push(unAssignedJob);
+          };
+        };
         $scope.workers = $filter('filter')(workers, {isAvaliable: true})
         loadSchadule();
+        // $('.schedue-table').find('tr').first().append('<th class = "workerName">' + unAssignedJob.workerName +'</th>');
       });
     };
     $scope.loadWorkers();
