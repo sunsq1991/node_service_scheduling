@@ -20,12 +20,3 @@ var worker = new Schema({
 
 
 module.exports = mongoose.model('worker', worker);
-
-
-
-// Validate empty email
-worker
-  .path('email')
-  .validate(function(email) {
-    return email.length;
-  }, 'Email cannot be blank');

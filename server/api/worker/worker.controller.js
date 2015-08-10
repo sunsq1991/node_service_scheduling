@@ -11,6 +11,7 @@
 
 var _ = require('lodash');
 var worker = require('./worker.model');
+var Schedule = require('../schedule/schedule.model');
 
 // Get list of workers
 exports.index = function(req, res) {
@@ -111,9 +112,25 @@ exports.destroy = function(req, res) {
   worker.findById(req.params.id, function (err, worker) {
     if(err) { return handleError(res, err); }
     if(!worker) { return res.send(404); }
-    worker.remove(function(err) {
+    //validate worker have no job in the future
+    Schedule.find({ 'date': {"$gte": new Date()} }, function (err, schedules) {
       if(err) { return handleError(res, err); }
-      return res.send(204);
+      var valid = true;
+      for (var i = 0; i < schedules.length; i++) {
+        if(schedules[i].jobs.filter(function (el) {return el.worker == req.params.id}).length > 0){
+          valid = false;
+          break;
+        }
+      }
+      if(valid) {
+        worker.remove(function(err) {
+          if(err) { return handleError(res, err); }
+          return res.send(204);
+        });
+      }
+      else {
+        return res.json(200, {message: 'The technician still has assigned jobs'});
+      }
     });
   });
 };

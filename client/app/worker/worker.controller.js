@@ -69,7 +69,11 @@ angular.module('serviceSchedulingApp')
 
 
     $scope.deleteWorker = function(person) {
-      $http.delete('/api/worker/' + person._id);
+      $http.delete('/api/worker/' + person._id).success(function(data) {
+        if (data.message) {
+          alert(data.message);
+        }
+      });
      
 
     };
