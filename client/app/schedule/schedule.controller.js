@@ -81,7 +81,8 @@ angular.module('serviceSchedulingApp')
       cursor: "move",
       connectWith: ".sortable-container",
       placeholder: "sortable-placeholder",
-      //items: "div:not(.not-sortable)",
+      distance: 5,
+      disabled: false,
       stop: function(e, ui) {
         var jobs_to_update = [];
         if (ui.item.sortable.sourceModel) {
@@ -101,6 +102,14 @@ angular.module('serviceSchedulingApp')
           };
         }
         $http.put('/api/schedule/jobs/' + $scope.str_date, {jobs: jobs_to_update} ).success(function(schedule) {
+          var total_jobs = $filter('filter')(schedule.jobs, {worker: worker_id, isMorning:isMorning});
+          var total_hours = 0;
+          for (var i = total_jobs.length - 1; i >= 0; i--) {
+            total_hours += total_jobs[i].hours;
+          }
+          if (total_hours > 4) {
+            $scope.showMessage("Jobs exceed 4 hours");
+          }
         });
       }
     };
@@ -156,6 +165,7 @@ angular.module('serviceSchedulingApp')
       if (!$scope.editingJob) {
         $scope.editingJob = $scope.showingJob;
         $scope.editingJob.editing = true;
+        $scope.sortableOptions.disabled = true;
         $('md-tabs').css('min-height', "448px");
         if ($('.morning-popover')) {
           var popover = $($('.morning-popover')[0]).closest('.popover');
@@ -175,6 +185,7 @@ angular.module('serviceSchedulingApp')
       var job = $scope.editingJob;
       job.editing = false;
       $scope.editingJob = null;
+      $scope.sortableOptions.disabled = false;
       hidePopover();
       $http.put('/api/schedule/' + $scope.str_date, {_id: job._id, editing: job.editing});
     };
@@ -198,10 +209,16 @@ angular.module('serviceSchedulingApp')
       job.editing = false;
       delete job.slot;
       $scope.editingJob = null;
+      $scope.sortableOptions.disabled = false;
       $http.put('/api/schedule/' + $scope.str_date, job ).success(function(schedule) {
-      console.log(schedule);
-      //$scope.date = schedule.date;
-      //$scope.str_date = $filter('date')($scope.date, 'MM/dd/yyyy');
+        var total_jobs = $filter('filter')(schedule.jobs, {worker: job.worker, isMorning:job.isMorning});
+        var total_hours = 0;
+        for (var i = total_jobs.length - 1; i >= 0; i--) {
+          total_hours += total_jobs[i].hours;
+        }
+        if (total_hours > 4) {
+          $scope.showMessage("Jobs exceed 4 hours");
+        }
     });
       hidePopover();
     };
@@ -211,6 +228,7 @@ angular.module('serviceSchedulingApp')
         if ($scope.showingJob) {
           hidePopover(true);
         }
+        $scope.sortableOptions.disabled = true;
         $scope.showingJob = null;
         $scope.editingJob = true;
         $scope.addPopover.worker = worker_id;
@@ -235,6 +253,7 @@ angular.module('serviceSchedulingApp')
       $scope.addPopover.power_type = '';
       $scope.addPopover.hours = 1;
       $scope.addPopover.city = '';
+      $scope.sortableOptions.disabled = false;
       hidePopover();
       updateJobs();
     };
@@ -272,7 +291,16 @@ angular.module('serviceSchedulingApp')
       $scope.addPopover.power_type = '';
       $scope.addPopover.hours = 1;
       $scope.addPopover.city = '';
+      $scope.sortableOptions.disabled = false;
       hidePopover();
+      var total_jobs = $filter('filter')(schedule.jobs, {worker: $scope.addPopover.worker, isMorning:$scope.addPopover.isMorning});
+      var total_hours = 0;
+      for (var i = total_jobs.length - 1; i >= 0; i--) {
+        total_hours += total_jobs[i].hours;
+      }
+      if (total_hours > 4) {
+        $scope.showMessage("Jobs exceed 4 hours");
+      }
       });
     };
 
@@ -292,6 +320,7 @@ angular.module('serviceSchedulingApp')
         $scope.editingJob = null;
         $http.put('/api/schedule/delete/' + $scope.str_date, delete_job ).success(function(schedule) {
           updateJobs();
+          $scope.sortableOptions.disabled = false;
         });
       }, function() {
       });
@@ -307,8 +336,18 @@ angular.module('serviceSchedulingApp')
 
       $mdDialog.show(alert).then(function() {
         $scope.editingJob = null;
+        $scope.sortableOptions.disabled = false;
         updateJobs();
         });
+    };
+
+    $scope.showMessage = function(msg) {
+      var alert = $mdDialog.alert()
+        .parent(angular.element(document.body))
+        .title('Warning')
+        .content(msg)
+        .ok('Got it');
+      $mdDialog.show(alert);
     };
 
     $scope.showTemplateUrl = 'components/template/popover-show-card.html';
@@ -343,7 +382,6 @@ angular.module('serviceSchedulingApp')
       city: ''
     };
 
-    $scope.hours_items = [0.5,1.0,1.5,2.0];
     $scope.appliance_option = [
       "Washer",
       "Dryer",
@@ -382,5 +420,5 @@ angular.module('serviceSchedulingApp')
       $('.chatbox').hide();
       window.print();
       $('.chatbox').show();
-    }
+    };
   });

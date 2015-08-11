@@ -4,7 +4,9 @@ body{
 }
 .sortable-container {
   width: 150px;
-  height: 400px;
+  min-height: 400px;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 .jobs-container {
@@ -13,6 +15,7 @@ body{
 
 .add-job-icon {
   text-align: center;
+  background-color: rgba(0,0,0,0.2);
 }
 
 .delete-btn {
@@ -23,17 +26,20 @@ body{
 
 .md-dialog-container {
   z-index:1100;
+  background-color: rgba(0,0,0,0.6);
 }
 
 .sortable-placeholder {
-  height: 104px;
+  height: 96px;
   margin: 5px;
+  margin-top: 0;
   border: 2px dashed grey;
 }
 
 /* job card layouts */
 .job-card {
   margin: 5px;
+  margin-top: 0;
   overflow: hidden;
   background-color: #F7FE2E;
   -webkit-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.75);

@@ -91,17 +91,17 @@ $($('.message-list')[0]).on('scroll',function(){
 
   $('.md-toolbar-tools').click(function(){ 
     if (!$scope.clicked){
-      $('.chatbox').addClass('clicked');
-       $scope.clicked  = true;
-       $('#upanddown').removeClass('glyphicon-arrow-down');
-       $('#upanddown').addClass('glyphicon-arrow-up');
+      $('.chatbox').addClass('clicked', 400, 'easeInCubic');
+      $scope.$apply(function(){
+        $scope.clicked  = true;
+      });
        return;
     }
     else if ($scope.clicked) {
-      $('.chatbox').removeClass('clicked');
-      $scope.clicked  = false;
-      $('#upanddown').removeClass('glyphicon-arrow-up');
-       $('#upanddown').addClass('glyphicon-arrow-down');
+      $('.chatbox').removeClass('clicked', 800, 'easeOutQuint');
+      $scope.$apply(function(){
+        $scope.clicked  = false;
+      });
            $scope.alerts = [];
             $('.alertMessage').text("");
             $('.alertMessage').hide();
