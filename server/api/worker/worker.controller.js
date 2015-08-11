@@ -61,14 +61,30 @@ exports.createVacation = function(req, res) {
   worker.findById(req.params.id, function (err, worker) {
     if (err) { return handleError(res, err); }
     if(!worker) { return res.send(404); }
-    var notAvaliableDates = {
-      startDate: new Date(req.body.startDate),
-      endDate: new Date(req.body.endDate)
-    }
-    worker.notAvaliableDates.push(notAvaliableDates);
-    worker.save(function (err) {
-      if (err) { return handleError(res, err); }
-      return res.json(200, worker);
+    //validate worker have no job duaring the vacation
+    Schedule.find({ 'date': {"$gte": new Date(req.body.startDate), "$lte": new Date(req.body.endDate)} }, function (err, schedules) {
+      if(err) { return handleError(res, err); }
+      var valid = true;
+      for (var i = 0; i < schedules.length; i++) {
+        if(schedules[i].jobs.filter(function (el) {return el.worker == req.params.id}).length > 0){
+          valid = false;
+          break;
+        }
+      }
+      if(!valid) {
+        return res.json(200, {message: 'The technician has assigned jobs in this vacation period'});
+      }
+      else {
+        var notAvaliableDates = {
+          startDate: new Date(req.body.startDate),
+          endDate: new Date(req.body.endDate)
+        }
+        worker.notAvaliableDates.push(notAvaliableDates);
+        worker.save(function (err) {
+          if (err) { return handleError(res, err); }
+          return res.json(200, worker);
+        });
+      }
     });
   });
 };
@@ -113,7 +129,7 @@ exports.destroy = function(req, res) {
     if(err) { return handleError(res, err); }
     if(!worker) { return res.send(404); }
     //validate worker have no job in the future
-    Schedule.find({ 'date': {"$gte": new Date()} }, function (err, schedules) {
+    Schedule.find({ 'date': {"$gte": new Date(new Date().setHours(0,0,0,0))} }, function (err, schedules) {
       if(err) { return handleError(res, err); }
       var valid = true;
       for (var i = 0; i < schedules.length; i++) {

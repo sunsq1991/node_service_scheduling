@@ -11,6 +11,9 @@
     <tr><td>Location</td>
       <td>{{ editPopover.location}}</td>
     </tr>
+    <tr><td>Make</td>
+      <td>{{ editPopover.make}}</td>
+    </tr>
     <tr><td>Appliance</td>
       <td>{{ editPopover.appliance}} {{ editPopover.power_type}}</td>
     </tr>
@@ -62,6 +65,13 @@
         <input ng-model="editPopover.location" city="editPopover.city" googleplace>
       </md-input-container>
     </td></tr>
+     <tr><td colspan="2">
+    <div layout="row" style="width: 100%;">  
+    <md-select class="make-select" ng-model="editPopover.make" placeholder="make">
+        <md-option ng-repeat="make in make_option" value="{{make}}">{{make}}</md-option>
+      </md-select>
+    </div>
+  </td></tr>
     <tr><td colspan="2">
       <div layout="row" style="width: 100%;">
         <md-select class="appliance-select" ng-model="editPopover.appliance" placeholder="Appliance">

@@ -130,7 +130,14 @@ md-tabs-wrapper {
 md-input-container {
   padding-bottom: 12px;
 }
-
+.make-select{
+  padding: 0px 2px 6px;
+  -webkit-flex-grow: 1;
+  flex-grow: 1;
+}
+.make-select md-select-label {
+  min-width: 90%;
+}
 .appliance-select{
   padding: 0px 2px 6px;
   -webkit-flex-grow: 1;

@@ -42,6 +42,7 @@ angular.module('serviceSchedulingApp')
                 if (job.location != $scope.editingJob.location) {return false};
                 if (job.description != $scope.editingJob.description) {return false};
                 if (job.phone != $scope.editingJob.phone) {return false};
+                if (job.make != $scope.editingJob.make) {return false};
                 if (job.appliance != $scope.editingJob.appliance) {return false};
                 if (job.power_type != $scope.editingJob.power_type) {return false};
                 if (job.hours != $scope.editingJob.hours) {return false};
@@ -137,6 +138,7 @@ angular.module('serviceSchedulingApp')
         $scope.editPopover.location = job.location;
         $scope.editPopover.description = job.description;
         $scope.editPopover.phone = job.phone;
+        $scope.editPopover.make = job.make;
         $scope.editPopover.appliance = job.appliance;
         $scope.editPopover.power_type = job.power_type;
         $scope.editPopover.hours = job.hours;
@@ -184,6 +186,7 @@ angular.module('serviceSchedulingApp')
       job.description = $scope.editPopover.description;
       job.phone = $scope.editPopover.phone;
       job.appliance = $scope.editPopover.appliance;
+      job.make = $scope.editPopover.make;
       job.power_type = $scope.editPopover.power_type;
       job.hours = $scope.editPopover.hours;
       if ($scope.editPopover.city && job.location.indexOf($scope.editPopover.city) > -1) {
@@ -228,6 +231,7 @@ angular.module('serviceSchedulingApp')
       $scope.addPopover.description = '';
       $scope.addPopover.phone = '';
       $scope.addPopover.appliance = '';
+      $scope.addPopover.make = '';
       $scope.addPopover.power_type = '';
       $scope.addPopover.hours = 1;
       $scope.addPopover.city = '';
@@ -244,6 +248,7 @@ angular.module('serviceSchedulingApp')
         description: $scope.addPopover.description,
         phone: $scope.addPopover.phone,
         appliance: $scope.addPopover.appliance,
+        make: $scope.addPopover.make,
         power_type: $scope.addPopover.power_type,
         hours: $scope.addPopover.hours,
         city: '',
@@ -263,6 +268,7 @@ angular.module('serviceSchedulingApp')
       $scope.addPopover.description = '';
       $scope.addPopover.phone = '';
       $scope.addPopover.appliance = '';
+      $scope.addPopover.make = '';
       $scope.addPopover.power_type = '';
       $scope.addPopover.hours = 1;
       $scope.addPopover.city = '';
@@ -315,6 +321,7 @@ angular.module('serviceSchedulingApp')
       description: '',
       phone: '',
       appliance: '',
+      make: '',
       power_type: '',
       hours: 1,
       city: '',
@@ -330,6 +337,7 @@ angular.module('serviceSchedulingApp')
       description: '',
       phone: '',
       appliance: '',
+      make:'',
       power_type: '',
       hours: 1,
       city: ''
@@ -346,6 +354,21 @@ angular.module('serviceSchedulingApp')
       "Coin-Op Washer/Dryer",
       "Air Conditioner",
       "Other"
+      ];
+    $scope.make_option = [
+      "Whirlpool",
+      "Samsung",
+      "GE",
+      "Frigidarie",
+      "Maytag",
+      "Bosch",
+      "KitchenAid",
+      "Sub-Zero",
+      "Jenn-Air",
+      "Danby",
+      "Thermador",
+      "Moffat",
+      "Wallmate"
       ];
     $scope.power_type_option = [
       "Regular",
