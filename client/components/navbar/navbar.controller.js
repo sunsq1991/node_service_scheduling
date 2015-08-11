@@ -23,4 +23,9 @@ angular.module('serviceSchedulingApp')
     $scope.isActive = function(route) {
       return route === $location.path();
     };
+    $scope.generateReport = function(){
+      $('.chatbox').hide();
+      window.print();
+      $('.chatbox').show();
+    };
   });

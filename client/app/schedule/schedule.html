@@ -4,7 +4,7 @@
      <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
     <input type="text" class="form-control" ng-model="str_date" ng-change="loadWorkers()">
     <span class="input-group-btn">
-        <button class="btn btn-default" ng-click = "reportGenerate()" >Generate Report</button>
+      <!--   <button class="btn btn-default" ng-click = "reportGenerate()" >Generate Report</button> -->
       </span>
   
   </div>
@@ -16,7 +16,7 @@
       <th class = "workerName" ng-repeat="worker in workers">{{worker.workerName}}</th>
     </tr>
     <tr>
-      <th class = "timezone">Morning</th>
+      <th class = "morning">Morning</th>
       <td ng-repeat="jobs in morningJobs" class = "jobs-container">
         <div class="sortable-container" ui-sortable="sortableOptions" ng-model="jobs" data-section="morning" data-workerindex="{{$index}}">
           <div ng-repeat="job in jobs" ng-class="{'not-sortable': job.editing}" class="job-card" ng-include="'components/snippets/job-card.html'" ng-style="{'height': job.hours * 100+'px'}"></div>
@@ -27,7 +27,7 @@
       </td>
     </tr>
     <tr>
-      <th class = "timezone">Afternoon</th>
+      <th class = "afternoon">Afternoon</th>
       <td ng-repeat="jobs in afternoonJobs" class = "jobs-container">
         <div class="sortable-container" ui-sortable="sortableOptions" ng-model="jobs" data-section="afternoon" data-workerindex="{{$index}}">
           <div ng-repeat="job in jobs" ng-class="{'not-sortable': job.editing}" class="job-card" ng-include="'components/snippets/job-card.html'" ng-style="{'height': job.hours * 100+'px'}"></div>

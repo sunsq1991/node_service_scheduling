@@ -93,9 +93,14 @@ body{
   border-left: 1px solid rgb(42, 94, 109);
   border-right: 1px solid rgba(42, 94, 109, 0.8);
 }
-.timezone{
+.morning{
   text-align:center;
   background-color: rgb(81, 158, 188);
+  color: white;
+}
+.afternoon{
+  text-align:center;
+  background-color: #7CB2BC;
   color: white;
 }
 .nonespace{

@@ -15,6 +15,10 @@
             <a ng-show="isLoggedIn()" ng-href="{{item.link}}">{{item.title}}</a>
         </li>
         <li ng-show="isAdmin()" ng-class="{active: isActive('/admin')}"><a href="/admin">Admin</a></li>
+        <li ng-show="isAdmin()" ng-class="{active: isActive('/admin')}"><button style = 'height: 30px;
+    color: #777;
+    margin-left: 40px;
+    margin-top: 10px;' ng-click ='generateReport()'>Generate Report</button>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">

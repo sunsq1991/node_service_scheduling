@@ -378,7 +378,6 @@ angular.module('serviceSchedulingApp')
     $scope.$on('$destroy', function () {
       socket.unsyncUpdates('schedule');
     });
-
     $scope.reportGenerate = function(){
       $('.chatbox').hide();
       window.print();
