@@ -8,6 +8,7 @@ var Jobs = new Schema({
   phone: String,
   appliance: String,
   power_type: String,
+  make: String,
   hours: Number,
   location: String,
   city: String,

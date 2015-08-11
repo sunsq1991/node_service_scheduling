@@ -93,9 +93,14 @@ body{
   border-left: 1px solid rgb(42, 94, 109);
   border-right: 1px solid rgba(42, 94, 109, 0.8);
 }
-.timezone{
+.morning{
   text-align:center;
   background-color: rgb(81, 158, 188);
+  color: white;
+}
+.afternoon{
+  text-align:center;
+  background-color: #7CB2BC;
   color: white;
 }
 .nonespace{
@@ -130,7 +135,14 @@ md-tabs-wrapper {
 md-input-container {
   padding-bottom: 12px;
 }
-
+.make-select{
+  padding: 0px 2px 6px;
+  -webkit-flex-grow: 1;
+  flex-grow: 1;
+}
+.make-select md-select-label {
+  min-width: 90%;
+}
 .appliance-select{
   padding: 0px 2px 6px;
   -webkit-flex-grow: 1;

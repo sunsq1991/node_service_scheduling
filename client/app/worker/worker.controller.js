@@ -61,7 +61,11 @@ angular.module('serviceSchedulingApp')
     };
     $scope.addWorkerVacation = function(person,startDate,endDate) {
       $scope.vacationAlerts = [];
-      $http.put('/api/worker/vacation/' + person._id, { startDate: startDate, endDate: endDate});
+      $http.put('/api/worker/vacation/' + person._id, { startDate: startDate, endDate: endDate}).success(function(data) {
+        if (data.message) {
+          $scope.showAlert(data.message);
+        }
+      });
     };
     $scope.deleteVacationDate = function(person,date){
       $http.put('/api/worker/vacation/delete/'+ person._id, {_id:date._id});
@@ -71,7 +75,7 @@ angular.module('serviceSchedulingApp')
     $scope.deleteWorker = function(person) {
       $http.delete('/api/worker/' + person._id).success(function(data) {
         if (data.message) {
-          alert(data.message);
+          $scope.showAlert(data.message);
         }
       });
      
@@ -157,6 +161,19 @@ angular.module('serviceSchedulingApp')
 
       
     }
+     $scope.showAlert = function(message) {
+    // Appending dialog to document.body to cover sidenav in docs app
+    // Modal dialogs should fully cover application
+    // to prevent interaction outside of dialog
+      $mdDialog.show(
+        $mdDialog.alert()
+          .parent(angular.element(document.body))
+          .title('Delete error')
+          .content(message)
+          .ariaLabel('Alert Dialog Demo')
+          .ok('Ok')
+      );
+    };
 
     $scope.showConfirmDelete = function(ev,person) {
     // Appending dialog to document.body to cover sidenav in docs app
