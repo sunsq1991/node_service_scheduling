@@ -4,7 +4,7 @@ body{
 }
 .sortable-container {
   width: 150px;
-  min-height: 420px;
+  height: 400px;
 }
 
 .jobs-container {
@@ -44,7 +44,7 @@ body{
 .job-card table {
   display: block;
   position: relative;
-  padding: 8px;
+  padding: 5px;
   width: 100%;
   height: 100%;
   font-size: 1.5rem;
@@ -205,5 +205,5 @@ input[googleplace]:-ms-input-placeholder {
   display: -webkit-flex;
   display: flex;
   justify-content: center;
-
+  padding-bottom: 120px;
 }

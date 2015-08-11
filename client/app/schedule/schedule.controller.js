@@ -218,7 +218,7 @@ angular.module('serviceSchedulingApp')
           $('.popover .arrow').animate({
             'marginTop' : "+=120px"
           });
-      };
+      }
     };
 
     $scope.cancelAdd = function() {

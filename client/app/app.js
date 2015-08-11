@@ -86,4 +86,11 @@ angular.module('serviceSchedulingApp', [
             });
         }
     };
+  })
+  .config(['$tooltipProvider', function($tooltipProvider){
+  $tooltipProvider.setTriggers({
+    'mouseenter': 'mouseleave',
+    'click': 'never',
+    'focus': 'blur'
   });
+  }]);
