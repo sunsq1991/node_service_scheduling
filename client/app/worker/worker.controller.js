@@ -87,6 +87,9 @@ angular.module('serviceSchedulingApp')
     });
 
     $scope.showConfirm = function(ev) {
+      $scope.workerName ='';
+    $scope.discription = '';
+    $scope.email = '';
       $('.addWorkerArea').slideToggle(500,function(){
         if ($('.addWorkerArea').is(':visible')) {
         $('.addworkerBtn').text('Cancel Add'); 
@@ -177,6 +180,7 @@ angular.module('serviceSchedulingApp')
 
     $scope.showConfirmDelete = function(ev,person) {
     // Appending dialog to document.body to cover sidenav in docs app
+
       var confirm = $mdDialog.confirm()
         .parent(angular.element(document.body))
         .title('Delete Comfirmation')

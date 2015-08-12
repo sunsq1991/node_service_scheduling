@@ -59,9 +59,9 @@
         	</label>
 		    <p class="input-group">
 		    <alert class = "alert-danger" ng-repeat="alert in editAlerts" type="{{alert.type}}" >{{alert.msg}}</alert>
-		    <input type="text" class="form-control" ng-model="workerName">
-		    <input type="text" class="form-control" ng-model="email">
-		    <input type="text" class="form-control" ng-model="discription">
+		    <p>Name: <input type="text" class="form-control" ng-model="workerName"></p>
+		    <p>Email: <input type="text" class="form-control" ng-model="email"></p>
+		    <p>Description: <input type="text" class="form-control" ng-model="discription"></p>
 			</p>
 			<button type="button" class="btn btn-primary" ng-click="editWorker(person,workerName,discription,email)">Edit Worker</button>
 			<button class="btn btn-primary" ng-click="cancelEdit(person)">Cancel</button>

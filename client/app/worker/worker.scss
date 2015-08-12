@@ -38,10 +38,9 @@ a:hover{
 }
 
 .hiddenEditArea{
-  padding-top: 30px;
+  padding-top: 20px;
   display: none;
   background-color: rgb(67, 147, 185);
-  margin-top: 20px;
   padding-bottom: 10px;
   padding-left: 10px;
   padding-right: 10px;
@@ -55,7 +54,6 @@ a:hover{
 	margin-top:10px;
 	margin-left:10px;
 	margin-bottom: 10px;
-	position: fixed;
 	bottom: 10px;
 	right: 20px;
 	z-index:2000;
@@ -69,7 +67,9 @@ a:hover{
 	background-color: rgba(177, 229, 173, 0.14);
 }
 .workerPage{
-  background-color:white;
+  background-color:#F4FCF4;
   height:1200px;
+  max-width: 900px;
+  margin: auto;
 }
 
