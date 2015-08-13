@@ -1,14 +1,14 @@
 
 <div class="chatbox" ng-controller="MessageCtrl" layout="column">
-  <md-toolbar style="cursor: pointer;">
-    <h2 class="md-toolbar-tools">
-     
-
-      <span>Message</span>
-       <p class = "alertMessage" ><p>
+  <md-toolbar class="md-primary md-hue-2" style="cursor: pointer;">
+    <div class="md-toolbar-tools">
+      <h2>
+        <span>Message</span>
+      </h2>
+      <span id="new-message-alert" class="label">new</span>
       <i id = "upanddown" ng-if="clicked===true" class="material-icons">keyboard_arrow_up</i>
       <i id = "upanddown" ng-if="clicked===false" class="material-icons">keyboard_arrow_down</i>
-    </h2>
+    </div>
   </md-toolbar>
   <md-content layout="column">
     <md-list scrolly="onScroll()" class="message-list">

@@ -87,10 +87,16 @@ angular.module('serviceSchedulingApp', [
         }
     };
   })
+  .config(function($mdThemingProvider) {
+    $mdThemingProvider.theme('default')
+      .primaryPalette('indigo')
+      .accentPalette('pink');
+  })
+
   .config(['$tooltipProvider', function($tooltipProvider){
-  $tooltipProvider.setTriggers({
-    'mouseenter': 'mouseleave',
-    'click': 'never',
-    'focus': 'blur'
-  });
+    $tooltipProvider.setTriggers({
+      'mouseenter': 'mouseleave',
+      'click': 'never',
+      'focus': 'blur'
+    });
   }]);

@@ -1,24 +1,25 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 <div class="container">
-  <div class="input-group date" style ="width: 300px;">
-     <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-    <input type="text" class="form-control" ng-model="str_date" ng-change="loadWorkers()">
-    <span class="input-group-btn">
-      <!--   <button class="btn btn-default" ng-click = "reportGenerate()" >Generate Report</button> -->
-      </span>
-  
+  <div class="input-group date schedule-date-input">
+    <input type="text" class="form-control" ng-model="str_date" ng-change="loadWorkers()"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
   </div>
-</div> 
-  <div class ="tableArea">
-  <table border="1" class="schedue-table">
-    <tr>
+</div>
+  <div class ="loading-screen" ng-show="!page_ready" ng-cloak>
+    <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
+  </div>
+  <div class ="tableArea" ng-show="page_ready" ng-cloak>
+  <table class="schedule-table">
+    <tr class="md-primary md-hue-2">
       <th class = 'nonespace'></th>
-      <th class = "workerName" ng-repeat="worker in workers">{{worker.workerName}}</th>
+      <th class = "workerName" ng-repeat="worker in workers">
+        {{worker.workerName}}
+        <md-tooltip ng-if="worker.discription">{{worker.discription}}</md-tooltip>
+      </th>
     </tr>
     <tr>
       <th class = "morning">Morning</th>
       <td ng-repeat="jobs in morningJobs" class = "jobs-container">
-        <div class="sortable-container" ui-sortable="sortableOptions" ng-model="jobs" data-section="morning" data-workerindex="{{$index}}">
+        <div class="sortable-container" ui-sortable="sortableOptions" ng-model="jobs" data-section="morning" data-workerindex="{{$index}}" tabindex="-1">
           <div ng-repeat="job in jobs" ng-class="{'not-sortable': job.editing}" class="job-card" ng-include="'components/snippets/job-card.html'" ng-style="{'height': (job.hours * 100) - 5 + 'px'}"></div>
         </div>
         <div class="add-job-icon">
@@ -29,7 +30,7 @@
     <tr>
       <th class = "afternoon">Afternoon</th>
       <td ng-repeat="jobs in afternoonJobs" class = "jobs-container">
-        <div class="sortable-container" ui-sortable="sortableOptions" ng-model="jobs" data-section="afternoon" data-workerindex="{{$index}}">
+        <div class="sortable-container" ui-sortable="sortableOptions" ng-model="jobs" data-section="afternoon" data-workerindex="{{$index}}" tabindex="-1">
           <div ng-repeat="job in jobs" ng-class="{'not-sortable': job.editing}" class="job-card" ng-include="'components/snippets/job-card.html'" ng-style="{'height': (job.hours * 100) - 5 + 'px'}"></div>
         </div>
         <div class="add-job-icon">
@@ -48,9 +49,9 @@
       </div>
     </footer>
 <script>
-$('.input-group').datepicker({
+$('.input-group.date').datepicker({
   format: 'mm-dd-yyyy',
   autoclose: true,
   todayHighlight: true
-});
+}).datepicker('update', new Date());
 </script>

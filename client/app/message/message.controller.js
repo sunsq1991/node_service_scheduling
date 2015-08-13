@@ -25,9 +25,7 @@ angular.module('serviceSchedulingApp')
     
          var objDiv = $('.message-list')[0];
          if ((Auth.getCurrentUser().name != messages[messages.length-1].sender) && ($('.chatbox').hasClass('clicked')==true)) {
-          
-          $('.alertMessage').text("New Msg!");
-          $('.alertMessage').show();
+          $('#new-message-alert').show();
          };    
           if ($scope.scrollBar) {       
           objDiv.scrollTop = objDiv.scrollHeight;
@@ -103,8 +101,7 @@ $($('.message-list')[0]).on('scroll',function(){
         $scope.clicked  = false;
       });
            $scope.alerts = [];
-            $('.alertMessage').text("");
-            $('.alertMessage').hide();
+           $('#new-message-alert').hide();
       return;
     }
     

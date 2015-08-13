@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('serviceSchedulingApp')
-  .controller('ScheduleCtrl', function ($scope, $http, Auth, $filter, socket, $mdDialog) {
+  .controller('ScheduleCtrl', function ($scope, $http, Auth, $filter, socket, $mdDialog, $timeout) {
     $scope.user = Auth.getCurrentUser();
     $scope.workers = [];
     $scope.jobs = [];
@@ -10,6 +10,7 @@ angular.module('serviceSchedulingApp')
     $scope.morningJobs = [];
     $scope.afternoonJobs = [];
     $scope.gPlace;
+    $scope.page_ready = false;
 
     var updateJobs = function() {
       $scope.morningJobs = [];
@@ -18,9 +19,13 @@ angular.module('serviceSchedulingApp')
         $scope.morningJobs[i] = $filter('orderBy')($filter('filter')($scope.jobs, {worker: $scope.workers[i]._id, isMorning:true}), 'slot');
         $scope.afternoonJobs[i] = $filter('orderBy')($filter('filter')($scope.jobs, {worker: $scope.workers[i]._id, isMorning:false}), 'slot');
       }
+      if ($scope.page_ready === false) {
+        $timeout(function(){$scope.page_ready = true;}, 400);
+      }
     };
 
     var loadSchadule = function() {
+      $scope.page_ready = false;
       $http.get('/api/schedule/' + $scope.str_date ).success(function(schedule) {
         console.log(schedule);
         $scope.jobs = schedule.jobs;
@@ -102,13 +107,15 @@ angular.module('serviceSchedulingApp')
           };
         }
         $http.put('/api/schedule/jobs/' + $scope.str_date, {jobs: jobs_to_update} ).success(function(schedule) {
-          var total_jobs = $filter('filter')(schedule.jobs, {worker: worker_id, isMorning:isMorning});
-          var total_hours = 0;
-          for (var i = total_jobs.length - 1; i >= 0; i--) {
-            total_hours += total_jobs[i].hours;
-          }
-          if (total_hours > 4) {
-            $scope.showMessage("Jobs exceed 4 hours");
+          if (worker_id) {
+            var total_jobs = $filter('filter')(schedule.jobs, {worker: worker_id, isMorning:isMorning});
+            var total_hours = 0;
+            for (var i = total_jobs.length - 1; i >= 0; i--) {
+              total_hours += total_jobs[i].hours;
+            }
+            if (total_hours > 4) {
+              $scope.showMessage("Jobs exceed 4 hours");
+            }
           }
         });
       }
@@ -415,6 +422,10 @@ angular.module('serviceSchedulingApp')
 
     $scope.$on('$destroy', function () {
       socket.unsyncUpdates('schedule');
+      if ($scope.editingJob && $scope.editingJob.editing == true) {
+        $scope.editingJob.editing = false;
+        $http.put('/api/schedule/' + $scope.str_date, $scope.editingJob);
+      };
     });
     $scope.reportGenerate = function(){
       $('.chatbox').hide();
