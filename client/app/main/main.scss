@@ -1,3 +1,43 @@
+body{
+    height: initial;
+}
+.bigContainer{
+    background-color: rgba(122, 122, 185, 0.18);
+    width: 40%;
+    height: 70%;
+    float: right;
+    margin-top: -205px;
+    border: 1px solid rgba(0, 0, 255, 0.06);
+}
+
+.description{
+    width: 120%;
+    margin-left: -10%;
+    background-color: rgb(40, 53, 147);
+    border: 1px solid rgba(0, 0, 255, 0.06);
+    padding: 20px 20px 20px 20px;
+    color: white;
+    height: 500px;
+}
+.row1{
+    margin-top: 160px;
+
+}
+.thumbnail{
+    padding-top: 30px;
+}
+.caption {
+    text-align: center;
+}
+.wocao{
+    float:left;
+}
+.row{
+    width: 100%;
+    margin-left: 0px; 
+    margin-right: 0px;
+
+}
 .thing-form {
     margin: 20px 0;
 }
