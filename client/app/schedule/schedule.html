@@ -3,6 +3,9 @@
   <div class="input-group date schedule-date-input">
     <input type="text" class="form-control" ng-model="str_date" ng-change="loadWorkers()"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
   </div>
+  <md-button class="md-fab open-right-nav" ng-click="openRight()" aria-label="Search">
+    <i class="material-icons">search</i>
+  </md-button>
 </div>
   <div class ="loading-screen" ng-show="!page_ready" ng-cloak>
     <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
@@ -40,6 +43,27 @@
     </tr>
   </table>
 </div>
+<md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
+  <md-toolbar class="md-theme-light">
+    <h1 class="md-toolbar-tools">Sidenav Right</h1>
+  </md-toolbar>
+  <md-content layout-padding>
+    <form>
+      <md-input-container>
+        <label for="searchJobs">Search Jobs</label>
+        <input type="text" id="searchJobs"
+               ng-model="searchInput" md-sidenav-focus>
+      </md-input-container>
+    </form>
+    <md-list-item ng-show="searchInput" class="md-3-line search-result-list" ng-repeat="item in searchJobs | filter:searchInput | limitTo : 12">
+      <div class="md-list-item-text" ng-click="goToJob(item.date)">
+        <h3>{{ item.client }}</h3>
+        <h4>{{ item.phone }}</h4>
+        <p>{{ item.date }}</p>
+      </div>
+    </md-list-item>
+  </md-content>
+</md-sidenav>
 <div ng-include="'app/message/message.html'"></div>
   <footer class="footer">
       <div class="container">

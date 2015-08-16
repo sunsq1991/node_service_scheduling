@@ -16,6 +16,7 @@ var Jobs = new Schema({
   isMorning: Boolean,
   slot: Number,
   editing: Boolean,
+  date: String,
   worker: {
   	type: Schema.Types.ObjectId,
   	ref: 'Worker'

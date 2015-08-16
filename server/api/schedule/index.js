@@ -12,5 +12,6 @@ router.put('/:date', controller.update);
 router.put('/jobs/:date', controller.updateJobs);
 router.patch('/:date', controller.update);
 router.put('/delete/:date', controller.destroy);
+router.get('/search/jobs', controller.searchJobs);
 
 module.exports = router;

@@ -1,16 +1,19 @@
 'use strict';
 
 angular.module('serviceSchedulingApp')
-  .controller('ScheduleCtrl', function ($scope, $http, Auth, $filter, socket, $mdDialog, $timeout) {
+  .controller('ScheduleCtrl', function ($scope, $http, Auth, $filter, socket, $mdDialog, $timeout, $mdSidenav) {
     $scope.user = Auth.getCurrentUser();
     $scope.workers = [];
     $scope.jobs = [];
     $scope.socketSchedule = [];
+    $scope.socketWorker = [];
+    $scope.workers_raw = [];
     $scope.str_date = $filter('date')(new Date(), 'MM-dd-yyyy');
     $scope.morningJobs = [];
     $scope.afternoonJobs = [];
     $scope.gPlace;
     $scope.page_ready = false;
+    $scope.searchJobs = [];
 
     var updateJobs = function() {
       $scope.morningJobs = [];
@@ -24,6 +27,18 @@ angular.module('serviceSchedulingApp')
       }
     };
 
+    var updateWorkers = function() {
+      var workers = $scope.workers_raw;
+      for (var i = 0; i < workers.length; i++) {
+          if (workers[i].workerName =='Un-Assigned Job') {
+            var unAssignedJob = workers[i];
+            workers.splice(i, 1);
+            workers.push(unAssignedJob);
+          }
+        }
+        $scope.workers = $filter('filter')(workers, {isAvaliable: true});
+    };
+
     var loadSchadule = function() {
       $scope.page_ready = false;
       $http.get('/api/schedule/' + $scope.str_date ).success(function(schedule) {
@@ -32,9 +47,6 @@ angular.module('serviceSchedulingApp')
         updateJobs();
         socket.syncUpdates('schedule', $scope.socketSchedule, function(event, socketSchedule, object) {
           console.log(socketSchedule.date);
-          console.log($filter('date')(socketSchedule.date, 'MM-dd-yyyy'));
-          console.log($filter('date')(socketSchedule.date, 'MM-dd-yyyy', '+0000'));
-          console.log($scope.str_date);
           if (($filter('date')(socketSchedule.date, 'MM-dd-yyyy', '+0000')) === $scope.str_date ) {
             $scope.jobs = socketSchedule.jobs;
             if (!$scope.editingJob) {
@@ -68,16 +80,18 @@ angular.module('serviceSchedulingApp')
 
     $scope.loadWorkers = function() {
       $http.get('/api/worker/' + $scope.str_date ).success(function(workers) {
-        for (var i = 0; i < workers.length; i++) {
-          if (workers[i].workerName =='Un-Assigned Job') {
-            var unAssignedJob = workers[i];
-            workers.splice(i, 1);
-            workers.push(unAssignedJob);
-          };
-        };
-        $scope.workers = $filter('filter')(workers, {isAvaliable: true})
+        $scope.workers_raw = workers;
+        updateWorkers();
         loadSchadule();
-        // $('.schedue-table').find('tr').first().append('<th class = "workerName">' + unAssignedJob.workerName +'</th>');
+        socket.syncUpdates('worker', $scope.socketWorker, function(event, socketWorker, object) {
+          $http.get('/api/worker/' + $scope.str_date ).success(function(update_workers) {
+            $scope.workers_raw = update_workers;
+            updateWorkers();
+            if (!$scope.editingJob) {
+              updateJobs();
+            }
+          });
+        });
       });
     };
     $scope.loadWorkers();
@@ -355,6 +369,27 @@ angular.module('serviceSchedulingApp')
         .content(msg)
         .ok('Got it');
       $mdDialog.show(alert);
+    };
+
+    $scope.openRight = function() {
+      $scope.searchInput = "";
+      $mdSidenav("right")
+        .open()
+        .then(function(){
+          $http.get('/api/schedule/search/jobs' ).success(function(jobs) {
+            $scope.searchJobs = jobs;
+          });
+      });
+    };
+
+    $scope.goToJob = function(date) {
+      $scope.searchInput = "";
+      $scope.str_date = date;
+      $mdSidenav("right")
+        .close()
+        .then(function(){
+          $scope.loadWorkers();
+      });
     };
 
     $scope.showTemplateUrl = 'components/template/popover-show-card.html';

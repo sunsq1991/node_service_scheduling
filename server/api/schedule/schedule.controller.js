@@ -110,6 +110,24 @@ exports.destroy = function(req, res) {
   });
 };
 
+// Searchs multipul dates in the DB.
+exports.searchJobs = function(req, res) {
+  Schedule.find({}, function (err, schedules) {
+    if (err) { return handleError(res, err); }
+    var jobs = [];
+    for (var i = schedules.length -1; i >= 0; i--) {
+      var d = schedules[i].date.toISOString();
+      var str_date = d.substr(5, 5) + "-" + d.substr(0, 4);
+      for (var j = 0; j < schedules[i].jobs.length; j++) {
+        schedules[i].jobs[j].date = str_date;
+        jobs.push(schedules[i].jobs[j]);
+      }
+      if (jobs.length > 1000) { break; }
+    }
+    return res.json(200, jobs);
+  });
+};
+
 function handleError(res, err) {
   return res.send(500, err);
 }
