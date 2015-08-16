@@ -14,17 +14,26 @@ angular.module('serviceSchedulingApp')
     $scope.gPlace;
     $scope.page_ready = false;
     $scope.searchJobs = [];
+    $scope.focusJobId = null;
+    //$scope.is_left_open = true;
 
     $('body').css('height','initial');
     var updateJobs = function() {
       $scope.morningJobs = [];
       $scope.afternoonJobs = [];
+      $scope.saveWorkerNametoJobs();
       for (var i = 0; i < $scope.workers.length; i++) {
         $scope.morningJobs[i] = $filter('orderBy')($filter('filter')($scope.jobs, {worker: $scope.workers[i]._id, isMorning:true}), 'slot');
         $scope.afternoonJobs[i] = $filter('orderBy')($filter('filter')($scope.jobs, {worker: $scope.workers[i]._id, isMorning:false}), 'slot');
       }
       if ($scope.page_ready === false) {
-        $timeout(function(){$scope.page_ready = true;}, 400);
+        $timeout(function(){
+          $scope.page_ready = true;
+          if ($scope.focusJobId !== null) {
+            $( '#job-' + $scope.focusJobId ).trigger( "click" );
+            $scope.focusJobId = null;
+          }
+        }, 400);
       }
     };
 
@@ -45,8 +54,7 @@ angular.module('serviceSchedulingApp')
       $http.get('/api/schedule/' + $scope.str_date ).success(function(schedule) {
         console.log(schedule);
         $scope.jobs = schedule.jobs;
-       
-        $scope.saveWorkerNametoJobs();
+
         updateJobs();
         socket.syncUpdates('schedule', $scope.socketSchedule, function(event, socketSchedule, object) {
           console.log(socketSchedule.date);
@@ -386,6 +394,7 @@ angular.module('serviceSchedulingApp')
     };
 
     $scope.openRight = function() {
+      hidePopover();
       $scope.searchInput = "";
       $mdSidenav("right")
         .open()
@@ -396,9 +405,10 @@ angular.module('serviceSchedulingApp')
       });
     };
 
-    $scope.goToJob = function(date) {
+    $scope.goToJob = function(date, job_id) {
       $scope.searchInput = "";
       $scope.str_date = date;
+      $scope.focusJobId = job_id;
       $mdSidenav("right")
         .close()
         .then(function(){
@@ -490,9 +500,18 @@ angular.module('serviceSchedulingApp')
 
       // tableString+= workerColoum;
       // tableString += '<tbody><tr><td>asdasdads</td></tr></tbody></table>';
-      window.open('http://localhost:9000/report');
+      //window.open('http://localhost:9000/report');
+      hidePopover();
+      //$scope.is_left_open = true;
+      $mdSidenav("left").open();
         
     };
+
+    $scope.closeLeft = function() {
+      $mdSidenav("left").close();
+      //$scope.is_left_open = false;
+    }
+
     $scope.reportExportExcel = function(){
       var blob = new Blob([document.getElementById('haoba').innerHTML], {
             type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"

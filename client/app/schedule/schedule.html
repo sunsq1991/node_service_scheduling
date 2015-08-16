@@ -6,10 +6,10 @@
     <input type="text" class="form-control" ng-model="str_date" ng-change="loadWorkers()"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i>
     </span>
   </div>
-  <button style ='width: 150px;
-    height: 35px;
-    background-color: #FFFFFF;'ng-click ='reportGenerator()'>Generate report <img src ='/assets/images/report.png' width ='20' height ='20'></button>
-  <md-button class="md-fab open-right-nav" ng-click="openRight()" aria-label="Search">
+  <md-button class="md-raised md-primary" ng-click ='reportGenerator()' ng-disabled="editingJob" style="margin: 0;">
+  <md-icon md-font-library="material-icons">assignment</md-icon>Generate Report
+  </md-button>
+  <md-button ng-disabled="editingJob" class="md-fab open-right-nav" ng-click="openRight()" aria-label="Search">
     <i class="material-icons">search</i>
   </md-button>
 </div>
@@ -50,6 +50,50 @@
   </table>
   
 </div>
+<md-sidenav class="md-sidenav-left md-whiteframe-z2 report-sidenav" md-component-id="left">
+  <md-toolbar class="md-theme-left">
+    <h1 class="md-toolbar-tools">Sidenav Left</h1>
+  </md-toolbar>
+  <md-content layout-padding>
+  <md-button class="md-fab close-left-nav" ng-click="closeLeft()" aria-label="Back">
+    <i class="material-icons">arrow_back</i>
+  </md-button>
+    <div class ='reportHeader'>
+      <h2 >Report Preview </h2> 
+       <button type="button" style ='background-color: #007AD4;
+          color: white;'class="btn btn-default" ng-click ='reportExportExcel()'>Export to excel </button>
+      </div>
+      <div id ="haoba">
+        <h3>Date: {{str_date}}</h3>
+        <div ng-repeat="wo in workers">
+          <h4>Technician: {{wo.workerName}}</h4>
+          <table class ='haoba'>
+            <thead>
+            <tr>
+                <th>Client Name</th>
+                <th> Phone</th>
+                <th> Appliance</th>
+                <th> Power_type</th>
+                <th> Make</th>
+                <th> Hours</th>
+                <th> Location</th>
+                <th> Description</th>
+                <th> IsMorning</th>
+            </tr>
+          </thead>
+            <tbody>
+
+              <tr ng-repeat="job in jobs | filter: { worker: wo._id }"><td>{{job.client}}</td><td>{{job.phone}}</td>
+              <td>{{job.appliance}}</td><td>{{job.power_type}}</td><td>{{job.make}}</td>
+            <td>{{job.hours}}</td><td>{{job.location}}</td><td>{{job.description}}</td>
+          <td>{{job.isMorning}}</td></tr>
+                <!-- <tr ng-repeat="job in jobs"> <td>{{job.client}}</td></tr> -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+  </md-content>
+</md-sidenav>
 <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
   <md-toolbar class="md-theme-light">
     <h1 class="md-toolbar-tools">Sidenav Right</h1>
@@ -63,10 +107,20 @@
       </md-input-container>
     </form>
     <md-list-item ng-show="searchInput" class="md-3-line search-result-list" ng-repeat="item in searchJobs | filter:searchInput | limitTo : 12">
-      <div class="md-list-item-text" ng-click="goToJob(item.date)">
-        <h3>{{ item.client }}</h3>
-        <h4>{{ item.phone }}</h4>
-        <p>{{ item.date }}</p>
+      <div class="md-list-item-text" ng-click="goToJob(item.date, item._id)">
+        <table style="width: 100%;">
+          <tr>
+            <td><h3 style="font-weight: bold;">{{ item.client }}</h3></td>
+            <td style="text-align: right;"><h3>{{ item.phone }}</h3></td>
+          </tr>
+          <tr>
+            <td colspan="2"><h4>{{ item.location | limitTo: 35 }}{{item.location.length > 35 ? '...' : ''}}</h4></td>
+          </tr>
+          <tr>
+            <td>{{ item.date }}</td>
+            <td></td>
+          </tr>
+        </table>
       </div>
     </md-list-item>
   </md-content>
