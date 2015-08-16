@@ -3,18 +3,21 @@
 .signup{
 	background-color: #364DDC;
     width: 100px;
-    height: 50px;
+    height: 35px;
     color: white;
     display: block;
     padding-left: 17px;
-    padding-top: 13px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    font-size: 16px;
+    padding-top: 8px;
+    margin-bottom: 10px;
+    font-size: 14px;
 }
 .signup:hover{
 
 	background-color: #364396;
 	color: white;
 	text-decoration: none;
+}
+
+body{
+    height:100%;
 }

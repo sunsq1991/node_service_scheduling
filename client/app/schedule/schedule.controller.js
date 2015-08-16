@@ -15,6 +15,7 @@ angular.module('serviceSchedulingApp')
     $scope.page_ready = false;
     $scope.searchJobs = [];
 
+    $('body').css('height','initial');
     var updateJobs = function() {
       $scope.morningJobs = [];
       $scope.afternoonJobs = [];

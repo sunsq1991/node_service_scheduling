@@ -3,7 +3,11 @@
 angular.module('serviceSchedulingApp')
   .controller('workerCtrl', function ($scope, $http, socket, $mdDialog, Auth, $filter) {
     $scope.worker = [];
-   
+    
+
+
+
+
     $http.get('/api/worker/' + $filter('date')(new Date(), 'MM-dd-yyyy')).success(function(worker) {
       for (var i = 0; i < worker.length; i++) {
         if (worker[i].workerName =='Un-Assigned Job') {
@@ -11,6 +15,21 @@ angular.module('serviceSchedulingApp')
         };
       };
       $scope.worker = worker;
+
+       var lengthWorker = $scope.worker.length;
+       $('body').addClass('addtionalHeight');
+  
+      var currentHeight = lengthWorker * 277;
+      var minHeight = 1300;
+      var bodyHeight = $('.addtionalHeight').height();
+      if (lengthWorker <4) {
+         $('.addtionalHeight').css('height',minHeight);
+               }
+      else{
+        $('.addtionalHeight').css('height',currentHeight +300);
+         
+      }
+
       socket.syncUpdates('worker', $scope.worker,function(){
         $http.get('/api/worker/' + $filter('date')(new Date(), 'MM-dd-yyyy')).success(function(worker) {
           for (var i = 0; i < worker.length; i++) {
@@ -19,11 +38,28 @@ angular.module('serviceSchedulingApp')
             };
           };
           $scope.worker = worker;
+          
+   
+       var lengthWorker = $scope.worker.length;  
+      var currentHeight = lengthWorker * 277;
+      var minHeight = 1400;
+      console.log(bodyHeight);
+      if (lengthWorker <4) {
+         $('.addtionalHeight').css('height',minHeight);
+         
+      }
+      else{
+        $('.addtionalHeight').css('height',currentHeight +300);
+              }
+        
         });
       });
     }); 
     
     $scope.isAdmin = Auth.isAdmin;
+
+
+
     $scope.addWorker = function() {
       $scope.alerts = [];
       if(!$scope.workerName ) {
@@ -49,6 +85,8 @@ angular.module('serviceSchedulingApp')
       });
     };
 
+
+   
     $scope.addVacationDate = function(person) {
   
      $("#"+person.workerName).toggle();
@@ -59,6 +97,7 @@ angular.module('serviceSchedulingApp')
        todayHighlight: true
     });
     };
+
     $scope.addWorkerVacation = function(person,startDate,endDate) {
       $scope.vacationAlerts = [];
       $http.put('/api/worker/vacation/' + person._id, { startDate: startDate, endDate: endDate}).success(function(data) {

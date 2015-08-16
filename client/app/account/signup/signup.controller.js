@@ -4,7 +4,7 @@ angular.module('serviceSchedulingApp')
   .controller('SignupCtrl', function ($scope, Auth, $location, $window) {
     $scope.user = {};
     $scope.errors = {};
-
+    $('body').css('height','1000px');
     $scope.register = function(form) {
       $scope.submitted = true;
 

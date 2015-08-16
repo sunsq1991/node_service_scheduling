@@ -5,7 +5,7 @@ angular.module('serviceSchedulingApp')
 
     // Use the User $resource to fetch all users
     $scope.users = User.query();
-
+    $('body').css('height','1000px');
     $scope.delete = function(user) {
       User.remove({ id: user._id });
       angular.forEach($scope.users, function(u, i) {
