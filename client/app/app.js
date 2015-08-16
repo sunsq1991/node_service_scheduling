@@ -90,7 +90,7 @@ angular.module('serviceSchedulingApp', [
   .config(function($mdThemingProvider) {
     $mdThemingProvider.theme('default')
       .primaryPalette('indigo')
-      .accentPalette('pink');
+      .accentPalette('deep-orange');
   })
 
   .config(['$tooltipProvider', function($tooltipProvider){
