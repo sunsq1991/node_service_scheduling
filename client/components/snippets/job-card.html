@@ -1,5 +1,5 @@
 
-<table ng-click="showJob(job)" popover-placement="right" popover-template="showTemplateUrl" popover-enable="!editingJob" popover-trigger="click" popover-append-to-body="true">
+<table ng-click="showJob(job)" popover-placement="right" popover-template="showTemplateUrl" popover-enable="!editingJob" popover-trigger="click" popover-append-to-body="true" ng-attr-id="{{ 'job-' + job._id }}">
   <tr>
     <td><span class="glyphicon glyphicon-user" aria-hidden="true"></span></td>
     <td class="truncate">{{ job.client }}</td>

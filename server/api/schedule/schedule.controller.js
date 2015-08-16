@@ -6,6 +6,7 @@
 
 var _ = require('lodash');
 var Schedule = require('./schedule.model');
+var Worker = require('../worker/worker.model');
 
 // Get all schedules
 exports.index = function(req, res) {
@@ -114,17 +115,26 @@ exports.destroy = function(req, res) {
 exports.searchJobs = function(req, res) {
   Schedule.find({}, function (err, schedules) {
     if (err) { return handleError(res, err); }
-    var jobs = [];
-    for (var i = schedules.length -1; i >= 0; i--) {
-      var d = schedules[i].date.toISOString();
-      var str_date = d.substr(5, 5) + "-" + d.substr(0, 4);
-      for (var j = 0; j < schedules[i].jobs.length; j++) {
-        schedules[i].jobs[j].date = str_date;
-        jobs.push(schedules[i].jobs[j]);
+    Worker.find({}, function (err, workers) {
+      if (err) { return handleError(res, err); }
+      var current_workers_id = [];
+      for (var w = workers.length - 1; w >= 0; w--) {
+        current_workers_id.push(String(workers[w]._id));
       }
-      if (jobs.length > 1000) { break; }
-    }
-    return res.json(200, jobs);
+      var jobs = [];
+      for (var i = schedules.length -1; i >= 0; i--) {
+        var d = schedules[i].date.toISOString();
+        var str_date = d.substr(5, 5) + "-" + d.substr(0, 4);
+        for (var j = 0; j < schedules[i].jobs.length; j++) {
+          if (current_workers_id.indexOf(String(schedules[i].jobs[j].worker)) !== -1) {
+            schedules[i].jobs[j].date = str_date;
+            jobs.push(schedules[i].jobs[j]);
+          }
+        }
+        if (jobs.length > 1000) { break; }
+      }
+      return res.json(200, jobs);
+    });
   });
 };
 

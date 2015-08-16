@@ -19,6 +19,22 @@ body {
   background-color: #FFF;
 }
 
+.md-sidenav-left.report-sidenav {
+  width:100%;
+  min-width:100%;
+  max-width:100%;
+}
+
+.close-left-nav {
+  float: right;
+  margin-right: 10px;
+}
+
+.close-left-nav > i {
+  font-size: 36px;
+  margin-top: 10px;
+}
+
 .open-right-nav {
   float: right;
   margin-top: -10px;
@@ -305,16 +321,24 @@ input[googleplace]:-ms-input-placeholder {
 #haoba {
   width: 80%;
   margin: auto;
-  background-color: rgba(40, 53, 147, 0.1);
-    padding-top: 1px;
-    padding-left: 10px;
-    margin-top: 10px;
-    padding-right: 10px;
-    padding-bottom: 2px;
-    border: 1px solid rgba(0, 0, 255, 0.07);
-    /* border-radius: 10px; */
+  padding-top: 1px;
+  padding-left: 10px;
+  margin-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 2px;
 }
+
+.haoba {
+  background-color: $primary-100;
+  width: 100%;
+}
+
+.haoba th{
+  padding: 5px;
+}
+
 .haoba td{
-  align:left; 
+  align:left;
+  padding: 5px;
 }
 
