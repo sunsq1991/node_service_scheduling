@@ -2,11 +2,13 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container" >
-  <div class="input-group date schedule-date-input">
+  <div class="input-group date schedule-date-input" style ='float:left; margin-right:20px;'>
     <input type="text" class="form-control" ng-model="str_date" ng-change="loadWorkers()"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i>
     </span>
   </div>
-  <button ng-click ='reportGenerator()'>generate xls report</button>
+  <button style ='width: 150px;
+    height: 35px;
+    background-color: #FFFFFF;'ng-click ='reportGenerator()'>Generate report <img src ='/assets/images/report.png' width ='20' height ='20'></button>
 </div>
   <div class ="loading-screen" ng-show="!page_ready" ng-cloak>
     <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
@@ -43,6 +45,7 @@
       </td>
     </tr>
   </table>
+  
 </div>
 <div ng-include="'app/message/message.html'"></div>
   <footer class="footer">

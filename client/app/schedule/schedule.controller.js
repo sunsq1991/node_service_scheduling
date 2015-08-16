@@ -29,17 +29,29 @@ angular.module('serviceSchedulingApp')
       $http.get('/api/schedule/' + $scope.str_date ).success(function(schedule) {
         console.log(schedule);
         $scope.jobs = schedule.jobs;
+       
+        $scope.saveWorkerNametoJobs();
         updateJobs();
         socket.syncUpdates('schedule', $scope.socketSchedule, function(event, socketSchedule, object) {
           console.log(socketSchedule.date);
           console.log($filter('date')(socketSchedule.date, 'MM-dd-yyyy'));
           console.log($filter('date')(socketSchedule.date, 'MM-dd-yyyy', '+0000'));
           console.log($scope.str_date);
+
           if (($filter('date')(socketSchedule.date, 'MM-dd-yyyy', '+0000')) === $scope.str_date ) {
             $scope.jobs = socketSchedule.jobs;
+
+            
+            //             for (var i = $scope.jobs.length - 1; i >= 0; i--) {
+
+            //   $scope.jobs[i].worker = 
+            // };
+
             if (!$scope.editingJob) {
               updateJobs();
             }
+
+
             else {
               var notChanged = $scope.jobs.filter( function(job){
                 if (job._id != $scope.editingJob._id) {return false};
@@ -65,7 +77,16 @@ angular.module('serviceSchedulingApp')
         });
       });
     };
-
+    $scope.saveWorkerNametoJobs = function(){
+      for (var i = $scope.jobs.length - 1; i >= 0; i--) {
+          var temp_job_worker_id = $scope.jobs[i].worker;
+          for (var j = $scope.workers.length - 1; j >= 0; j--) {
+            if (temp_job_worker_id == $scope.workers[j]._id) {
+              $scope.jobs[i].workerName = $scope.workers[j].workerName;            
+            };
+          };
+        };
+    }
     $scope.loadWorkers = function() {
       $http.get('/api/worker/' + $scope.str_date ).success(function(workers) {
         for (var i = 0; i < workers.length; i++) {
@@ -79,8 +100,10 @@ angular.module('serviceSchedulingApp')
         loadSchadule();
         // $('.schedue-table').find('tr').first().append('<th class = "workerName">' + unAssignedJob.workerName +'</th>');
       });
+
     };
     $scope.loadWorkers();
+
 
     $scope.sortableOptions = {
       cursor: "move",
@@ -420,6 +443,7 @@ angular.module('serviceSchedulingApp')
       "Gas"
       ];
 
+
     $scope.$on('$destroy', function () {
       socket.unsyncUpdates('schedule');
       if ($scope.editingJob && $scope.editingJob.editing == true) {
@@ -431,12 +455,24 @@ angular.module('serviceSchedulingApp')
       // $('.chatbox').hide();
       // window.print();
       // $('.chatbox').show();
+      // var tableString = "<table><thead>";
+      // var workerColoum = "<th>";
+      // for (var i = 0; i < $scope.workers.length; i++) {
+      //   workerColoum += $scope.workers.workerName;
+      // };
+      // workerColoum+= "</th></thead>";
 
-        var blob = new Blob([$('.schedule-table').html], {
+      // tableString+= workerColoum;
+      // tableString += '<tbody><tr><td>asdasdads</td></tr></tbody></table>';
+      window.open('http://localhost:9000/report');
+        
+    };
+    $scope.reportExportExcel = function(){
+      var blob = new Blob([document.getElementById('haoba').innerHTML], {
             type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
         });
         saveAs(blob, "Report.xls");
-    };
+    }
 
 
   });

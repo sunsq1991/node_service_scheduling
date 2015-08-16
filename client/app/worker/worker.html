@@ -1,13 +1,11 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
-<header class="hero-unit" id="banner">
-  <div class="container">
-    <h1>Technician List</h1>
-
-  </div>
-</header>
-
- <div class = "workerPage"> 	
+ <div class = "workerPage"> 
+ <h2 style ='font-size: 27px;
+    text-align: center;
+    color: white;
+    padding-top: 20px;'>Technician list</h2> 
+	
  	<alert class = "alert-danger" ng-repeat="alert in alerts" type="{{alert.type}}" >{{alert.msg}}</alert>
     <div class = "addWorkerArea">
     	<label>Add a Technician</label>
@@ -18,10 +16,12 @@
 		    <input type="text" class="form-control" placeholder="Desciption" ng-model="discription">
 		    <input type="text" class="form-control" placeholder="Email" ng-model="email">
 			</p>
-		<button type="submit" class=" btn btn-primary" ng-click="addWorker()">Submit</button>
+		<button type="submit" style ='height: 35px;
+    background-color: #007BD5;'class=" btn btn-primary" ng-click="addWorker()">Submit</button>
 	</div>
 
-	<button ng-show="isAdmin()" class="addWorkerlink btn btn-primary" ng-click="showConfirm($event)"><h4 class = 'addworkerBtn'>Add Technician</h4></button>
+	<button ng-show="isAdmin()" style ='height: 35px;
+    background-color: #007BD5; 'class="addWorkerlink btn btn-primary" ng-click="showConfirm($event)"><p class = 'addworkerBtn'>Add Technician</p></button>
    
     <md-list-item id = "{{person.isAvaliable}}"class="md-3-line" ng-repeat="person in worker">
         <div class="md-list-item-text" id ="{{person.workerName}}list">

@@ -1,1 +1,33 @@
-<div ng-include="'components/navbar/navbar.html'"></div>
+<div ng-include="'components/navbar/navbar.html'"></div> 
+<div class ='reportHeader'>
+<h2 >Report Preview </h2> 
+ <button type="button" style ='background-color: #007AD4;
+    color: white;'class="btn btn-default" ng-click ='reportExportExcel()'>Export to excel </button>
+</div>
+<div id ="haoba">
+  <table class ='haoba'>
+    <thead>
+      <tr><h3>Date: {{str_date}}</h3></tr>
+    <tr>
+        <th width='12%'>Technician name:</th>
+        <th width ='10%'>Client Name</th>
+        <th width ='10%'> Phone:</th>
+        <th width ='12%'> Appliance:</th>
+        <th width ='10%'> Power_type:</th>
+        <th width ='10%'> Make:</th>
+        <th width ='10%'> Hours:</th>
+        <th width ='40%'> Location:</th>
+        <th width ='42%'> Description:</th>
+        <th width ='10%'> IsMorning:</th>
+    </tr>
+  </thead>
+    <tbody>
+
+      <tr ng-repeat="job in jobs | orderBy:'-workerName'"><td>{{job.workerName }}</td><td>{{job.client}}</td><td>{{job.phone}}</td>
+      <td>{{job.appliance}}</td><td>{{job.power_type}}</td><td>{{job.make}}</td>
+    <td>{{job.hours}}</td><td>{{job.location}}</td><td>{{job.description}}</td>
+  <td>{{job.isMorning}}</td></tr>
+        <!-- <tr ng-repeat="job in jobs"> <td>{{job.client}}</td></tr> -->
+    </tbody>
+  </table>
+</div>
