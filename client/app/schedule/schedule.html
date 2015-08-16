@@ -6,9 +6,9 @@
     <input type="text" class="form-control" ng-model="str_date" ng-change="loadWorkers()"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i>
     </span>
   </div>
-  <button style ='width: 150px;
-    height: 35px;
-    background-color: #FFFFFF;'ng-click ='reportGenerator()' ng-disabled="editingJob">Generate report <img src ='/assets/images/report.png' width ='20' height ='20'></button>
+  <md-button class="md-raised md-primary" ng-click ='reportGenerator()' ng-disabled="editingJob" style="margin: 0;">
+  <md-icon md-font-library="material-icons">assignment</md-icon>Generate Report
+  </md-button>
   <md-button ng-disabled="editingJob" class="md-fab open-right-nav" ng-click="openRight()" aria-label="Search">
     <i class="material-icons">search</i>
   </md-button>
