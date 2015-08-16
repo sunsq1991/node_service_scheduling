@@ -94,10 +94,12 @@ angular.module('serviceSchedulingApp')
         if ($('.addWorkerArea').is(':visible')) {
         $('.addworkerBtn').text('Cancel Add'); 
         $('.addworkerBtn').closest('.addWorkerlink').css('background-color','#457C63');
+        $scope.alerts =[];
       }
       else {
         $('.addworkerBtn').text('Add Technician'); 
         $('.addworkerBtn').closest('.addWorkerlink').css('background-color','#428bca');
+
       }
       });
       var $hiddenEditArea = $('.hiddenEditArea');

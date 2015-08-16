@@ -44,6 +44,8 @@ angular.module('serviceSchedulingApp')
       $http.get('/api/schedule/' + $scope.str_date ).success(function(schedule) {
         console.log(schedule);
         $scope.jobs = schedule.jobs;
+       
+        $scope.saveWorkerNametoJobs();
         updateJobs();
         socket.syncUpdates('schedule', $scope.socketSchedule, function(event, socketSchedule, object) {
           console.log(socketSchedule.date);
@@ -77,7 +79,16 @@ angular.module('serviceSchedulingApp')
         });
       });
     };
-
+    $scope.saveWorkerNametoJobs = function(){
+      for (var i = $scope.jobs.length - 1; i >= 0; i--) {
+          var temp_job_worker_id = $scope.jobs[i].worker;
+          for (var j = $scope.workers.length - 1; j >= 0; j--) {
+            if (temp_job_worker_id == $scope.workers[j]._id) {
+              $scope.jobs[i].workerName = $scope.workers[j].workerName;            
+            };
+          };
+        };
+    }
     $scope.loadWorkers = function() {
       $http.get('/api/worker/' + $scope.str_date ).success(function(workers) {
         $scope.workers_raw = workers;
@@ -93,8 +104,10 @@ angular.module('serviceSchedulingApp')
           });
         });
       });
+
     };
     $scope.loadWorkers();
+
 
     $scope.sortableOptions = {
       cursor: "move",
@@ -455,6 +468,7 @@ angular.module('serviceSchedulingApp')
       "Gas"
       ];
 
+
     $scope.$on('$destroy', function () {
       socket.unsyncUpdates('schedule');
       if ($scope.editingJob && $scope.editingJob.editing == true) {
@@ -462,9 +476,28 @@ angular.module('serviceSchedulingApp')
         $http.put('/api/schedule/' + $scope.str_date, $scope.editingJob);
       };
     });
-    $scope.reportGenerate = function(){
-      $('.chatbox').hide();
-      window.print();
-      $('.chatbox').show();
+    $scope.reportGenerator = function(){
+      // $('.chatbox').hide();
+      // window.print();
+      // $('.chatbox').show();
+      // var tableString = "<table><thead>";
+      // var workerColoum = "<th>";
+      // for (var i = 0; i < $scope.workers.length; i++) {
+      //   workerColoum += $scope.workers.workerName;
+      // };
+      // workerColoum+= "</th></thead>";
+
+      // tableString+= workerColoum;
+      // tableString += '<tbody><tr><td>asdasdads</td></tr></tbody></table>';
+      window.open('http://localhost:9000/report');
+        
     };
+    $scope.reportExportExcel = function(){
+      var blob = new Blob([document.getElementById('haoba').innerHTML], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
+        });
+        saveAs(blob, "Report.xls");
+    }
+
+
   });

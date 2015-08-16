@@ -1,8 +1,14 @@
+
 <div ng-include="'components/navbar/navbar.html'"></div>
-<div class="container">
-  <div class="input-group date schedule-date-input">
-    <input type="text" class="form-control" ng-model="str_date" ng-change="loadWorkers()"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+
+<div class="container" >
+  <div class="input-group date schedule-date-input" style ='float:left; margin-right:20px;'>
+    <input type="text" class="form-control" ng-model="str_date" ng-change="loadWorkers()"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i>
+    </span>
   </div>
+  <button style ='width: 150px;
+    height: 35px;
+    background-color: #FFFFFF;'ng-click ='reportGenerator()'>Generate report <img src ='/assets/images/report.png' width ='20' height ='20'></button>
   <md-button class="md-fab open-right-nav" ng-click="openRight()" aria-label="Search">
     <i class="material-icons">search</i>
   </md-button>
@@ -10,7 +16,7 @@
   <div class ="loading-screen" ng-show="!page_ready" ng-cloak>
     <md-progress-circular class="md-hue-2" md-mode="indeterminate"></md-progress-circular>
   </div>
-  <div class ="tableArea" ng-show="page_ready" ng-cloak>
+  <div class ="tableArea table" ng-show="page_ready" ng-cloak >
   <table class="schedule-table">
     <tr class="md-primary md-hue-2">
       <th class = 'nonespace'></th>
@@ -42,6 +48,7 @@
       </td>
     </tr>
   </table>
+  
 </div>
 <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right">
   <md-toolbar class="md-theme-light">
