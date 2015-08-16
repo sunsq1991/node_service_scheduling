@@ -45,7 +45,7 @@
 				<span class="input-group-addon">to</span>
 				<input type="text" class="input-sm form-control" ng-model="endDate">
 				<span class="input-group-btn">
-			    <button class="btn btn-default" type="button" ng-click="addWorkerVacation(person,startDate,endDate)">Go!
+			    <button class="btn btn-default" type="button" ng-click="addWorkerVacation(person,startDate,endDate)">Add
 			    </button>
 			    </span>		  
 			 </div>
@@ -63,7 +63,7 @@
 		    <p>Email: <input type="text" class="form-control" ng-model="email"></p>
 		    <p>Description: <input type="text" class="form-control" ng-model="discription"></p>
 			</p>
-			<button type="button" class="btn btn-primary" ng-click="editWorker(person,workerName,discription,email)">Edit Worker</button>
+			<button type="button" class="btn btn-primary" ng-click="editWorker(person,workerName,discription,email)">Save</button>
 			<button class="btn btn-primary" ng-click="cancelEdit(person)">Cancel</button>
         </div>
         <md-divider ng-if="!$last"></md-divider>
