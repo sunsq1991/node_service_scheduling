@@ -427,9 +427,16 @@ angular.module('serviceSchedulingApp')
         $http.put('/api/schedule/' + $scope.str_date, $scope.editingJob);
       };
     });
-    $scope.reportGenerate = function(){
-      $('.chatbox').hide();
-      window.print();
-      $('.chatbox').show();
+    $scope.reportGenerator = function(){
+      // $('.chatbox').hide();
+      // window.print();
+      // $('.chatbox').show();
+
+        var blob = new Blob([$('.schedule-table').html], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
+        });
+        saveAs(blob, "Report.xls");
     };
+
+
   });

@@ -1,10 +1,11 @@
 body{
     height: initial;
 }
+
 .bigContainer{
     background-color: rgba(122, 122, 185, 0.18);
     width: 40%;
-    height: 70%;
+    height: 80%;
     float: right;
     margin-top: -205px;
     border: 1px solid rgba(0, 0, 255, 0.06);
@@ -17,10 +18,10 @@ body{
     border: 1px solid rgba(0, 0, 255, 0.06);
     padding: 20px 20px 20px 20px;
     color: white;
-    height: 500px;
+    height: 400px;
 }
 .row1{
-    margin-top: 160px;
+    margin-top: 80px;
 
 }
 .thumbnail{
@@ -29,8 +30,8 @@ body{
 .caption {
     text-align: center;
 }
-.wocao{
-    float:left;
+.event{
+        text-indent: 2em;
 }
 .row{
     width: 100%;
