@@ -14,6 +14,9 @@
     <tr><td>Make</td>
       <td>{{ editPopover.make}}</td>
     </tr>
+     <tr ng-show ="editPopover.make == 'Other'"><td>Other Make</td>
+      <td>{{ editPopover.make_other}}</td>
+    </tr>
     <tr><td>Appliance</td>
       <td>{{ editPopover.appliance}} {{ editPopover.power_type}}</td>
     </tr>
@@ -37,13 +40,22 @@
 <md-tab label="edit">
 <md-content>
   <table class="popover-table">
+
     <tr>
-      <td></td>
+        <td>  
+        <div layout="row" style="width: 100%;"> 
+        
+        <md-select class="color-select" ng-model="editPopover.color" placeholder="Job color">
+        <md-option ng-repeat="color in color_option" value="{{color.value}}">{{color.key}}</md-option>
+        </md-select>
+        </div>
+      </td>
       <td>
       <md-button class="delete-btn" ng-click="showDeleteConfirm()">
       <md-icon md-font-library="material-icons">delete</md-icon></md-button>
       </td>
     </tr>
+
     <tr><td colspan="2">
       <md-input-container class="md-icon-float">
         <label>Client</label>
@@ -69,9 +81,18 @@
     <div layout="row" style="width: 100%;">  
     <md-select class="make-select" ng-model="editPopover.make" placeholder="make">
         <md-option ng-repeat="make in make_option" value="{{make}}">{{make}}</md-option>
+        
       </md-select>
     </div>
   </td></tr>
+    <tr ng-show ="editPopover.make == 'Other'">
+     <td colspan="2"><md-input-container flex>
+       <label>Make Name: </label>
+       <input ng-model="editPopover.make_other" type="text" >
+    </md-input-container>
+  </td>
+  </tr>
+
     <tr><td colspan="2">
       <div layout="row" style="width: 100%;">
         <md-select class="appliance-select" ng-model="editPopover.appliance" placeholder="Appliance">

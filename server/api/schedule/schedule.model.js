@@ -9,6 +9,7 @@ var Jobs = new Schema({
   appliance: String,
   power_type: String,
   make: String,
+  make_other: String,
   hours: Number,
   location: String,
   city: String,
@@ -17,6 +18,7 @@ var Jobs = new Schema({
   slot: Number,
   editing: Boolean,
   date: String,
+  color: String,
   worker: {
   	type: Schema.Types.ObjectId,
   	ref: 'Worker'

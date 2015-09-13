@@ -71,12 +71,14 @@ angular.module('serviceSchedulingApp')
                 if (job.description != $scope.editingJob.description) {return false};
                 if (job.phone != $scope.editingJob.phone) {return false};
                 if (job.make != $scope.editingJob.make) {return false};
+                if (job.make_other != $scope.editingJob.make_other) {return false};
                 if (job.appliance != $scope.editingJob.appliance) {return false};
                 if (job.power_type != $scope.editingJob.power_type) {return false};
                 if (job.hours != $scope.editingJob.hours) {return false};
                 if (job.city != $scope.editingJob.city) {return false};
                 if (job.isMorning != $scope.editingJob.isMorning) {return false};
                 if (job.worker != $scope.editingJob.worker) {return false};
+                if (job.color != $scope.editingJob.color) {return false};
                 return true;
               });
               if (notChanged.length < 1) {
@@ -191,10 +193,12 @@ angular.module('serviceSchedulingApp')
         $scope.editPopover.description = job.description;
         $scope.editPopover.phone = job.phone;
         $scope.editPopover.make = job.make;
+        $scope.editPopover.make_other = job.make_other;
         $scope.editPopover.appliance = job.appliance;
         $scope.editPopover.power_type = job.power_type;
         $scope.editPopover.hours = job.hours;
         $scope.editPopover.city = job.city;
+        $scope.editPopover.color = job.color;
         $scope.editPopover.isMorning = job.isMorning;
       }
     };
@@ -235,14 +239,17 @@ angular.module('serviceSchedulingApp')
 
     $scope.saveEdit = function() {
       var job = $scope.editingJob;
+   
       job.client = $scope.editPopover.client;
       job.location = $scope.editPopover.location;
       job.description = $scope.editPopover.description;
       job.phone = $scope.editPopover.phone;
       job.appliance = $scope.editPopover.appliance;
       job.make = $scope.editPopover.make;
+      job.make_other = $scope.editPopover.make_other;
       job.power_type = $scope.editPopover.power_type;
       job.hours = $scope.editPopover.hours;
+      job.color = $scope.editPopover.color;
       if ($scope.editPopover.city && job.location.indexOf($scope.editPopover.city) > -1) {
         job.city = $scope.editPopover.city;
       }
@@ -293,9 +300,11 @@ angular.module('serviceSchedulingApp')
       $scope.addPopover.phone = '';
       $scope.addPopover.appliance = '';
       $scope.addPopover.make = '';
+      $scope.addPopover.make_other = '';
       $scope.addPopover.power_type = '';
       $scope.addPopover.hours = 1;
       $scope.addPopover.city = '';
+      $scope.addPopover.color = '';
       $scope.sortableOptions.disabled = false;
       hidePopover();
       updateJobs();
@@ -303,7 +312,7 @@ angular.module('serviceSchedulingApp')
 
     $scope.saveAdd = function() {
       var slot = 0;
-
+  
       var new_job = {
         client: $scope.addPopover.client,
         location: $scope.addPopover.location,
@@ -311,8 +320,10 @@ angular.module('serviceSchedulingApp')
         phone: $scope.addPopover.phone,
         appliance: $scope.addPopover.appliance,
         make: $scope.addPopover.make,
+        make_other: $scope.addPopover.make_other,
         power_type: $scope.addPopover.power_type,
         hours: $scope.addPopover.hours,
+        color: $scope.addPopover.color,
         city: '',
         isMorning: $scope.addPopover.isMorning,
         slot: slot,
@@ -331,9 +342,11 @@ angular.module('serviceSchedulingApp')
       $scope.addPopover.phone = '';
       $scope.addPopover.appliance = '';
       $scope.addPopover.make = '';
+      $$scope.addPopover.make_other = '';
       $scope.addPopover.power_type = '';
       $scope.addPopover.hours = 1;
       $scope.addPopover.city = '';
+      $scope.addPopover.color = '';
       $scope.sortableOptions.disabled = false;
       hidePopover();
       var total_jobs = $filter('filter')(schedule.jobs, {worker: $scope.addPopover.worker, isMorning:$scope.addPopover.isMorning});
@@ -427,6 +440,7 @@ angular.module('serviceSchedulingApp')
       phone: '',
       appliance: '',
       make: '',
+      make_other:'',
       power_type: '',
       hours: 1,
       city: '',
@@ -443,11 +457,15 @@ angular.module('serviceSchedulingApp')
       phone: '',
       appliance: '',
       make:'',
+      make_other:'',
       power_type: '',
       hours: 1,
       city: ''
     };
 
+    $scope.color_option = [
+      {key: "Pink", value:"job-card-light-pink"}, {key: "Purple", value: "job-card-light-purple"}, {key:"Blue", value: "job-card-light-blue"} , 
+      {key:"White", value: "job-card-light-white"},{key:"Default", value: ""}];
     $scope.appliance_option = [
       "Washer",
       "Dryer",
@@ -472,7 +490,10 @@ angular.module('serviceSchedulingApp')
       "Danby",
       "Thermador",
       "Moffat",
-      "Wallmate"
+      "Wallmate",
+      "LG",
+      "Kenmore",
+      "Other"
       ];
     $scope.power_type_option = [
       "Regular",

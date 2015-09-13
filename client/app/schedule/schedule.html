@@ -29,7 +29,7 @@
       <th class = "morning">Morning</th>
       <td ng-repeat="jobs in morningJobs" class = "jobs-container">
         <div class="sortable-container" ui-sortable="sortableOptions" ng-model="jobs" data-section="morning" data-workerindex="{{$index}}" tabindex="-1">
-          <div ng-repeat="job in jobs" ng-class="{'not-sortable': job.editing}" class="job-card" ng-include="'components/snippets/job-card.html'" ng-style="{'height': (job.hours * 100) - 5 + 'px'}"></div>
+          <div ng-repeat="job in jobs" ng-class="{'not-sortable': job.editing, '{{job.color}}' : !job.editing}" class="job-card " ng-include="'components/snippets/job-card.html'" ng-style="{'height': (job.hours * 100) - 5 + 'px'}"></div>
         </div>
         <div class="add-job-icon">
           <span class="glyphicon glyphicon-plus" ng-click="addJob(workers[$index]._id, true)" aria-hidden="true" popover-placement="right" popover-template="addPopover.addTemplateUrl" popover-title="Add" popover-enable="!editingJob" popover-trigger="click" popover-append-to-body="true"></span>

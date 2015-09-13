@@ -32,6 +32,7 @@
     <md-select class="make-select" ng-model="addPopover.make" placeholder="make">
         <md-option ng-repeat="make in make_option" value="{{make}}">{{make}}</md-option>
       </md-select>
+      <input ng-show ="editPopover.make == 'Other'"ng-model="editPopover.make_other" type="text">
     </div>
   </td>
   </tr>
